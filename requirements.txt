@@ -1,0 +1,9 @@
+certifi==2022.5.18.1
+chardet==4.0.0
+Django==4.0.4
+django-crispy-forms==1.14.0
+idna==3.3
+Pillow==9.1.1
+pytz==2022.1
+requests==2.27.1
+urllib3==1.26.9
