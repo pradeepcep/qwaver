@@ -1,0 +1,10 @@
+{% extends "queries/base.html" %}
+{% block content %}
+    {% for database in databases %}
+        <article class="media content-section">
+          <div class="media-body">
+            <h2><a class="article-title" href="{% url 'database-update' database.id %}">{{ database.title }}</a></h2>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

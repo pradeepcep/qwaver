@@ -9,7 +9,7 @@ from django.views.generic import (
     DeleteView
 )
 import logging
-from .models import Query
+from .models import Query, Database
 
 
 class QueryListView(ListView):
@@ -38,26 +38,37 @@ class QueryDetailView(DetailView):
 
 class QueryCreateView(LoginRequiredMixin, CreateView):
     model = Query
-    fields = ['title', 'content']
+    fields = ['title', 'database', 'query']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(QueryCreateView, self).get_context_data(**kwargs)  # get the default context data
+        context['title'] = "Create"
+        return context
 
 
 class QueryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
-    fields = ['title', 'content']
+    fields = ['title', 'query']
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.author = self.request.user
+    #     return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(QueryUpdateView, self).get_context_data(**kwargs)  # get the default context data
+        context['title'] = "Update"
+        return context
 
     def test_func(self):
-        query = self.get_object()
-        if self.request.user == query.author:
-            return True
-        return False
+        # query = self.get_object()
+        # if self.request.user == query.author:
+        #     return True
+        # return False
+        return True
 
 
 class QueryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -69,6 +80,22 @@ class QueryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == query.author:
             return True
         return False
+
+
+class DatabaseListView(ListView):
+    model = Database
+    template_name = 'queries/database_list.html'
+    context_object_name = 'databases'
+
+
+class DatabaseCreateView(LoginRequiredMixin, CreateView):
+    model = Database
+    fields = ['title', 'host', 'port', 'database', 'user', 'password']
+
+
+class DatabaseUpdateView(LoginRequiredMixin, UpdateView):
+    model = Database
+    fields = ['title', 'host', 'port', 'database', 'user', 'password']
 
 
 def about(request):

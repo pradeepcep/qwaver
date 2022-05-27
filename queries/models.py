@@ -7,7 +7,7 @@ from django.urls import reverse
 class Database(models.Model):
     title = models.CharField(max_length=256, default="")
     host = models.CharField(max_length=256)
-    port = models.IntegerField(default=1433)
+    port = models.IntegerField()
     database = models.CharField(max_length=256, default="")
     user = models.CharField(max_length=256)
     password = models.CharField(max_length=256)
@@ -18,7 +18,8 @@ class Database(models.Model):
 
 class Query(models.Model):
     title = models.CharField(max_length=100)
-    content = models.TextField()
+    database = models.ForeignKey(Database, on_delete=models.CASCADE, default=0)
+    query = models.TextField()
     date_created = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 

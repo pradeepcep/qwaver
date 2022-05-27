@@ -1,3 +1,5 @@
+/* Dracula theme: https://draculatheme.com/contribute */
+
 body {
     background: #282a36;
     color: #f8f8f2;
@@ -89,7 +91,7 @@ a.article-title:hover {
 }
 
 .search-field {
-    background-color: #282a36;
+    background-color: black;
     border: 1px solid;
     display: inline-block;
     font-weight: 400;

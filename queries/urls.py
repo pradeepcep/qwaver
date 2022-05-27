@@ -5,7 +5,7 @@ from .views import (
     QueryCreateView,
     QueryUpdateView,
     QueryDeleteView,
-    UserQueryListView
+    UserQueryListView, DatabaseCreateView, DatabaseUpdateView, DatabaseListView
 )
 from . import views
 
@@ -16,5 +16,9 @@ urlpatterns = [
     path('query/new/', QueryCreateView.as_view(), name='query-create'),
     path('query/<int:pk>/update/', QueryUpdateView.as_view(), name='query-update'),
     path('query/<int:pk>/delete/', QueryDeleteView.as_view(), name='query-delete'),
+    path('database/<int:pk>/', DatabaseUpdateView.as_view(), name='database-detail'),
+    path('database/new/', DatabaseCreateView.as_view(), name='database-create'),
+    path('database/<int:pk>/update/', DatabaseUpdateView.as_view(), name='database-update'),
+    path('databases/', DatabaseListView.as_view(), name='database-list'),
     path('about/', views.about, name='queries-about'),
 ]
