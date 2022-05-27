@@ -1,2 +1,4 @@
 .DS_Store
 .idea/
+db.sqlite3
+media/profile_pics
