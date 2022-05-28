@@ -1,7 +1,7 @@
 /* Dracula theme: https://draculatheme.com/contribute */
 
 body {
-    background: #282a36;
+    background: #111111;
     color: #f8f8f2;
     margin-top: 5rem;
 }
@@ -15,12 +15,12 @@ ul {
 }
 
 .bg-steel {
-    background-color: #44475a;
+    background-color: #282a36;
 }
 
 .list-group-item {
     background-color: #282a36;
-    border: 1px solid #f1fa8c;
+    border: 1px solid #111111;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -36,7 +36,7 @@ ul {
 }
 
 .content-section {
-    background: #282a36;
+    background: #111111;
     padding: 10px 20px;
     border: 1px solid #44475a;
     border-radius: 3px;

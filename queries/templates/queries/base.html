@@ -13,6 +13,11 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'queries/main.css' %}">
 
+    <script src="{% static 'queries/codemirror/codemirror.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'queries/codemirror/codemirror.css' %}">
+    <link rel="stylesheet" href="{% static 'queries/codemirror/dracula.css' %}">
+    <script src="{% static 'queries/codemirror/sql/sql.js' %}"></script>
+
     {% if title %}
         <title>{{ title }}</title>
     {% else %}
@@ -74,11 +79,10 @@
                 {#            <p class='text-muted'>You can put any information here you'd like.#}
                 <ul class="list-group">
                     <li class="list-group-item"><a href="{% url 'query-create' %}">New Query</a></li>
-                    <li class="list-group-item"><a href="{% url 'database-create' %}">New Database</a></li>
                     <li class="list-group-item"><a href="{% url 'database-list' %}">Databases</a></li>
-                    <li class="list-group-item">Latest Queries</li>
+                    <li class="list-group-item">Search</li>
+                    <li class="list-group-item">Topics</li>
                     <li class="list-group-item">Alerts</li>
-                    <li class="list-group-item">Calendars</li>
                 </ul>
                 </p>
             </div>
