@@ -44,10 +44,10 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super(QueryCreateView, self).get_context_data(**kwargs)  # get the default context data
-        context['title'] = "Create"
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super(QueryCreateView, self).get_context_data(**kwargs)  # get the default context data
+    #     context['title'] = "Create"
+    #     return context
 
 
 class QueryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

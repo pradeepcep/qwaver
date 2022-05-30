@@ -28,3 +28,42 @@ class Query(models.Model):
 
     def get_absolute_url(self):
         return reverse('query-detail', kwargs={'pk': self.pk})
+
+
+class Parameter(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    name = models.CharField(max_length=256, default="")
+    default = models.CharField(max_length=256, default="")
+    # if the user inputs a value for this field, then the template plus the value is inserted
+    # e.g.: template_defined = "AND campaign_id = {v}"
+    # whe the user inputs "54321", what is inserted in the query is "AND campaign_id = 54321"
+    template_if_defined = models.CharField(max_length=256, default="")
+
+
+class Instance(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    # title based on specific input: e.g. input is 5, and title is "revenue past 5 days"
+    # title = models.CharField(max_length=256)
+
+
+class Result(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    dataframe = models.JSONField()
+    chart = models.TextField(default="")
+    preview = models.TextField(default="")
+
+
+# the specific value for an input field
+class Value(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    value = models.CharField(max_length=256, default=""),
+    instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
+

@@ -108,3 +108,7 @@ a.article-title:hover {
     border: 1px solid #44475a;
     border-radius: 0.25rem;
 }
+
+.contain {
+    object-fit: contain;
+}

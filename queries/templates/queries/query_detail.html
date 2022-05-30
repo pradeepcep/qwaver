@@ -1,20 +1,33 @@
 {% extends "queries/base.html" %}
 {% block content %}
-  <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-queries' object.author.username %}">{{ object.author }}</a>
-        <small class="text-muted">{{ object.date_created|date:"F d, Y" }}</small>
-        {% if object.author == user %}
-          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'query-update' object.id %}">Update</a>
-            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'query-delete' object.id %}">Delete</a>
-          </div>
-        {% endif %}
-      </div>
-      <h2 class="article-title">{{ object.title }}</h2>
-      <p class="article-content">{{ object.query }}</p>
-    </div>
-  </article>
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user-queries' object.author.username %}">{{ object.author }}</a>
+                <small class="text-muted">{{ object.date_created|date:"F d, Y" }}</small>
+            </div>
+            <h2 class="article-title">{{ object.title }}</h2>
+            {#        {% if is_chart %}#}
+            {#        <img src="data:image/{{ image_encoding }};base64,{{ chart|safe }}"/>#}
+            {#    {% endif %}#}
+            {#    {{ tableHtml|safe }}#}
+            <p class="article-content">{{ object.query }}</p>
+            {% if object.author == user %}
+                    <div>
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                           href="{% url 'query-update' object.id %}">Edit</a>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'query-delete' object.id %}">Delete</a>
+                    </div>
+                {% endif %}
+        </div>
+    </article>
+    <article>
+        <div class="media-body">
+            {% if object.author == user %}
+                <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                   href="#">Add parameter</a>
+            {% endif %}
+        </div>
+    </article>
 {% endblock content %}
