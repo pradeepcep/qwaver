@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse
 from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
     DeleteView
 )
+
 from queries.models import Parameter, Query
 
 
@@ -47,7 +49,9 @@ class ParameterUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class ParameterDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Parameter
-    success_url = '/'
+
+    def get_success_url(self):
+        return reverse('query-detail', args=[self.object.query.id])
 
     @staticmethod
     def test_func():
