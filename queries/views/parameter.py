@@ -5,7 +5,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from queries.models import Parameter
+from queries.models import Parameter, Query
 
 
 class ParameterCreateView(LoginRequiredMixin, CreateView):
@@ -13,8 +13,14 @@ class ParameterCreateView(LoginRequiredMixin, CreateView):
     fields = ['name', 'default', 'template']
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.user = self.request.user
+        form.instance.query = Query.objects.get(pk=self.kwargs['query_id'])
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(ParameterCreateView, self).get_context_data(**kwargs)  # get the default context data
+        context['query'] = Query.objects.get(pk=self.kwargs['query_id'])
+        return context
 
 
 class ParameterDetailView(DetailView):
@@ -23,7 +29,7 @@ class ParameterDetailView(DetailView):
 
 class ParameterUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Parameter
-    fields = ['title', 'query']
+    fields = ['name', 'default', 'template']
 
     # def form_valid(self, form):
     #     form.instance.author = self.request.user
@@ -32,6 +38,7 @@ class ParameterUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ParameterUpdateView, self).get_context_data(**kwargs)  # get the default context data
         context['title'] = "Update"
+        context['query'] = self.object.query
         return context
 
     def test_func(self):

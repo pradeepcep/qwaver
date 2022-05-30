@@ -11,7 +11,7 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.models import Query
+from queries.models import Query, Parameter
 
 
 class QueryListView(ListView):
@@ -36,6 +36,11 @@ class UserQueryListView(ListView):
 
 class QueryDetailView(DetailView):
     model = Query
+
+    def get_context_data(self, **kwargs):
+        context = super(QueryDetailView, self).get_context_data(**kwargs)  # get the default context data
+        context['params'] = Parameter.objects.filter(query=self.object)
+        return context
 
 
 class QueryCreateView(LoginRequiredMixin, CreateView):

@@ -12,10 +12,10 @@ urlpatterns = [
     path('query/<int:pk>/update/', QueryUpdateView.as_view(), name='query-update'),
     path('query/<int:pk>/delete/', QueryDeleteView.as_view(), name='query-delete'),
 
-    # path('param/new/<int:query_id>/', ParamCreateView.as_view(), name='param-create'),
-    # path('param/<int:pk>/', ParamDetailView.as_view(), name='param-detail'),
-    # path('param/<int:pk>/update/', ParamUpdateView.as_view(), name='param-update'),
-    # path('param/<int:pk>/delete/', ParamDeleteView.as_view(), name='param-delete'),
+    path('param/new/<int:query_id>/', ParameterCreateView.as_view(), name='param-create'),
+    path('param/<int:pk>/', ParameterDetailView.as_view(), name='param-detail'),
+    path('param/<int:pk>/update/', ParameterUpdateView.as_view(), name='param-update'),
+    path('param/<int:pk>/delete/', ParameterDeleteView.as_view(), name='param-delete'),
 
     path('database/new/', DatabaseCreateView.as_view(), name='database-create'),
     path('database/<int:pk>/', DatabaseUpdateView.as_view(), name='database-detail'),

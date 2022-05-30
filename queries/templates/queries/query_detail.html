@@ -8,26 +8,36 @@
                 <small class="text-muted">{{ object.date_created|date:"F d, Y" }}</small>
             </div>
             <h2 class="article-title">{{ object.title }}</h2>
-            {#        {% if is_chart %}#}
-            {#        <img src="data:image/{{ image_encoding }};base64,{{ chart|safe }}"/>#}
-            {#    {% endif %}#}
-            {#    {{ tableHtml|safe }}#}
             <p class="article-content">{{ object.query }}</p>
             {% if object.author == user %}
-                    <div>
-                        <a class="btn btn-secondary btn-sm mt-1 mb-1"
-                           href="{% url 'query-update' object.id %}">Edit</a>
-                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'query-delete' object.id %}">Delete</a>
-                    </div>
-                {% endif %}
-        </div>
-    </article>
-    <article>
-        <div class="media-body">
-            {% if object.author == user %}
-                <a class="btn btn-secondary btn-sm mt-1 mb-1"
-                   href="#">Add parameter</a>
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                       href="{% url 'query-update' object.id %}">Edit</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'query-delete' object.id %}">Delete</a>
+                </div>
             {% endif %}
         </div>
     </article>
+    <div>
+        <h3>Parameters:</h3>
+        <div class="media-body">
+            {% if object.author == user %}
+                {% if params|length > 0 %}
+                    <ul>
+                        {% for param in params %}
+                            <li>
+                                {{ param.name }}
+                                <a class="btn btn-secondary btn-sm ml-2"
+                                   href="{% url 'param-update' param.id %}">Edit</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                {% endif %}
+
+                <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                   href="{% url 'param-create' object.id %}">Add parameter</a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock content %}
