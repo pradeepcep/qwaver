@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+import logging
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from django.views.generic import (
     ListView,
     DetailView,
@@ -8,8 +10,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-import logging
-from .models import Query, Database
+
+from queries.models import Query
 
 
 class QueryListView(ListView):
@@ -81,22 +83,3 @@ class QueryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-
-class DatabaseListView(ListView):
-    model = Database
-    template_name = 'queries/database_list.html'
-    context_object_name = 'databases'
-
-
-class DatabaseCreateView(LoginRequiredMixin, CreateView):
-    model = Database
-    fields = ['title', 'host', 'port', 'database', 'user', 'password']
-
-
-class DatabaseUpdateView(LoginRequiredMixin, UpdateView):
-    model = Database
-    fields = ['title', 'host', 'port', 'database', 'user', 'password']
-
-
-def about(request):
-    return render(request, 'queries/about.html', {'title': 'About'})

@@ -35,11 +35,17 @@ class Parameter(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
     name = models.CharField(max_length=256, default="")
-    default = models.CharField(max_length=256, default="")
+    default = models.CharField(max_length=256, blank=True, null=True)
     # if the user inputs a value for this field, then the template plus the value is inserted
     # e.g.: template_defined = "AND campaign_id = {v}"
     # whe the user inputs "54321", what is inserted in the query is "AND campaign_id = 54321"
-    template_if_defined = models.CharField(max_length=256, default="")
+    template = models.CharField(max_length=256, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('query-detail', kwargs={'pk': self.query.pk})
 
 
 class Instance(models.Model):
