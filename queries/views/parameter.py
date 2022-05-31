@@ -29,7 +29,7 @@ class ParameterDetailView(DetailView):
     model = Parameter
 
 
-class ParameterUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ParameterEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Parameter
     fields = ['name', 'default', 'template']
 
@@ -38,7 +38,7 @@ class ParameterUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     #     return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        context = super(ParameterUpdateView, self).get_context_data(**kwargs)  # get the default context data
+        context = super(ParameterEditView, self).get_context_data(**kwargs)  # get the default context data
         context['title'] = "Update"
         context['query'] = self.object.query
         return context

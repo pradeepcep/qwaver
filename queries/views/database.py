@@ -1,8 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse
 from django.views.generic import (
     ListView,
     CreateView,
-    UpdateView
+    UpdateView, DeleteView
 )
 
 from queries.models import Database
@@ -18,7 +19,21 @@ class DatabaseCreateView(LoginRequiredMixin, CreateView):
     model = Database
     fields = ['title', 'host', 'port', 'database', 'user', 'password']
 
+    def get_success_url(self):
+        return reverse('database-list')
 
-class DatabaseUpdateView(LoginRequiredMixin, UpdateView):
+
+class DatabaseEditView(LoginRequiredMixin, UpdateView):
     model = Database
     fields = ['title', 'host', 'port', 'database', 'user', 'password']
+
+
+class DatabaseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Database
+
+    def get_success_url(self):
+        return reverse('database-list')
+
+    @staticmethod
+    def test_func():
+        return True

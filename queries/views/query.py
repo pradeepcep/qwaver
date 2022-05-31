@@ -57,7 +57,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
     #     return context
 
 
-class QueryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
     fields = ['title', 'query']
 
@@ -66,7 +66,7 @@ class QueryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     #     return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        context = super(QueryUpdateView, self).get_context_data(**kwargs)  # get the default context data
+        context = super(QueryEditView, self).get_context_data(**kwargs)  # get the default context data
         context['title'] = "Edit"
         context['params'] = Parameter.objects.filter(query=self.object)
         return context
