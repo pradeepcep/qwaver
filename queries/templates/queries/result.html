@@ -13,7 +13,7 @@
                     </div>
                 {% endif %}
             </div>
-            <h2 class="article-title">{{ object.title }}</h2>
+            <h2 class="article-title">{{ query.title }}</h2>
             {% if is_chart %}
                 <img src="data:image/{{ image_encoding }};base64,{{ chart|safe }}" class="contain"/>
             {% else %}

@@ -2,15 +2,15 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <script src="https://unpkg.com/sql-formatter@2.3.3/dist/sql-formatter.min.js"></script>
-{#    <script>#}
-{#        function doFormat() {#}
-{#            let textarea = document.getElementById('id_query');#}
-{#            let content = textarea.textContent;#}
-{#            let format = window.sqlFormatter.format;#}
-{#            textarea.textContent = format(content);#}
-{#            myCodeMirror.setValue(format(content))#}
-{#        }#}
-{#    </script>#}
+    {#    <script>#}
+    {#        function doFormat() {#}
+    {#            let textarea = document.getElementById('id_query');#}
+    {#            let content = textarea.textContent;#}
+    {#            let format = window.sqlFormatter.format;#}
+    {#            textarea.textContent = format(content);#}
+    {#            myCodeMirror.setValue(format(content))#}
+    {#        }#}
+    {#    </script>#}
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -20,17 +20,50 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">Save</button>
-{#                <button class="btn btn-outline-success" type="button" onclick="doFormat();">Format</button>#}
+                {#                <button class="btn btn-outline-success" type="button" onclick="doFormat();">Format</button>#}
             </div>
         </form>
     </div>
-{#    <script>#}
-{#        let textArea = document.getElementById('id_query');#}
-{#        let codeMirrorConfig = {#}
-{#            theme: 'dracula',#}
-{#            lineNumbers: true,#}
-{#            autofocus: true#}
-{#        }#}
-{#        let myCodeMirror = CodeMirror.fromTextArea(textArea, codeMirrorConfig);#}
-{#    </script>#}
+    {#    <script>#}
+    {#        let textArea = document.getElementById('id_query');#}
+    {#        let codeMirrorConfig = {#}
+    {#            theme: 'dracula',#}
+    {#            lineNumbers: true,#}
+    {#            autofocus: true#}
+    {#        }#}
+    {#        let myCodeMirror = CodeMirror.fromTextArea(textArea, codeMirrorConfig);#}
+    {#    </script>#}
+
+    <h3>Parameters:</h3>
+    {% if object != null %}
+        {% if params|length > 0 %}
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <th>name</th>
+                    <th>default</th>
+                    <th>template</th>
+                    <th>edit</th>
+                </tr>
+                </thead>
+                {% for param in params %}
+                    <tr>
+                        <td>{{ param.name }}</td>
+                        <td>{{ param.default }}</td>
+                        <td>{{ param.template }}</td>
+                        <td>
+                            <a class="btn btn-secondary btn-sm ml-2"
+                               href="{% url 'param-update' param.id %}">Edit</a>
+                            <a class="btn btn-danger btn-sm ml-2"
+                               href="{% url 'param-delete' param.id %}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        <hr>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1"
+           href="{% url 'param-create' object.id %}">Add parameter</a>
+    {% endif %}
+
 {% endblock content %}

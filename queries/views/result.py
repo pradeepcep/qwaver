@@ -28,7 +28,7 @@ def execute(request, id):
     context = {
         'title': query.title,
         'table': df_reduced,
-        'tableHtml': df_reduced.to_html(classes=["table table-dark"]),
+        'tableHtml': df_reduced.to_html(classes=["table table-dark table-sm table-responsive"]),
         'query': query,
         'image_encoding': image_encoding,
         'chart': chart,

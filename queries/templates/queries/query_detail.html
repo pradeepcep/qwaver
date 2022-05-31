@@ -56,4 +56,8 @@
             {% endif %}
         </div>
     </div>
+    <div>
+    <a class="btn btn-primary btn-sm mt-1 mb-1"
+                   href="{% url 'instance-create' object.id %}">Create Instance</a>
+    </div>
 {% endblock content %}

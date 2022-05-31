@@ -67,7 +67,8 @@ class QueryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(QueryUpdateView, self).get_context_data(**kwargs)  # get the default context data
-        context['title'] = "Update"
+        context['title'] = "Edit"
+        context['params'] = Parameter.objects.filter(query=self.object)
         return context
 
     def test_func(self):

@@ -1,0 +1,25 @@
+{% extends "queries/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">{{ instance.query.title }}</legend>
+                <input type="hidden" name="instance_id" value="{{ instance.id }}">
+                {% for param in params %}
+                    <label>
+                        {{ param.name }}
+                        <input type="text" name="{{ param.name }}" value="{{ param.default }}">
+                    </label>
+                {% endfor %}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Run</button>
+                <a class="btn btn-secondary btn-sm ml-2"
+                   href="{% url 'query-update' instance.query.id %}">Edit Query</a>
+            </div>
+            <div>
+
+            </div>
+        </form>
+    </div>
+{% endblock content %}

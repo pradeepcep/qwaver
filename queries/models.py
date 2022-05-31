@@ -52,8 +52,6 @@ class Instance(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
-    # title based on specific input: e.g. input is 5, and title is "revenue past 5 days"
-    # title = models.CharField(max_length=256)
 
 
 class Result(models.Model):
