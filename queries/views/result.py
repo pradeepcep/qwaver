@@ -20,16 +20,18 @@ def execute(request, id):
     db = query.database
 
     # creating context for params data
+    sql = query.query
     param_values = {}
     for param in params:
         param_value = request.GET.get(param.name)
         if param_value is None:
             param_value = param.default
         param_values[param.name] = param_value
+        sql = sql.replace(f"{{{ param.name }}}", param_value)
 
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
     engine = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
-    df = pd.read_sql(query.query, engine)
+    df = pd.read_sql(sql, engine)
     df_reduced = df.head(max_table_rows)
     is_chart = df.columns.size > 1 and is_numeric_dtype(df.iloc[:, 1])
     chart = None

@@ -16,8 +16,8 @@
         </div>
             <h2 class="article-title">{{ object.title }}</h2>
             {#            <p class="article-content">{{ object.query }}</p>#}
-            <form method="POST">
-                {% csrf_token %}
+            <form method="GET" action="/query/{{ object.id }}/run">
+{#                {% csrf_token %}#}
                 <fieldset class="form-group">
                     {% for param in params %}
                         <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
