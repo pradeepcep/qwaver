@@ -8,8 +8,8 @@ urlpatterns = [
     path('about/', about, name='queries-about'),
 
     path('query/new/', QueryCreateView.as_view(), name='query-create'),
-    # path('query/<int:pk>/', QueryDetailView.as_view(), name='query-detail'),
-    path('query/<int:query_id>/', instance.as_view, name='query-detail'),
+    path('query/<int:pk>/', QueryDetailView.as_view(), name='query-detail'),
+    # path('query/<int:query_id>/', instance.as_view, name='query-detail'),
     path('query/<int:pk>/edit/', QueryEditView.as_view(), name='query-update'),
     path('query/<int:pk>/delete/', QueryDeleteView.as_view(), name='query-delete'),
 

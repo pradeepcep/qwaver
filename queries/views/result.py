@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 from io import BytesIO
 from pandas.api.types import is_numeric_dtype
 
-from ..models import Query
+from ..models import Query, Parameter
 
 max_table_rows = 50
 image_encoding = 'jpg'
@@ -16,7 +16,17 @@ image_encoding = 'jpg'
 
 def execute(request, id):
     query = Query.objects.get(pk=id)
+    params = Parameter.objects.filter(query=query)
     db = query.database
+
+    # creating context for params data
+    param_values = {}
+    for param in params:
+        param_value = request.GET.get(param.name)
+        if param_value is None:
+            param_value = param.default
+        param_values[param.name] = param_value
+
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
     engine = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     df = pd.read_sql(query.query, engine)
@@ -32,7 +42,9 @@ def execute(request, id):
         'query': query,
         'image_encoding': image_encoding,
         'chart': chart,
-        'is_chart': is_chart
+        'is_chart': is_chart,
+        'param_values': param_values,
+        'params': params
     }
     return render(request, 'queries/result.html', context)
 
@@ -57,7 +69,7 @@ def get_chart(dataframe):
     header = dataframe.head()
     columns = list(header.columns.values)
 
-    dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(8, 6))
+    dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(6, 4))
     plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
     plt.tight_layout()
     # plt.switch_backend('AGG')

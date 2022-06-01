@@ -59,7 +59,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
 
 class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
-    fields = ['title', 'query']
+    fields = ['title', 'database', 'query']
 
     # def form_valid(self, form):
     #     form.instance.author = self.request.user

@@ -19,6 +19,24 @@
             {% else %}
                 {{ tableHtml|safe }}
             {% endif %}
+
+
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {% for  key,value in param_values.items %}
+                        <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
+                            {{ key }} </label>
+                            <div><input type="text" name="{{ key }}" value="{{ value }}" maxlength="100"
+                                        class="textinput textInput form-control" id="{{ key }}"></div>
+                        </div>
+                    {% endfor %}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Run</button>
+                </div>
+            </form>
         </div>
     </article>
 {% endblock content %}

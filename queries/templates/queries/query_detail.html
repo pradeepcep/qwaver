@@ -6,58 +6,31 @@
             <div class="article-metadata">
                 <a class="mr-2" href="{% url 'user-queries' object.author.username %}">{{ object.author }}</a>
                 <small class="text-muted">{{ object.date_created|date:"F d, Y" }}</small>
+
             </div>
-            <h2 class="article-title">{{ object.title }}</h2>
-            <p class="article-content">{{ object.query }}</p>
+        <div>
             {% if object.author == user %}
-                <div>
-                    <a class="btn btn-primary btn-sm mt-1 mb-1"
-                       href="{% url 'result-detail' object.id %}">Run</a>
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1 float-right"
                        href="{% url 'query-update' object.id %}">Edit</a>
-                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'query-delete' object.id %}">Delete</a>
+                {% endif %}
+        </div>
+            <h2 class="article-title">{{ object.title }}</h2>
+            {#            <p class="article-content">{{ object.query }}</p>#}
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {% for param in params %}
+                        <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
+                            {{ param.name }} </label>
+                            <div><input type="text" name="{{ param.name }}" value="{{ param.default }}" maxlength="100"
+                                        class="textinput textInput form-control" id="{{ param.name }}"></div>
+                        </div>
+                    {% endfor %}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Run</button>
                 </div>
-            {% endif %}
+            </form>
         </div>
     </article>
-    <div>
-        <h3>Parameters:</h3>
-        <div class="media-body">
-            {% if object.author == user %}
-                {% if params|length > 0 %}
-                    <table class="table table-dark">
-                        <thead>
-                        <tr>
-                            <th>name</th>
-                            <th>default</th>
-                            <th>template</th>
-                            <th>edit</th>
-                        </tr>
-                        </thead>
-                        {% for param in params %}
-                            <tr>
-                                <td>{{ param.name }}</td>
-                                <td>{{ param.default }}</td>
-                                <td>{{ param.template }}</td>
-                                <td>
-                                    <a class="btn btn-secondary btn-sm ml-2"
-                                       href="{% url 'param-update' param.id %}">Edit</a>
-                                    <a class="btn btn-danger btn-sm ml-2"
-                                       href="{% url 'param-delete' param.id %}">Delete</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                    <hr>
-                {% endif %}
-
-                <a class="btn btn-secondary btn-sm mt-1 mb-1"
-                   href="{% url 'param-create' object.id %}">Add parameter</a>
-            {% endif %}
-        </div>
-    </div>
-    <div>
-    <a class="btn btn-primary btn-sm mt-1 mb-1"
-                   href="{% url 'instance-create' object.id %}">Create Instance</a>
-    </div>
 {% endblock content %}
