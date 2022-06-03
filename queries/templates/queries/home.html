@@ -8,7 +8,7 @@
               <a class="mr-2" href="{% url 'user-queries' query.author.username %}">{{ query.author }}</a>
               <small class="text-muted">{{ query.date_created|date:"F d, Y" }}</small>
             </div>
-            <h2><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query.title }}</a></h2>
+            <h2><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h2>
 {#            <p class="article-content">{{ query.query }}</p>#}
           </div>
         </article>

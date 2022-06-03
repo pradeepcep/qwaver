@@ -3,6 +3,7 @@ import base64
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import sqlalchemy
 from django.shortcuts import render
 from sqlalchemy import create_engine
 from io import BytesIO
@@ -21,6 +22,7 @@ def execute(request, id):
 
     # creating context for params data
     sql = query.query
+    title = query.title
     param_values = {}
     for param in params:
         param_value = request.GET.get(param.name)
@@ -28,7 +30,9 @@ def execute(request, id):
             param_value = param.default
         param_values[param.name] = param_value
         sql = sql.replace(f"{{{ param.name }}}", param_value)
-
+        title = title.replace(f"{{{param.name}}}", param_value)
+    # formatting the text to avoid problems with the % character in queries
+    sql = sqlalchemy.text(sql)
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
     engine = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     df = pd.read_sql(sql, engine)
@@ -38,7 +42,7 @@ def execute(request, id):
     if is_chart:
         chart = get_chart(df_reduced)
     context = {
-        'title': query.title,
+        'title': title,
         'table': df_reduced,
         'tableHtml': df_reduced.to_html(classes=["table table-dark table-sm table-responsive"]),
         'query': query,

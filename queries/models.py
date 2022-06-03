@@ -24,10 +24,17 @@ class Query(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        params = self.get_params()
+        title = self.title
+        for param in params:
+            title = title.replace(f"{{{param.name}}}", param.default)
+        return title
 
     def get_absolute_url(self):
         return reverse('query-detail', kwargs={'pk': self.pk})
+
+    def get_params(self):
+        return Parameter.objects.filter(query=self)
 
 
 class Parameter(models.Model):
@@ -46,6 +53,10 @@ class Parameter(models.Model):
 
     def get_absolute_url(self):
         return reverse('query-detail', kwargs={'pk': self.query.pk})
+
+    @property
+    def form_name(self):
+        return self.name.replace(" ", "_")
 
 
 class Instance(models.Model):

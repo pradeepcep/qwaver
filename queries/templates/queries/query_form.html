@@ -20,8 +20,10 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">Save</button>
-                <a class="btn btn-danger btn-sm ml-2 float-right"
-                               href="{% url 'query-delete' object.id %}">Delete</a>
+                {% if object != null %}
+                    <a class="btn btn-danger btn-sm ml-2 float-right"
+                       href="{% url 'query-delete' object.id %}">Delete</a>
+                {% endif %}
                 {#                <button class="btn btn-outline-success" type="button" onclick="doFormat();">Format</button>#}
             </div>
         </form>

@@ -8,21 +8,21 @@
                 <small class="text-muted">{{ object.date_created|date:"F d, Y" }}</small>
 
             </div>
-        <div>
-            {% if object.author == user %}
+            <div>
+                {% if object.author == user %}
                     <a class="btn btn-secondary btn-sm mt-1 mb-1 float-right"
                        href="{% url 'query-update' object.id %}">Edit</a>
                 {% endif %}
-        </div>
+            </div>
             <h2 class="article-title">{{ object.title }}</h2>
-            {#            <p class="article-content">{{ object.query }}</p>#}
             <form method="GET" action="/query/{{ object.id }}/run">
-{#                {% csrf_token %}#}
+                {#                {% csrf_token %}#}
                 <fieldset class="form-group">
                     {% for param in params %}
                         <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
                             {{ param.name }} </label>
-                            <div><input type="text" name="{{ param.name }}" value="{{ param.default }}" maxlength="100"
+                            <div><input type="text" name="{{ param.name }}" value="{{ param.default }}"
+                                        maxlength="100"
                                         class="textinput textInput form-control" id="{{ param.name }}"></div>
                         </div>
                     {% endfor %}

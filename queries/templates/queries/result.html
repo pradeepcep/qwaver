@@ -7,22 +7,25 @@
                 <small class="text-muted">{{ object.date_created|date:"F d, Y" }}</small>
                 {% if query.author == user %}
                     <div>
-                        <a class="btn btn-secondary btn-sm mt-1 mb-1 float-right" href="{% url 'query-update' query.id %}">Edit
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1 float-right"
+                           href="{% url 'query-update' query.id %}">Edit
                             Query</a>
                     </div>
                 {% endif %}
             </div>
-            <h2 class="article-title">{{ query.title }}</h2>
-            {% if is_chart %}
-                <img src="data:image/{{ image_encoding }};base64,{{ chart|safe }}" class="contain"/>
-            {% else %}
-                {{ tableHtml|safe }}
-            {% endif %}
+            <h2 class="article-title">{{ title }}</h2>
+            <div class="mt-4">
+                {% if is_chart %}
+                    <img src="data:image/{{ image_encoding }};base64,{{ chart|safe }}" class="contain"/>
+                {% else %}
+                    {{ tableHtml|safe }}
+                {% endif %}
+            </div>
 
 
             <hr>
             <form method="GET" action="/query/{{ query.id }}/run">
-{#                {% csrf_token %}#}
+                {#                {% csrf_token %}#}
                 <fieldset class="form-group">
                     {% for  key,value in param_values.items %}
                         <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
