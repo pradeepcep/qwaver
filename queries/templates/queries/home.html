@@ -1,37 +1,124 @@
 {% extends "queries/base.html" %}
 {% block content %}
+
+{#    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">#}
+{#        {% for query in queries %}#}
+{#            <div class="col d-flex align-items-start">#}
+{#                <div>#}
+{#                    <h2><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h2>#}
+{#                    <form method="GET" action="/query/{{ query.id }}/run">#}
+{#                        <fieldset class="form-group">#}
+{#                            {% for param in query.get_params %}#}
+{#                                <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">#}
+{#                                    {{ param.name }} </label>#}
+{#                                    <div><input type="text" name="{{ param.name }}" value="{{ param.default }}"#}
+{#                                                maxlength="100"#}
+{#                                                class="textinput textInput form-control" id="{{ param.name }}"></div>#}
+{#                                </div>#}
+{#                            {% endfor %}#}
+{#                        </fieldset>#}
+{#                        <div class="form-group">#}
+{#                            <button class="btn btn-primary" type="submit">Run</button>#}
+{#                        </div>#}
+{#                    </form>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+
+
+    <!--Navbar-->
+<nav class="navbar navbar-light light-blue lighten-4">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#">Navbar</a>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
+        class="fas fa-bars fa-1x"></i></span></button>
+
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+
+    <!-- Links -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li>
+    </ul>
+    <!-- Links -->
+
+  </div>
+  <!-- Collapsible content -->
+
+</nav>
+<!--/.Navbar-->
+
+    <script>
+        function hideShow(id) {
+            let x = document.getElementById(id);
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+
     {% for query in queries %}
         <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ query.author.profile.image.url }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{% url 'user-queries' query.author.username %}">{{ query.author }}</a>
-              <small class="text-muted">{{ query.date_created|date:"F d, Y" }}</small>
+            {#            <img class="rounded-circle article-img" src="{{ query.author.profile.image.url }}">#}
+            <div class="media-body">
+                {#                <div class="article-metadata">#}
+                {#                    <a class="mr-2" href="{% url 'user-queries' query.author.username %}">{{ query.author }}</a>#}
+                {#                    <small class="text-muted">{{ query.date_created|date:"F d, Y" }}</small>#}
+                {#                </div>#}
+{#                <h2><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h2>#}
+            <h2><a class="article-title" onclick="hideShow('form_' + {{ query.id }})" href="#">{{ query }}</a></h2>
+                <form method="GET" action="/query/{{ query.id }}/run" style="display:none;" id="form_{{ query.id }}">
+                    <fieldset class="form-group">
+                        {% for param in query.get_params %}
+                            <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
+                                {{ param.name }} </label>
+                                <div><input type="text" name="{{ param.name }}" value="{{ param.default }}"
+                                            maxlength="100"
+                                            class="textinput textInput form-control" id="{{ param.name }}"></div>
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Run</button>
+                    </div>
+                </form>
             </div>
-            <h2><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h2>
-{#            <p class="article-content">{{ query.query }}</p>#}
-          </div>
         </article>
     {% endfor %}
     {% if is_paginated %}
 
-      {% if page_obj.has_previous %}
-        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-      {% endif %}
-
-      {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
         {% endif %}
-      {% endfor %}
 
-      {% if page_obj.has_next %}
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-      {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
 
     {% endif %}
 {% endblock content %}

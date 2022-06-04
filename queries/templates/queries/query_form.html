@@ -4,13 +4,19 @@
     <script src="https://unpkg.com/sql-formatter@2.3.3/dist/sql-formatter.min.js"></script>
     {#    <script>#}
     {#        function doFormat() {#}
-    {#            let textarea = document.getElementById('id_query');#}
-    {#            let content = textarea.textContent;#}
-    {#            let format = window.sqlFormatter.format;#}
-    {#            textarea.textContent = format(content);#}
-    {#            myCodeMirror.setValue(format(content))#}
+{#    let textarea = document.getElementById('id_query');#}
+{#    let content = textarea.textContent;#}
+{#    let format = window.sqlFormatter.format;#}
+{#    textarea.textContent = format(content);#}
+{#    myCodeMirror.setValue(format(content))#}
     {#        }#}
     {#    </script>#}
+    <script>
+        function copyContent() {
+            let textarea = document.getElementById('id_query');
+            textarea.textContent = myCodeMirror.getValue();
+        }
+    </script>
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -19,7 +25,7 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-primary" type="submit" onclick="copyContent();">Save</button>
                 {% if object != null %}
                     <a class="btn btn-danger btn-sm ml-2 float-right"
                        href="{% url 'query-delete' object.id %}">Delete</a>
@@ -28,15 +34,15 @@
             </div>
         </form>
     </div>
-    {#    <script>#}
-    {#        let textArea = document.getElementById('id_query');#}
-    {#        let codeMirrorConfig = {#}
-    {#            theme: 'dracula',#}
-    {#            lineNumbers: true,#}
-    {#            autofocus: true#}
-    {#        }#}
-    {#        let myCodeMirror = CodeMirror.fromTextArea(textArea, codeMirrorConfig);#}
-    {#    </script>#}
+    <script>
+        let textArea = document.getElementById('id_query');
+        let codeMirrorConfig = {
+            theme: 'dracula',
+            lineNumbers: true,
+            autofocus: true
+        }
+        let myCodeMirror = CodeMirror.fromTextArea(textArea, codeMirrorConfig);
+    </script>
 
     <h3>Parameters:</h3>
     {% if object != null %}

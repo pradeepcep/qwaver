@@ -63,7 +63,7 @@
 {#        </div>#}
 {#    </div>#}
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
@@ -73,20 +73,20 @@
             {% endif %}
             {% block content %}{% endblock %}
         </div>
-        <div class="col-md-4">
-            <div class="content-section">
-                <h3>Actions</h3>
+{#        <div class="col-md-4">#}
+{#            <div class="content-section">#}
+{#                <h3>Actions</h3>#}
                 {#            <p class='text-muted'>You can put any information here you'd like.#}
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="{% url 'query-create' %}">New Query</a></li>
-                    <li class="list-group-item"><a href="{% url 'database-list' %}">Databases</a></li>
-                    <li class="list-group-item">Search</li>
-                    <li class="list-group-item">Topics</li>
-                    <li class="list-group-item">Alerts</li>
-                </ul>
-                </p>
-            </div>
-        </div>
+{#                <ul class="list-group">#}
+{#                    <li class="list-group-item"><a href="{% url 'query-create' %}">New Query</a></li>#}
+{#                    <li class="list-group-item"><a href="{% url 'database-list' %}">Databases</a></li>#}
+{#                    <li class="list-group-item">Search</li>#}
+{#                    <li class="list-group-item">Topics</li>#}
+{#                    <li class="list-group-item">Alerts</li>#}
+{#                </ul>#}
+{#                </p>#}
+{#            </div>#}
+{#        </div>#}
     </div>
 </main>
 

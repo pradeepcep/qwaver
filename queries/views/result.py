@@ -4,7 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import sqlalchemy
-from django.shortcuts import render
+from django.db import ProgrammingError, Error
+from django.shortcuts import render, redirect
+from psycopg2 import DataError
 from sqlalchemy import create_engine
 from io import BytesIO
 from pandas.api.types import is_numeric_dtype
@@ -13,6 +15,7 @@ from ..models import Query, Parameter
 
 max_table_rows = 50
 image_encoding = 'jpg'
+plt.style.use('dark_background')
 
 
 def execute(request, id):
@@ -24,35 +27,52 @@ def execute(request, id):
     sql = query.query
     title = query.title
     param_values = {}
+    is_easter = False
     for param in params:
         param_value = request.GET.get(param.name)
         if param_value is None:
             param_value = param.default
+        elif param_value == 'dml':
+            is_easter = True
         param_values[param.name] = param_value
-        sql = sql.replace(f"{{{ param.name }}}", param_value)
+        sql = sql.replace(f"{{{param.name}}}", param_value)
         title = title.replace(f"{{{param.name}}}", param_value)
     # formatting the text to avoid problems with the % character in queries
     sql = sqlalchemy.text(sql)
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
     engine = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
-    df = pd.read_sql(sql, engine)
-    df_reduced = df.head(max_table_rows)
-    is_chart = df.columns.size > 1 and is_numeric_dtype(df.iloc[:, 1])
-    chart = None
-    if is_chart:
-        chart = get_chart(df_reduced)
-    context = {
-        'title': title,
-        'table': df_reduced,
-        'tableHtml': df_reduced.to_html(classes=["table table-dark table-sm table-responsive"]),
-        'query': query,
-        'image_encoding': image_encoding,
-        'chart': chart,
-        'is_chart': is_chart,
-        'param_values': param_values,
-        'params': params
-    }
-    return render(request, 'queries/result.html', context)
+    if is_easter:
+        # return render(request, 'queries/easter.html', {})
+        return redirect("http://synthblast.com")
+    else:
+        try:
+            df = pd.read_sql(sql, engine)
+            # df_reduced = df.head(max_table_rows)
+            df_reduced = df
+            is_chart = df.columns.size > 1 and is_numeric_dtype(df.iloc[:, 1])
+            chart = None
+            if is_chart:
+                chart = get_chart(df_reduced)
+            context = {
+                'title': title,
+                'table': df_reduced,
+                'tableHtml': df_reduced.to_html(classes=["table table-dark table-sm table-responsive"]),
+                'query': query,
+                'image_encoding': image_encoding,
+                'chart': chart,
+                'is_chart': is_chart,
+                'param_values': param_values,
+                'params': params
+            }
+            return render(request, 'queries/result.html', context)
+        except Exception as err:
+            context = {
+                'title': title,
+                'query': query,
+                'error': err,
+                'params': params
+            }
+            return render(request, 'queries/result_error.html', context)
 
 
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/
@@ -75,7 +95,7 @@ def get_chart(dataframe):
     header = dataframe.head()
     columns = list(header.columns.values)
 
-    dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(6, 4))
+    dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4))
     plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
     plt.tight_layout()
     # plt.switch_backend('AGG')

@@ -1,0 +1,22 @@
+{% extends "queries/base.html" %}
+{% block content %}
+{#    <article class="media content-section">#}
+        <p>
+        <p class="alert alert-warning">
+            There is an error in the query or possibly the parameter values
+        </p>
+        <pre style="overflow: scroll;">
+{{ error }}
+        </pre>
+    <p>
+        If you think the error is in the query:
+     <a class="btn btn-primary btn-sm ml-1 mb-1"
+                       href="{% url 'query-update' query.id %}">Edit Query</a>
+    </p>
+    <p>
+    If you think the error is in the parameter values: <a class="btn btn-primary btn-sm ml-1 mb-1"
+                       href="{% url 'query-detail' query.id %}">Try Again</a>
+    </p>
+        </p>
+{#    </article>#}
+{% endblock content %}

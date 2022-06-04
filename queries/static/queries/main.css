@@ -57,9 +57,9 @@ a.article-title:hover {
 }
 
 .article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
+    height: 32px;
+    width: 32px;
+    margin-right: 8px;
 }
 
 .article-metadata {
@@ -112,3 +112,17 @@ a.article-title:hover {
 .contain {
     object-fit: contain;
 }
+
+.form-control {
+    background-color: #282a36;
+    border: none;
+    color: white;
+}
+
+pre {
+    color: yellow;
+}
+
+/*input {*/
+/*    background-color: black;*/
+/*}*/
