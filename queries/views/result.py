@@ -42,8 +42,8 @@ def execute(request, id):
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
     engine = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     if is_easter:
-        # return render(request, 'queries/easter.html', {})
-        return redirect("http://synthblast.com")
+        return render(request, 'queries/easter.html', {})
+        # return redirect("http://synthblast.com")
     else:
         try:
             df = pd.read_sql(sql, engine)

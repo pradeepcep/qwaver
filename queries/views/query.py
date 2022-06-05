@@ -119,6 +119,7 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(QueryCloneView, self).get_context_data(**kwargs)  # get the default context data
         context['title'] = "Clone"
+        context['is_clone'] = True
         context['params'] = Parameter.objects.filter(query=self.object)
         return context
 

@@ -23,6 +23,7 @@
                 {#                </div>#}
                 {#                <h2><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h2>#}
                 <h2><a class="article-title" onclick="hideShow('form_' + {{ query.id }})" href="#">{{ query }}</a></h2>
+                <p class="article-content">{{ query.database }}</p>
                 <form method="GET" action="/query/{{ query.id }}/run" style="display:none;" id="form_{{ query.id }}">
                     <fieldset class="form-group">
                         {% for param in query.get_params %}
@@ -38,18 +39,18 @@
                         <button class="btn btn-primary" type="submit">Run</button>
                     </div>
 
-                {% if query.author == user %}
-                    <div class="float-right">
-                        <a class="btn btn-outline-secondary btn-sm mr-1"
-                           href="{% url 'query-update' query.id %}">Edit</a>
-                        <a class="btn btn-outline-success btn-sm mr-1" href="{% url 'query-clone' query.id %}">
-                            <i class="bi bi-files mr-1"></i>
-                            Clone
-                        </a>
-                        <a class="btn btn-outline-danger btn-sm mr-1"
-                           href="{% url 'query-delete' query.id %}">Delete</a>
-                    </div>
-                {% endif %}
+                    {% if query.author == user %}
+                        <div class="float-right">
+                            <a class="btn btn-outline-secondary btn-sm mr-1"
+                               href="{% url 'query-update' query.id %}">Edit</a>
+                            <a class="btn btn-outline-success btn-sm mr-1" href="{% url 'query-clone' query.id %}">
+                                <i class="bi bi-files mr-1"></i>
+                                Clone
+                            </a>
+                            <a class="btn btn-outline-danger btn-sm mr-1"
+                               href="{% url 'query-delete' query.id %}">Delete</a>
+                        </div>
+                    {% endif %}
                 </form>
             </div>
         </article>
