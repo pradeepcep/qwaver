@@ -89,3 +89,38 @@ class QueryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
+class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Query
+    fields = ['title', 'database', 'query']
+    template_name = 'queries/query_form.html'
+
+    def get_object(self, queryset=None):
+        query = get_object_or_404(Query, id=self.kwargs.get('pk'))
+        clone = Query.objects.create(
+            title=query.title,
+            database=query.database,
+            query=query.query,
+            author=self.request.user
+        )
+        clone.save()
+        params = Parameter.objects.filter(query=query)
+        for param in params:
+            param_clone = Parameter.objects.create(
+                user=self.request.user,
+                query=clone,
+                name=param.name,
+                default=param.default,
+                template=param.template
+            )
+            param_clone.save()
+        return clone
+
+    def get_context_data(self, **kwargs):
+        context = super(QueryCloneView, self).get_context_data(**kwargs)  # get the default context data
+        context['title'] = "Clone"
+        context['params'] = Parameter.objects.filter(query=self.object)
+        return context
+
+    def test_func(self):
+        return True

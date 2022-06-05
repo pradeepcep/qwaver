@@ -13,6 +13,7 @@ urlpatterns = [
     # path('query/<int:query_id>/', instance.as_view, name='query-detail'),
     path('query/<int:id>/run', result.execute, name='query-run'),
     path('query/<int:pk>/delete/', QueryDeleteView.as_view(), name='query-delete'),
+    path('query/<int:pk>/clone/', QueryCloneView.as_view(), name='query-clone'),
 
     path('param/new/<int:query_id>/', ParameterCreateView.as_view(), name='param-create'),
     path('param/<int:pk>/', ParameterDetailView.as_view(), name='param-detail'),

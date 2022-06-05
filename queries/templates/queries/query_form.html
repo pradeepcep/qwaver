@@ -4,11 +4,11 @@
     <script src="https://unpkg.com/sql-formatter@2.3.3/dist/sql-formatter.min.js"></script>
     {#    <script>#}
     {#        function doFormat() {#}
-{#    let textarea = document.getElementById('id_query');#}
-{#    let content = textarea.textContent;#}
-{#    let format = window.sqlFormatter.format;#}
-{#    textarea.textContent = format(content);#}
-{#    myCodeMirror.setValue(format(content))#}
+    {#    let textarea = document.getElementById('id_query');#}
+    {#    let content = textarea.textContent;#}
+    {#    let format = window.sqlFormatter.format;#}
+    {#    textarea.textContent = format(content);#}
+    {#    myCodeMirror.setValue(format(content))#}
     {#        }#}
     {#    </script>#}
     <script>
@@ -27,8 +27,17 @@
             <div class="form-group">
                 <button class="btn btn-primary" type="submit" onclick="copyContent();">Save</button>
                 {% if object != null %}
-                    <a class="btn btn-danger btn-sm ml-2 float-right"
-                       href="{% url 'query-delete' object.id %}">Delete</a>
+                    <div class="float-right">
+                        <a class="btn btn-success mr-2 float-left" href="{% url 'query-clone' object.id %}">
+                            <i class="bi bi-files mr-1"></i>
+                            Clone
+                        </a>
+                        <a class="btn btn-danger mr-2"
+                           href="{% url 'query-delete' object.id %}">
+                            <i class="bi bi-file-earmark-x"></i>
+                            Delete
+                        </a>
+                    </div>
                 {% endif %}
                 {#                <button class="btn btn-outline-success" type="button" onclick="doFormat();">Format</button>#}
             </div>
