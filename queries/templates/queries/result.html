@@ -1,5 +1,8 @@
 {% extends "queries/base.html" %}
+{% load static %}
 {% block content %}
+    <!-- for downloading tables -->
+    <script src="{% static 'queries/tablefunctions.js' %}"></script>
     <article class="media content-section">
         {#        <img class="rounded-circle article-img" src="{{ query.author.profile.image.url }}">#}
         <div class="media-body">
@@ -19,6 +22,9 @@
                     <h1 class="display-1">{{ single|safe }}</h1>
                 {% elif is_chart %}
                     <img src="data:image/{{ image_encoding }};base64,{{ chart|safe }}" class="contain"/>
+                    <div style="display: none">
+                        {{ tableHtml|safe }}
+                    </div>
                 {% else %}
                     {{ tableHtml|safe }}
                 {% endif %}
@@ -26,8 +32,8 @@
 
 
             <hr>
+            <!-- rerun -->
             <form method="GET" action="/query/{{ query.id }}/run">
-                {#                {% csrf_token %}#}
                 <fieldset class="form-group">
                     {% for  key,value in param_values.items %}
                         <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
@@ -41,6 +47,35 @@
                     <button class="btn btn-primary" type="submit">Rerun</button>
                 </div>
             </form>
+
+            <!-- download -->
+            {% if not is_single %}
+                <a class="btn btn-success mr-2 float-left"
+                   href="javascript:download_table_as_csv('results')">
+                    <i class="bi bi-filetype-csv mr-1"></i>
+                    Download CSV
+                </a>
+                {##}
+                {#                    <button class="btn btn-success mr-2" type="submit">#}
+                {#                        <i class="bi bi-filetype-json" style="font-size: 2rem;"></i>#}
+                {#                    </button>#}
+                {#                    <button class="btn btn-success mr-2" type="submit">#}
+                {#                        <i class="bi bi-file-earmark-spreadsheet" style="font-size: 2rem;"></i>#}
+                {#                    </button>#}
+                {##}
+                {#                    <button class="btn btn-success mr-2" type="submit">#}
+                {#                        <i class="bi bi-file-earmark-bar-graph" style="font-size: 2rem;"></i>#}
+                {#                    </button>#}
+
+            {% endif %}
+
+            <!-- clone query -->
+            <a class="btn btn-success mr-2 float-left" href="#">
+                <i class="bi bi-files mr-1"></i>
+                Clone Query
+            </a>
+
+
         </div>
     </article>
 {% endblock content %}

@@ -58,7 +58,9 @@ def execute(request, id):
             context = {
                 'title': title,
                 'table': df_reduced,
-                'tableHtml': df_reduced.to_html(classes=["table table-dark table-sm table-responsive"]),
+                'tableHtml': df_reduced.to_html(classes=["table table-dark table-sm table-responsive"],
+                                                table_id="results",
+                                                index=False),
                 'query': query,
                 'image_encoding': image_encoding,
                 'chart': chart,

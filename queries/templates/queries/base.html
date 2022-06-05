@@ -10,6 +10,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
     <link rel="stylesheet" type="text/css" href="{% static 'queries/main.css' %}">
 
@@ -54,14 +56,14 @@
     </nav>
 </header>
 <main role="main" class="container">
-{#    <div class="row search-box mb-3">#}
-{#        <div class="col-md-12 mt-4 mb-4 text-center">#}
-{#            <form>#}
-{#                <input type="text" class="search-field">#}
-{#                <button type="submit" class="btn btn-primary">Search</button>#}
-{#            </form>#}
-{#        </div>#}
-{#    </div>#}
+    {#    <div class="row search-box mb-3">#}
+    {#        <div class="col-md-12 mt-4 mb-4 text-center">#}
+    {#            <form>#}
+    {#                <input type="text" class="search-field">#}
+    {#                <button type="submit" class="btn btn-primary">Search</button>#}
+    {#            </form>#}
+    {#        </div>#}
+    {#    </div>#}
     <div class="row">
         <div class="col-md-12">
             {% if messages %}
@@ -73,20 +75,20 @@
             {% endif %}
             {% block content %}{% endblock %}
         </div>
-{#        <div class="col-md-4">#}
-{#            <div class="content-section">#}
-{#                <h3>Actions</h3>#}
-                {#            <p class='text-muted'>You can put any information here you'd like.#}
-{#                <ul class="list-group">#}
-{#                    <li class="list-group-item"><a href="{% url 'query-create' %}">New Query</a></li>#}
-{#                    <li class="list-group-item"><a href="{% url 'database-list' %}">Databases</a></li>#}
-{#                    <li class="list-group-item">Search</li>#}
-{#                    <li class="list-group-item">Topics</li>#}
-{#                    <li class="list-group-item">Alerts</li>#}
-{#                </ul>#}
-{#                </p>#}
-{#            </div>#}
-{#        </div>#}
+        {#        <div class="col-md-4">#}
+        {#            <div class="content-section">#}
+        {#                <h3>Actions</h3>#}
+        {#            <p class='text-muted'>You can put any information here you'd like.#}
+        {#                <ul class="list-group">#}
+        {#                    <li class="list-group-item"><a href="{% url 'query-create' %}">New Query</a></li>#}
+        {#                    <li class="list-group-item"><a href="{% url 'database-list' %}">Databases</a></li>#}
+        {#                    <li class="list-group-item">Search</li>#}
+        {#                    <li class="list-group-item">Topics</li>#}
+        {#                    <li class="list-group-item">Alerts</li>#}
+        {#                </ul>#}
+        {#                </p>#}
+        {#            </div>#}
+        {#        </div>#}
     </div>
 </main>
 
