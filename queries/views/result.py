@@ -50,6 +50,8 @@ def execute(request, id):
             # df_reduced = df.head(max_table_rows)
             df_reduced = df
             is_chart = df.columns.size > 1 and is_numeric_dtype(df.iloc[:, 1])
+            is_single = df.columns.size == 1 and len(df.index) == 1
+            single = df.iat[0, 0]
             chart = None
             if is_chart:
                 chart = get_chart(df_reduced)
@@ -61,6 +63,8 @@ def execute(request, id):
                 'image_encoding': image_encoding,
                 'chart': chart,
                 'is_chart': is_chart,
+                'is_single': is_single,
+                'single': single,
                 'param_values': param_values,
                 'params': params
             }

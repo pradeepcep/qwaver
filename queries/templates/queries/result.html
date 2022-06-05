@@ -1,7 +1,7 @@
 {% extends "queries/base.html" %}
 {% block content %}
     <article class="media content-section">
-{#        <img class="rounded-circle article-img" src="{{ query.author.profile.image.url }}">#}
+        {#        <img class="rounded-circle article-img" src="{{ query.author.profile.image.url }}">#}
         <div class="media-body">
             <div class="article-metadata">
                 <small class="text-muted">{{ object.date_created|date:"F d, Y" }}</small>
@@ -15,7 +15,9 @@
             </div>
             <h2 class="article-title">{{ title }}</h2>
             <div class="mt-4">
-                {% if is_chart %}
+                {% if is_single %}
+                    <h1 class="display-1">{{ single|safe }}</h1>
+                {% elif is_chart %}
                     <img src="data:image/{{ image_encoding }};base64,{{ chart|safe }}" class="contain"/>
                 {% else %}
                     {{ tableHtml|safe }}
@@ -36,7 +38,7 @@
                     {% endfor %}
                 </fieldset>
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Run</button>
+                    <button class="btn btn-primary" type="submit">Rerun</button>
                 </div>
             </form>
         </div>
