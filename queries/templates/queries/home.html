@@ -23,7 +23,13 @@
                 {#                </div>#}
                 {#                <h2><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h2>#}
                 <h2><a class="article-title" onclick="hideShow('form_' + {{ query.id }})" href="#">{{ query }}</a></h2>
-                <p class="article-content">{{ query.database }}</p>
+                <p>
+
+                <div style="color: gray" class="d-inline">{{ query.database }}</div>
+                    {% if query.description != null %}
+                    : {{ query.description }}
+                    {% endif %}
+                </p>
                 <form method="GET" action="/query/{{ query.id }}/run" style="display:none;" id="form_{{ query.id }}">
                     <fieldset class="form-group">
                         {% for param in query.get_params %}

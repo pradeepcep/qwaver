@@ -13,13 +13,15 @@ from django.views.generic import (
 
 from queries.models import Query, Parameter
 
+pagination_count = 20
+
 
 class QueryListView(ListView):
     model = Query
     template_name = 'queries/home.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'queries'
     ordering = ['-date_created']
-    paginate_by = 5
+    paginate_by = pagination_count
 
 
 class UserQueryListView(ListView):
@@ -27,7 +29,7 @@ class UserQueryListView(ListView):
     model = Query
     template_name = 'queries/user_queries.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'queries'
-    paginate_by = 5
+    paginate_by = pagination_count
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
@@ -45,21 +47,21 @@ class QueryDetailView(DetailView):
 
 class QueryCreateView(LoginRequiredMixin, CreateView):
     model = Query
-    fields = ['title', 'database', 'query']
+    fields = ['title', 'database', 'description', 'query']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(QueryCreateView, self).get_context_data(**kwargs)  # get the default context data
-    #     context['title'] = "Create"
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super(QueryCreateView, self).get_context_data(**kwargs)  # get the default context data
+        context['title'] = "Create"
+        return context
 
 
 class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
-    fields = ['title', 'database', 'query']
+    fields = ['title', 'database', 'description', 'query']
 
     # def form_valid(self, form):
     #     form.instance.author = self.request.user
@@ -92,7 +94,7 @@ class QueryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
-    fields = ['title', 'database', 'query']
+    fields = ['title', 'database', 'description', 'query']
     template_name = 'queries/query_form.html'
 
     def get_object(self, queryset=None):

@@ -18,6 +18,7 @@ class Database(models.Model):
 
 class Query(models.Model):
     title = models.CharField(max_length=100)
+    description = models.CharField(max_length=256, null=True, blank=True)
     database = models.ForeignKey(Database, on_delete=models.CASCADE, default=0)
     query = models.TextField()
     date_created = models.DateTimeField(default=timezone.now)
@@ -75,6 +76,22 @@ class Value(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    value = models.CharField(max_length=256, default=""),
+    value = models.CharField(max_length=256, default="")
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
 
+
+class Action(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    name = models.CharField(max_length=32, default="")
+
+
+class Topic(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=32, default="")
+
+
+class QueryTopic(models.Model):
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
