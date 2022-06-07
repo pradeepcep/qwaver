@@ -14,7 +14,7 @@ from django.views.generic import (
 
 from queries.models import Query, Parameter
 
-pagination_count = 20
+pagination_count = 10
 
 
 class QueryListView(ListView):
@@ -33,8 +33,17 @@ class QuerySearchView(ListView):
 
     def get_queryset(self):
         s = self.request.GET.get('s')
-        queries = Query.objects.filter(Q(title__contains=s) | Q(description__contains=s))
-        return queries
+        if len(s) > 0:
+            words = s.split()
+            # https://stackoverflow.com/questions/20222457/django-building-a-queryset-with-q-objects
+            # https://docs.djangoproject.com/en/4.0/ref/models/querysets/#q-objects
+            q = Q(title__contains=words[0]) | Q(description__contains=words[0])
+            for word in words[1:]:
+                q &= Q(title__contains=word) | Q(description__contains=word)
+            queries = Query.objects.filter(q).order_by('-date_created')
+            return queries
+        else:
+            return Query.objects.all().order_by('-date_created')
 
 
 class UserQueryListView(ListView):
@@ -114,6 +123,7 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         clone = Query.objects.create(
             title=query.title,
             database=query.database,
+            description=query.description,
             query=query.query,
             author=self.request.user
         )

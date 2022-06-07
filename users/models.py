@@ -2,10 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 
+from queries.models import Database
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    most_recent_database = models.ForeignKey(
+        Database,
+        on_delete=models.DO_NOTHING,
+        null=True,
+        blank=True,
+        default=None)
 
     def __str__(self):
         return f'{self.user.username} Profile'

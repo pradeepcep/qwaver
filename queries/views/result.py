@@ -49,7 +49,7 @@ def execute(request, id):
             df = pd.read_sql(sql, engine)
             # df_reduced = df.head(max_table_rows)
             df_reduced = df
-            is_chart = df.columns.size > 1 and is_numeric_dtype(df.iloc[:, 1])
+            is_chart = df.columns.size > 1 and len(df.index) > 2 and is_numeric_dtype(df.iloc[:, 1])
             is_single = df.columns.size == 1 and len(df.index) == 1
             single = df.iat[0, 0]
             chart = None
