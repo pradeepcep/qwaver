@@ -44,11 +44,11 @@ ul {
 }
 
 .article-title {
-    color: #8be9fd;
+    color: #8ab4f8;
 }
 
 a.article-title:hover {
-    color: #428bca;
+    color: #80b0f0;
     text-decoration: none;
 }
 

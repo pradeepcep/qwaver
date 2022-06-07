@@ -2,6 +2,7 @@ import logging
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
     ListView,
@@ -24,8 +25,19 @@ class QueryListView(ListView):
     paginate_by = pagination_count
 
 
+class QuerySearchView(ListView):
+    model = Query
+    template_name = 'queries/home.html'
+    context_object_name = 'queries'
+    paginate_by = pagination_count
+
+    def get_queryset(self):
+        s = self.request.GET.get('s')
+        queries = Query.objects.filter(Q(title__contains=s) | Q(description__contains=s))
+        return queries
+
+
 class UserQueryListView(ListView):
-    logging.debug("UserQueryListView Log message")
     model = Query
     template_name = 'queries/user_queries.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'queries'
