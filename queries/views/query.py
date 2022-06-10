@@ -24,6 +24,11 @@ class QueryListView(ListView):
     ordering = ['-date_created']
     paginate_by = pagination_count
 
+    def get_context_data(self, **kwargs):
+        context = super(QueryListView, self).get_context_data(**kwargs)  # get the default context data
+        context['result_count'] = len(Query.objects.all())
+        return context
+
 
 class QuerySearchView(ListView):
     model = Query
@@ -44,6 +49,12 @@ class QuerySearchView(ListView):
             return queries
         else:
             return Query.objects.all().order_by('-date_created')
+
+    def get_context_data(self, **kwargs):
+        context = super(QuerySearchView, self).get_context_data(**kwargs)  # get the default context data
+        # TODO: is there a way to not have to call get_queryset again?
+        context['result_count'] = len(self.get_queryset())
+        return context
 
 
 class UserQueryListView(ListView):
@@ -70,12 +81,31 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
     model = Query
     fields = ['title', 'database', 'description', 'query']
 
+    # TODO: this pre-population IS NOT ORG-SAFE
+    # https://stackoverflow.com/questions/5666505/how-to-subclass-djangos-generic-createview-with-initial-data
+    def get_initial(self):
+        # Get the initial dictionary from the superclass method
+        initial = super(QueryCreateView, self).get_initial()
+        # Copy the dictionary so we don't accidentally change a mutable dict
+        initial = initial.copy()
+        # pre-populating database if a user has set one recently
+        most_recent_database = self.request.user.profile.most_recent_database
+        if most_recent_database is None:
+            return initial
+        else:
+            initial['database'] = most_recent_database
+            return initial
+
+
     def form_valid(self, form):
         form.instance.author = self.request.user
+        self.request.user.profile.most_recent_database = form.instance.database
+        self.request.user.profile.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super(QueryCreateView, self).get_context_data(**kwargs)  # get the default context data
+        form = context['form']
         context['title'] = "Create"
         return context
 
@@ -84,9 +114,10 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
     fields = ['title', 'database', 'description', 'query']
 
-    # def form_valid(self, form):
-    #     form.instance.author = self.request.user
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        self.request.user.profile.most_recent_database = form.instance.database
+        self.request.user.profile.save()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super(QueryEditView, self).get_context_data(**kwargs)  # get the default context data

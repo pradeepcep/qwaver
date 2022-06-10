@@ -20,18 +20,25 @@
         </div>
     </div>
 
+    <!-- Result count -->
+    {% if result_count > 0 %}
+        <div class="col-md-12 mt-4 mb-4 ml-0 pl-0 text-left" style="color: gray;">
+            {{ result_count }} results.
+        </div>
+    {% endif %}
+
     <!-- Queries -->
     {% for query in queries %}
-        <article class="">
-                        <img class="rounded-circle article-img float-right" src="{{ query.author.profile.image.url }}">
+        <article class="pl-0 pr-0">
+            <img class="rounded-circle article-img float-right" src="{{ query.author.profile.image.url }}">
             <div class="media-body">
-                                <div class="article-metadata">
-                                    <a class="mr-2" href="{% url 'user-queries' query.author.username %}">{{ query.author }}</a>
-                                    <small class="text-muted">{{ query.date_created|date:"F d, Y" }}</small>
-                                </div>
-                                <h3 class="mb-0"><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h3>
-{#                <h3 class="mb-0"><a class="article-title" onclick="hideShow('form_' + {{ query.id }})" href="#">{{ query }}</a>#}
-{#                </h3>#}
+                <div class="article-metadata">
+                    <a class="mr-2" href="{% url 'user-queries' query.author.username %}">{{ query.author }}</a>
+                    <small class="text-muted">{{ query.date_created|date:"F d, Y" }}</small>
+                </div>
+                <h3 class="mb-0"><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h3>
+                {#                <h3 class="mb-0"><a class="article-title" onclick="hideShow('form_' + {{ query.id }})" href="#">{{ query }}</a>#}
+                {#                </h3>#}
                 <div class="mb-4 mt-0">
                     <div style="color: gray" class="d-inline">{{ query.database }}</div>
                     {% if query.description != null %}

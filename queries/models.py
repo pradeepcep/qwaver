@@ -4,7 +4,26 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
+class Organization(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+
+class UserOrganization(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+
+
+class OrganizationInvite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+    email = models.CharField(max_length=128)
+
+
 class Database(models.Model):
+    # organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=0)
     title = models.CharField(max_length=256, default="")
     host = models.CharField(max_length=256)
     port = models.IntegerField()
@@ -86,12 +105,3 @@ class Action(models.Model):
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
     name = models.CharField(max_length=32, default="")
 
-
-class Topic(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=32, default="")
-
-
-class QueryTopic(models.Model):
-    query = models.ForeignKey(Query, on_delete=models.CASCADE)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)

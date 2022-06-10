@@ -2,15 +2,16 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <script src="https://unpkg.com/sql-formatter@2.3.3/dist/sql-formatter.min.js"></script>
-        <script>
-            function doFormat() {
-        let textarea = document.getElementById('id_query');
-        let content = textarea.textContent;
-        let format = window.sqlFormatter.format;
-        textarea.textContent = format(content);
-        myCodeMirror.setValue(format(content))
-            }
-        </script>
+    <script>
+        function doFormat() {
+            let textarea = document.getElementById('id_query');
+            {#let content = textarea.textContent;#}
+            let content = myCodeMirror.getValue();
+            let format = window.sqlFormatter.format;
+            textarea.textContent = format(content);
+            myCodeMirror.setValue(format(content))
+        }
+    </script>
     <script>
         function copyContent() {
             let textarea = document.getElementById('id_query');
@@ -42,7 +43,7 @@
                         </a>
                     </div>
                 {% endif %}
-                                <button class="btn btn-outline-success" type="button" onclick="doFormat();">Format</button>
+                <button class="btn btn-outline-success" type="button" onclick="doFormat();">Format</button>
             </div>
         </form>
     </div>
