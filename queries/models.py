@@ -3,27 +3,11 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-
-class Organization(models.Model):
-    name = models.CharField(max_length=64)
-
-    def __str__(self):
-        return self.name
-
-
-class UserOrganization(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
-
-
-class OrganizationInvite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
-    email = models.CharField(max_length=128)
+from users.models import Organization
 
 
 class Database(models.Model):
-    # organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=0)
+    organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=1)
     title = models.CharField(max_length=256, default="")
     host = models.CharField(max_length=256)
     port = models.IntegerField()
@@ -42,6 +26,12 @@ class Query(models.Model):
     query = models.TextField()
     date_created = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    active = models.BooleanField(
+        default=True,
+        help_text="Deactivate to remove query from search results. For example if the query is invalid.")
+    public = models.BooleanField(
+        default=True,
+        help_text="If public, your whole team can view it.  If not, only you.")
 
     def __str__(self):
         return self.title
@@ -62,7 +52,7 @@ class Parameter(models.Model):
     # if the user inputs a value for this field, then the template plus the value is inserted
     # e.g.: template_defined = "AND campaign_id = {v}"
     # whe the user inputs "54321", what is inserted in the query is "AND campaign_id = 54321"
-    template = models.CharField(max_length=256, blank=True, null=True)
+    template = models.CharField(max_length=256, blank=True, null=True, help_text='for example: "AND timestamp > {v}"')
 
     def __str__(self):
         return self.name
@@ -105,3 +95,12 @@ class Action(models.Model):
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
     name = models.CharField(max_length=32, default="")
 
+
+class UserQueryInfo(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="query_info")
+    most_recent_database = models.ForeignKey(
+        Database,
+        on_delete=models.DO_NOTHING,
+        null=True,
+        blank=True,
+        default=None)

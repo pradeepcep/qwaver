@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Query, Database, Parameter, Organization
+
+from users.models import Organization
+from .models import Query, Database, Parameter
 
 admin.site.register(Query)
 admin.site.register(Database)

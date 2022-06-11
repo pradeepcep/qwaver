@@ -1,7 +1,6 @@
-import logging
-
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
@@ -12,7 +11,8 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.models import Query, Parameter
+from queries.models import Query, Parameter, Database
+from users.models import Organization
 
 pagination_count = 10
 
@@ -30,7 +30,7 @@ class QueryListView(ListView):
         return context
 
 
-class QuerySearchView(ListView):
+class QuerySearchView(LoginRequiredMixin, ListView):
     model = Query
     template_name = 'queries/home.html'
     context_object_name = 'queries'
@@ -57,7 +57,7 @@ class QuerySearchView(ListView):
         return context
 
 
-class UserQueryListView(ListView):
+class UserQueryListView(LoginRequiredMixin, ListView):
     model = Query
     template_name = 'queries/user_queries.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'queries'
@@ -68,7 +68,7 @@ class UserQueryListView(ListView):
         return Query.objects.filter(author=user).order_by('-date_created')
 
 
-class QueryDetailView(DetailView):
+class QueryDetailView(LoginRequiredMixin, DetailView):
     model = Query
 
     def get_context_data(self, **kwargs):
@@ -81,26 +81,40 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
     model = Query
     fields = ['title', 'database', 'description', 'query']
 
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        org = Organization.objects.filter(name="Sift").first()
+        choices = Database.objects.filter(organization=org)
+        form.fields['database'].queryset = choices
+        return form
+
     # TODO: this pre-population IS NOT ORG-SAFE
     # https://stackoverflow.com/questions/5666505/how-to-subclass-djangos-generic-createview-with-initial-data
     def get_initial(self):
+        user = self.request.user
+        org = user.profile.selected_organization
+        if org is None:
+            raise PermissionDenied("Need a defined organization for profile of user " + user.username)
         # Get the initial dictionary from the superclass method
         initial = super(QueryCreateView, self).get_initial()
         # Copy the dictionary so we don't accidentally change a mutable dict
         initial = initial.copy()
         # pre-populating database if a user has set one recently
-        most_recent_database = self.request.user.profile.most_recent_database
-        if most_recent_database is None:
-            return initial
-        else:
-            initial['database'] = most_recent_database
-            return initial
-
+        org = user.profile.selected_organization
+        if hasattr(user, 'query_info'):
+            most_recent_database = user.query_info.most_recent_database
+            if most_recent_database is None:
+                initial['database'].choices = Database.objects.filter(organization=org)
+            else:
+                initial['database'] = most_recent_database
+        # else:
+            # initial['database'] = Database.objects.filter(organization=org)
+        return initial
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        self.request.user.profile.most_recent_database = form.instance.database
-        self.request.user.profile.save()
+        self.request.user.userQueryInfo.most_recent_database = form.instance.database
+        self.request.user.userQueryInfo.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -112,7 +126,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
 
 class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
-    fields = ['title', 'database', 'description', 'query']
+    fields = ['title', 'database', 'description', 'query', 'active', 'public']
 
     def form_valid(self, form):
         self.request.user.profile.most_recent_database = form.instance.database

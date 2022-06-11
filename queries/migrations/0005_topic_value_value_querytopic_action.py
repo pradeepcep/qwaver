@@ -13,27 +13,27 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Topic',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('name', models.CharField(default='', max_length=32)),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='Topic',
+        #     fields=[
+        #         ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('timestamp', models.DateTimeField(auto_now_add=True)),
+        #         ('name', models.CharField(default='', max_length=32)),
+        #     ],
+        # ),
         migrations.AddField(
             model_name='value',
             name='value',
             field=models.CharField(default='', max_length=256),
         ),
-        migrations.CreateModel(
-            name='QueryTopic',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('query', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='queries.query')),
-                ('topic', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='queries.topic')),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='QueryTopic',
+        #     fields=[
+        #         ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('query', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='queries.query')),
+        #         ('topic', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='queries.topic')),
+        #     ],
+        # ),
         migrations.CreateModel(
             name='Action',
             fields=[

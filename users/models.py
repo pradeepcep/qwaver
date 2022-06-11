@@ -2,14 +2,33 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 
-from queries.models import Database
+
+class Organization(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+
+class UserOrganization(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.user.username + " <> " + self.organization.name
+
+
+class OrganizationInvite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+    email = models.CharField(max_length=128)
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    most_recent_database = models.ForeignKey(
-        Database,
+    selected_organization = models.ForeignKey(
+        Organization,
         on_delete=models.DO_NOTHING,
         null=True,
         blank=True,
