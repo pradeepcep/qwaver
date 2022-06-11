@@ -24,9 +24,19 @@ class QueryListView(ListView):
     ordering = ['-date_created']
     paginate_by = pagination_count
 
+    def get_queryset(self):
+        user = self.request.user
+        org = user.profile.selected_organization
+        if org is None:
+            raise PermissionDenied("Need a defined organization for profile of user " + user.username)
+        databases = Database.objects.filter(organization=org)
+        # https://stackoverflow.com/questions/9410647/how-to-filter-model-results-for-multiple-values-for-a-many-to-many-field-in-djan
+        queries = Query.objects.filter(database_id__in=databases).order_by('-date_created')
+        return queries
+
     def get_context_data(self, **kwargs):
         context = super(QueryListView, self).get_context_data(**kwargs)  # get the default context data
-        context['result_count'] = len(Query.objects.all())
+        context['result_count'] = len(context['queries'])
         return context
 
 
@@ -81,6 +91,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
     model = Query
     fields = ['title', 'database', 'description', 'query']
 
+    # https://stackoverflow.com/questions/47363190/from-the-view-how-do-i-pass-custom-choices-into-a-forms-choicefield
     # https://stackoverflow.com/questions/5666505/how-to-subclass-djangos-generic-createview-with-initial-data
     def get_form(self, *args, **kwargs):
         user = self.request.user

@@ -1,6 +1,6 @@
 {% extends "queries/base.html" %}
 {% block content %}
-    <a class="btn btn-primary mb-4 mt-4" href="{% url 'database-create' %}" role="button">New Connection</a>
+    <a class="btn btn-primary mb-4 mt-4" href="{% url 'database-create' %}" role="button">New Database Connection</a>
     <h2>Databases</h2>
     {% for database in databases %}
         <article class="media content-section">
