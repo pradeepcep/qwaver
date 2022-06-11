@@ -81,35 +81,20 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
     model = Query
     fields = ['title', 'database', 'description', 'query']
 
-    def get_form(self, *args, **kwargs):
-        form = super().get_form(*args, **kwargs)
-        org = Organization.objects.filter(name="Sift").first()
-        choices = Database.objects.filter(organization=org)
-        form.fields['database'].queryset = choices
-        return form
-
-    # TODO: this pre-population IS NOT ORG-SAFE
     # https://stackoverflow.com/questions/5666505/how-to-subclass-djangos-generic-createview-with-initial-data
-    def get_initial(self):
+    def get_form(self, *args, **kwargs):
         user = self.request.user
         org = user.profile.selected_organization
         if org is None:
             raise PermissionDenied("Need a defined organization for profile of user " + user.username)
-        # Get the initial dictionary from the superclass method
-        initial = super(QueryCreateView, self).get_initial()
-        # Copy the dictionary so we don't accidentally change a mutable dict
-        initial = initial.copy()
-        # pre-populating database if a user has set one recently
-        org = user.profile.selected_organization
+        form = super().get_form(*args, **kwargs)
+        choices = Database.objects.filter(organization=org)
+        form.fields['database'].queryset = choices
         if hasattr(user, 'query_info'):
             most_recent_database = user.query_info.most_recent_database
-            if most_recent_database is None:
-                initial['database'].choices = Database.objects.filter(organization=org)
-            else:
-                initial['database'] = most_recent_database
-        # else:
-            # initial['database'] = Database.objects.filter(organization=org)
-        return initial
+            if most_recent_database is not None:
+                form.fields['database'] = most_recent_database
+        return form
 
     def form_valid(self, form):
         form.instance.author = self.request.user
