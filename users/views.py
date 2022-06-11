@@ -1,7 +1,9 @@
+from django.forms import ModelMultipleChoiceField
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .models import UserOrganization
 
 
 def register(request):
@@ -19,11 +21,16 @@ def register(request):
 
 @login_required
 def profile(request):
+    user_orgs = UserOrganization.objects.filter(user=request.user)
+    # https://stackoverflow.com/questions/39702538/python-converting-a-queryset-in-a-list-of-tuples
+    # converting the queryset to list of tuples
+    orgs = [(q.organization.pk, q.organization.name) for q in user_orgs]
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,
                                    request.FILES,
                                    instance=request.user.profile)
+        p_form.fields['selected_organization'].choices = orgs
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
@@ -33,6 +40,7 @@ def profile(request):
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
+        p_form.fields['selected_organization'].choices = orgs
 
     context = {
         'u_form': u_form,
