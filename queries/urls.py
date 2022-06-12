@@ -11,7 +11,8 @@ urlpatterns = [
     path('query/<int:pk>/edit/', QueryEditView.as_view(), name='query-update'),
     path('query/<int:pk>/', QueryDetailView.as_view(), name='query-detail'),
     # path('query/<int:query_id>/', instance.as_view, name='query-detail'),
-    path('query/<int:id>/run', result.execute, name='query-run'),
+    # TODO: run needs to be org safe
+    path('query/<int:id>/run/', result.execute, name='query-run'),
     path('query/<int:pk>/delete/', QueryDeleteView.as_view(), name='query-delete'),
     path('query/<int:pk>/clone/', QueryCloneView.as_view(), name='query-clone'),
     path('query/search/', QuerySearchView.as_view(), name='query-search'),

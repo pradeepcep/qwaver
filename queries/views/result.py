@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import sqlalchemy
 from django.db import ProgrammingError, Error
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from psycopg2 import DataError
 from sqlalchemy import create_engine
 from io import BytesIO
@@ -17,9 +17,12 @@ max_table_rows = 50
 image_encoding = 'jpg'
 plt.style.use('dark_background')
 
+# get user
+# if no user then redirect to regristration
+
 
 def execute(request, id):
-    query = Query.objects.get(pk=id)
+    query = get_object_or_404(Query, pk=id)
     params = Parameter.objects.filter(query=query)
     db = query.database
 

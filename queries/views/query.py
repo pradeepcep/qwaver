@@ -11,13 +11,30 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.models import Query, Parameter, Database
+from queries.models import Query, Parameter, Database, UserQueryInfo
 from users.models import Organization
 
 pagination_count = 10
 
 
-class QueryListView(ListView):
+def get_org_databases(self):
+    user = self.request.user
+    org = user.profile.selected_organization
+    if org is None:
+        raise PermissionDenied("Need a defined organization for profile of user " + user.username)
+    databases = Database.objects.filter(organization=org)
+    return databases
+
+
+def query_in_org_check(self, query):
+    user = self.request.user
+    if query.database.organization != user.profile.selected_organization:
+        raise PermissionDenied(
+            "query not part of the organization selected in user profile "
+            + user.profile.selected_organization.name)
+
+
+class QueryListView(LoginRequiredMixin, ListView):
     model = Query
     template_name = 'queries/home.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'queries'
@@ -25,13 +42,8 @@ class QueryListView(ListView):
     paginate_by = pagination_count
 
     def get_queryset(self):
-        user = self.request.user
-        org = user.profile.selected_organization
-        if org is None:
-            raise PermissionDenied("Need a defined organization for profile of user " + user.username)
-        databases = Database.objects.filter(organization=org)
         # https://stackoverflow.com/questions/9410647/how-to-filter-model-results-for-multiple-values-for-a-many-to-many-field-in-djan
-        queries = Query.objects.filter(database_id__in=databases).order_by('-date_created')
+        queries = Query.objects.filter(database_id__in=get_org_databases(self)).order_by('-date_created')
         return queries
 
     def get_context_data(self, **kwargs):
@@ -48,17 +60,18 @@ class QuerySearchView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         s = self.request.GET.get('s')
-        if len(s) > 0:
+        databases = get_org_databases(self)
+        if s is not None and len(s) > 0:
             words = s.split()
             # https://stackoverflow.com/questions/20222457/django-building-a-queryset-with-q-objects
             # https://docs.djangoproject.com/en/4.0/ref/models/querysets/#q-objects
-            q = Q(title__contains=words[0]) | Q(description__contains=words[0])
-            for word in words[1:]:
+            q = Q(database_id__in=databases)
+            for word in words:
                 q &= Q(title__contains=word) | Q(description__contains=word)
             queries = Query.objects.filter(q).order_by('-date_created')
             return queries
         else:
-            return Query.objects.all().order_by('-date_created')
+            return Query.objects.filter(database_id__in=databases).order_by('-date_created')
 
     def get_context_data(self, **kwargs):
         context = super(QuerySearchView, self).get_context_data(**kwargs)  # get the default context data
@@ -75,11 +88,19 @@ class UserQueryListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Query.objects.filter(author=user).order_by('-date_created')
+        databases = get_org_databases(self)
+        q = Q(database_id__in=databases)
+        q &= Q(author=user)
+        return Query.objects.filter(q).order_by('-date_created')
 
 
 class QueryDetailView(LoginRequiredMixin, DetailView):
     model = Query
+
+    def get_object(self, queryset=None):
+        query = get_object_or_404(Query, id=self.kwargs.get('pk'))
+        query_in_org_check(self, query)
+        return query
 
     def get_context_data(self, **kwargs):
         context = super(QueryDetailView, self).get_context_data(**kwargs)  # get the default context data
@@ -95,12 +116,8 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
     # https://stackoverflow.com/questions/5666505/how-to-subclass-djangos-generic-createview-with-initial-data
     def get_form(self, *args, **kwargs):
         user = self.request.user
-        org = user.profile.selected_organization
-        if org is None:
-            raise PermissionDenied("Need a defined organization for profile of user " + user.username)
         form = super().get_form(*args, **kwargs)
-        choices = Database.objects.filter(organization=org)
-        form.fields['database'].queryset = choices
+        form.fields['database'].queryset = get_org_databases(self)
         if hasattr(user, 'query_info'):
             most_recent_database = user.query_info.most_recent_database
             if most_recent_database is not None:
@@ -109,13 +126,21 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        self.request.user.userQueryInfo.most_recent_database = form.instance.database
-        self.request.user.userQueryInfo.save()
+        # user_query_info = self.request.user.userqueryinfo
+        # if user_query_info is None:
+        #     user_query_info = UserQueryInfo(
+        #         user=self.request.user,
+        #         most_recent_database=form.instance.database)
+        #     user_query_info.save()
+        # else:
+        #     self.request.user.userqueryinfo.most_recent_database = form.instance.database
+        #     self.request.user.userQueryInfo.save()
+        # self.request.user.userqueryinfo.most_recent_database = form.instance.database
+        # self.request.user.userQueryInfo.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super(QueryCreateView, self).get_context_data(**kwargs)  # get the default context data
-        form = context['form']
         context['title'] = "Create"
         return context
 
@@ -123,6 +148,11 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
 class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
     fields = ['title', 'database', 'description', 'query', 'active', 'public']
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        form.fields['database'].queryset = get_org_databases(self)
+        return form
 
     def form_valid(self, form):
         self.request.user.profile.most_recent_database = form.instance.database
@@ -136,10 +166,8 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def test_func(self):
-        # query = self.get_object()
-        # if self.request.user == query.author:
-        #     return True
-        # return False
+        query = self.get_object()
+        query_in_org_check(self, query)
         return True
 
 
@@ -149,6 +177,7 @@ class QueryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         query = self.get_object()
+        query_in_org_check(self, query)
         if self.request.user == query.author:
             return True
         return False
@@ -161,6 +190,7 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_object(self, queryset=None):
         query = get_object_or_404(Query, id=self.kwargs.get('pk'))
+        query_in_org_check(self, query)
         clone = Query.objects.create(
             title=query.title,
             database=query.database,
@@ -189,4 +219,6 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def test_func(self):
+        query = self.get_object()
+        query_in_org_check(self, query)
         return True
