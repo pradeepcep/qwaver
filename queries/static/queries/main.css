@@ -1,34 +1,26 @@
 /* Dracula theme: https://draculatheme.com/contribute */
 
 body {
-    background: #111111;
-    color: #f8f8f2;
     margin-top: 5rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: white;
 }
 
 ul {
     margin: 0;
 }
 
-.bg-steel {
-    background-color: #282a36;
-}
-
 .list-group-item {
-    background-color: #282a36;
-    border: 1px solid #111111;
+    border: 1px solid;
 }
 
 .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
+
 }
 
 .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
+
 }
 
 .site-header .navbar-nav .nav-link.active {
@@ -36,19 +28,17 @@ ul {
 }
 
 .content-section {
-    background: #111111;
     padding: 10px 20px;
-    border: 1px solid #44475a;
+    border: 1px solid;
     border-radius: 3px;
     margin-bottom: 20px;
 }
 
 .article-title {
-    color: #8ab4f8;
+
 }
 
 a.article-title:hover {
-    color: #80b0f0;
     text-decoration: none;
 }
 
@@ -65,11 +55,10 @@ a.article-title:hover {
 .article-metadata {
     padding-bottom: 1px;
     margin-bottom: 4px;
-    border-bottom: 1px solid #bd93f9
+    border-bottom: 1px solid;
 }
 
 .article-metadata a:hover {
-    color: #333;
     text-decoration: none;
 }
 
@@ -91,7 +80,6 @@ a.article-title:hover {
 }
 
 .search-field {
-    background-color: black;
     border: 1px solid;
     display: inline-block;
     font-weight: 400;
@@ -101,11 +89,10 @@ a.article-title:hover {
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0.25rem;
-    color: white
 }
 
 .search-box {
-    border: 1px solid #44475a;
+    border: 1px solid;
     border-radius: 0.25rem;
 }
 
@@ -114,11 +101,9 @@ a.article-title:hover {
 }
 
 .form-control {
-    background-color: #282a36;
-    border: none;
-    color: white;
+    /*border: none;*/
 }
 
 pre {
-    color: yellow;
+
 }

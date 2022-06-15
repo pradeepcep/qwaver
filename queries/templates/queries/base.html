@@ -14,6 +14,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
     <link rel="stylesheet" type="text/css" href="{% static 'queries/main.css' %}">
+    {% if user.is_authenticated and user.profile.display_mode == 2 %}
+        <link rel="stylesheet" type="text/css" href="{% static 'queries/main-dark.css' %}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static 'queries/main-light.css' %}">
+    {% endif %}
+
 
     <script src="{% static 'queries/codemirror/codemirror.js' %}"></script>
     <link rel="stylesheet" href="{% static 'queries/codemirror/codemirror.css' %}">

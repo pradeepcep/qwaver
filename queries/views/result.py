@@ -15,7 +15,6 @@ from ..models import Query, Parameter
 
 max_table_rows = 50
 image_encoding = 'jpg'
-plt.style.use('dark_background')
 
 # get user
 # if no user then redirect to regristration
@@ -25,6 +24,11 @@ def execute(request, id):
     query = get_object_or_404(Query, pk=id)
     params = Parameter.objects.filter(query=query)
     db = query.database
+    if request.user.profile.display_mode == 2:
+        plt.style.use('dark_background')
+    else:
+        # https://www.geeksforgeeks.org/style-plots-using-matplotlib/
+        plt.style.use('fast')
 
     # creating context for params data
     sql = query.query
