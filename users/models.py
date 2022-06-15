@@ -33,6 +33,12 @@ class Profile(models.Model):
         null=True,
         blank=True,
         default=None)
+    most_recent_database = models.ForeignKey(
+        'queries.Database',
+        on_delete=models.DO_NOTHING,
+        null=True,
+        blank=True,
+        default=None)
     display_mode = models.IntegerField(choices=((1, 'light'), (2, 'dark')), default=1)
 
     def __str__(self):

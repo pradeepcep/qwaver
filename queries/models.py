@@ -94,13 +94,3 @@ class Action(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
     name = models.CharField(max_length=32, default="")
-
-
-class UserQueryInfo(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="query_info")
-    most_recent_database = models.ForeignKey(
-        Database,
-        on_delete=models.DO_NOTHING,
-        null=True,
-        blank=True,
-        default=None)

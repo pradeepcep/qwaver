@@ -11,8 +11,7 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.models import Query, Parameter, Database, UserQueryInfo
-from users.models import Organization
+from queries.models import Query, Parameter, Database
 
 pagination_count = 10
 
@@ -118,25 +117,15 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         user = self.request.user
         form = super().get_form(*args, **kwargs)
         form.fields['database'].queryset = get_org_databases(self)
-        if hasattr(user, 'query_info'):
-            most_recent_database = user.query_info.most_recent_database
-            if most_recent_database is not None:
-                form.fields['database'] = most_recent_database
+        most_recent_database = user.profile.most_recent_database
+        if most_recent_database is not None:
+            form.fields['database'].initial = most_recent_database
         return form
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        # user_query_info = self.request.user.userqueryinfo
-        # if user_query_info is None:
-        #     user_query_info = UserQueryInfo(
-        #         user=self.request.user,
-        #         most_recent_database=form.instance.database)
-        #     user_query_info.save()
-        # else:
-        #     self.request.user.userqueryinfo.most_recent_database = form.instance.database
-        #     self.request.user.userQueryInfo.save()
-        # self.request.user.userqueryinfo.most_recent_database = form.instance.database
-        # self.request.user.userQueryInfo.save()
+        self.request.user.profile.most_recent_database = form.instance.database
+        self.request.user.profile.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
