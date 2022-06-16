@@ -62,10 +62,13 @@ def execute(request, id):
             chart = None
             if is_chart:
                 chart = get_chart(df_reduced)
+            table_style = ""
+            if request.user.profile.display_mode == 2:
+                table_style = "table-dark"
             context = {
                 'title': title,
                 'table': df_reduced,
-                'tableHtml': df_reduced.to_html(classes=["table table-dark table-sm table-responsive"],
+                'tableHtml': df_reduced.to_html(classes=[f"table {table_style} table-sm table-responsive"],
                                                 table_id="results",
                                                 index=False),
                 'query': query,
