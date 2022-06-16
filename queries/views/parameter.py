@@ -43,16 +43,8 @@ class ParameterEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context['query'] = self.object.query
         return context
 
-    def test_func(self):
-        return True
-
-
-class ParameterDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Parameter
-
     def get_success_url(self):
         return reverse('query-detail', args=[self.object.query.id])
 
-    @staticmethod
-    def test_func():
+    def test_func(self):
         return True

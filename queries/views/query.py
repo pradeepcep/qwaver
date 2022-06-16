@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
     ListView,
@@ -10,6 +11,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
+import re
 
 from queries.models import Query, Parameter, Database
 
@@ -124,8 +126,19 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        # updating user's profile so their default database is the one just used
         self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
+        # creating any parameters
+        param_strings = set(re.findall(r'\\{(.*?)\\}', form.instance.query))
+        for param_string in param_strings:
+            new_parameter = Parameter(
+                user=self.request.user,
+                query=form.instance,
+                name=param_string,
+                default=""
+            )
+            new_parameter.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -146,6 +159,24 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
+        # creating any parameters
+        param_strings = set(re.findall(r'\{(.*?)\}', form.instance.query))
+        # retrieve currently created params
+        params = Parameter.objects.filter(query=form.instance)
+        # delete any params not represented by param_strings
+        for param in params:
+            if param.name not in param_strings:
+                param.delete()
+        # creating params not represented in param_strings
+        for param_string in param_strings:
+            if not any(param.name == param_string for param in params):
+                new_parameter = Parameter(
+                    user=self.request.user,
+                    query=form.instance,
+                    name=param_string,
+                    default=""
+                )
+                new_parameter.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
