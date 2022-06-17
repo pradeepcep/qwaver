@@ -18,7 +18,6 @@ urlpatterns = [
     path('query/search/', QuerySearchView.as_view(), name='query-search'),
 
     path('param/new/<int:query_id>/', ParameterCreateView.as_view(), name='param-create'),
-    path('param/<int:pk>/', ParameterDetailView.as_view(), name='param-detail'),
     path('param/<int:pk>/edit/', ParameterEditView.as_view(), name='param-update'),
 
     path('instance/new/<int:query_id>/', instance.as_view, name='instance-create'),

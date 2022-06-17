@@ -1,8 +1,8 @@
+import re
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
     ListView,
@@ -11,28 +11,11 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-import re
 
-from queries.models import Query, Parameter, Database
+from queries.models import Query, Parameter
+from queries.views import get_org_databases, user_can_access_query
 
 pagination_count = 10
-
-
-def get_org_databases(self):
-    user = self.request.user
-    org = user.profile.selected_organization
-    if org is None:
-        raise PermissionDenied("Need a defined organization for profile of user " + user.username)
-    databases = Database.objects.filter(organization=org)
-    return databases
-
-
-def query_in_org_check(self, query):
-    user = self.request.user
-    if query.database.organization != user.profile.selected_organization:
-        raise PermissionDenied(
-            "query not part of the organization selected in user profile "
-            + user.profile.selected_organization.name)
 
 
 class QueryListView(LoginRequiredMixin, ListView):
@@ -99,8 +82,9 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
     model = Query
 
     def get_object(self, queryset=None):
+        user = self.request.user
         query = get_object_or_404(Query, id=self.kwargs.get('pk'))
-        query_in_org_check(self, query)
+        user_can_access_query(user, query)
         return query
 
     def get_context_data(self, **kwargs):
@@ -186,8 +170,9 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def test_func(self):
+        user = self.request.user
         query = self.get_object()
-        query_in_org_check(self, query)
+        user_can_access_query(user, query)
         return True
 
 
@@ -196,8 +181,9 @@ class QueryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = '/'
 
     def test_func(self):
+        user = self.request.user
         query = self.get_object()
-        query_in_org_check(self, query)
+        user_can_access_query(user, query)
         if self.request.user == query.author:
             return True
         return False
@@ -209,20 +195,21 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'queries/query_form.html'
 
     def get_object(self, queryset=None):
+        user = self.request.user
         query = get_object_or_404(Query, id=self.kwargs.get('pk'))
-        query_in_org_check(self, query)
+        user_can_access_query(user, query)
         clone = Query.objects.create(
             title=query.title,
             database=query.database,
             description=query.description,
             query=query.query,
-            author=self.request.user
+            author=user
         )
         clone.save()
         params = Parameter.objects.filter(query=query)
         for param in params:
             param_clone = Parameter.objects.create(
-                user=self.request.user,
+                user=user,
                 query=clone,
                 name=param.name,
                 default=param.default,
@@ -239,6 +226,7 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def test_func(self):
+        user = self.request.user
         query = self.get_object()
-        query_in_org_check(self, query)
+        user_can_access_query(user, query)
         return True

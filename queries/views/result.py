@@ -1,30 +1,30 @@
-import pandas as pd
 import base64
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-import sqlalchemy
-from django.db import ProgrammingError, Error
-from django.shortcuts import render, redirect, get_object_or_404
-from psycopg2 import DataError
-from sqlalchemy import create_engine
 from io import BytesIO
-from pandas.api.types import is_numeric_dtype
 
+import matplotlib.pyplot as plt
+import pandas as pd
+import sqlalchemy
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from pandas.api.types import is_numeric_dtype
+from sqlalchemy import create_engine
+
+from . import user_can_access_query
 from ..models import Query, Parameter
 
 max_table_rows = 50
 image_encoding = 'jpg'
 
-# get user
-# if no user then redirect to regristration
-
 
 def execute(request, id):
+    if not request.user.is_authenticated:
+        return redirect(reverse('login'))
     query = get_object_or_404(Query, pk=id)
+    user_can_access_query(request.user, query)
     params = Parameter.objects.filter(query=query)
     db = query.database
-    if request.user.profile.display_mode == 2:
+    is_dark = request.user.is_authenticated and request.user.profile.display_mode == 2
+    if is_dark:
         plt.style.use('dark_background')
     else:
         # https://www.geeksforgeeks.org/style-plots-using-matplotlib/
@@ -63,7 +63,7 @@ def execute(request, id):
             if is_chart:
                 chart = get_chart(df_reduced)
             table_style = ""
-            if request.user.profile.display_mode == 2:
+            if is_dark:
                 table_style = "table-dark"
             context = {
                 'title': title,

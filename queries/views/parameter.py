@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import (
     DetailView,
@@ -8,6 +9,7 @@ from django.views.generic import (
 )
 
 from queries.models import Parameter, Query
+from queries.views.access import user_can_access_query
 
 
 class ParameterCreateView(LoginRequiredMixin, CreateView):
@@ -15,18 +17,17 @@ class ParameterCreateView(LoginRequiredMixin, CreateView):
     fields = ['name', 'default', 'template']
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.instance.query = Query.objects.get(pk=self.kwargs['query_id'])
+        user = self.request.user
+        query = get_object_or_404(Query, pk=self.kwargs['query_id'])
+        form.instance.user = user
+        form.instance.query = query
+        user_can_access_query(user, query)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super(ParameterCreateView, self).get_context_data(**kwargs)  # get the default context data
         context['query'] = Query.objects.get(pk=self.kwargs['query_id'])
         return context
-
-
-class ParameterDetailView(DetailView):
-    model = Parameter
 
 
 class ParameterEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -47,4 +48,10 @@ class ParameterEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse('query-detail', args=[self.object.query.id])
 
     def test_func(self):
+        return True
+
+    def test_func(self):
+        user = self.request.user
+        query = self.get_object().query
+        user_can_access_query(user, query)
         return True

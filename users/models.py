@@ -5,6 +5,7 @@ from PIL import Image
 
 class Organization(models.Model):
     name = models.CharField(max_length=64)
+    readonly_fields = ('id',)
 
     def __str__(self):
         return self.name

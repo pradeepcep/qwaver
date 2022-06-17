@@ -47,7 +47,9 @@
                     aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarToggle">
+
+            {% if user.is_authenticated %}
+                <div class="collapse navbar-collapse" id="navbarToggle">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-item nav-link" href="{% url 'query-create' %}">New Query</a>
@@ -64,28 +66,29 @@
                         </div>
                     </li>
                 </ul>
+            {% endif %}
 
-                <!-- Navbar Right Side -->
-                <div class="navbar-nav">
-                    {% if user.is_authenticated %}
-                        <div class="dropdown show">
-                            <a class="btn btn-primary-outline dropdown-toggle" href="#" role="button"
-                               id="dropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ user.username }}
-                            </a>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <div class="dropdown show">
+                        <a class="btn btn-primary-outline dropdown-toggle" href="#" role="button"
+                           id="dropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ user.username }}
+                        </a>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                                <a class="dropdown-item" href="/admin">Admin</a>
-                            </div>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                            <a class="dropdown-item" href="/admin">Admin</a>
                         </div>
-                    {% else %}
-                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-                    {% endif %}
-                </div>
+                    </div>
+                {% else %}
+                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                    <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
             </div>
         </div>
     </nav>
