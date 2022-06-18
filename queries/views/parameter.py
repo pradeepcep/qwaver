@@ -12,24 +12,6 @@ from queries.models import Parameter, Query
 from queries.views.access import user_can_access_query
 
 
-class ParameterCreateView(LoginRequiredMixin, CreateView):
-    model = Parameter
-    fields = ['name', 'default', 'template']
-
-    def form_valid(self, form):
-        user = self.request.user
-        query = get_object_or_404(Query, pk=self.kwargs['query_id'])
-        form.instance.user = user
-        form.instance.query = query
-        user_can_access_query(user, query)
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super(ParameterCreateView, self).get_context_data(**kwargs)  # get the default context data
-        context['query'] = Query.objects.get(pk=self.kwargs['query_id'])
-        return context
-
-
 class ParameterEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Parameter
     fields = ['name', 'default', 'template']

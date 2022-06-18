@@ -12,8 +12,9 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.models import Query, Parameter
+from queries.models import Query, Parameter, Database
 from queries.views import get_org_databases, user_can_access_query
+from queries.views.access import user_can_access_database
 
 pagination_count = 10
 
@@ -109,7 +110,10 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        user = self.request.user
+        database = get_object_or_404(Database, pk=form.instance.database.id)
+        user_can_access_database(user, database)
+        form.instance.author = user
         # updating user's profile so their default database is the one just used
         self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
@@ -117,7 +121,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         param_strings = set(re.findall(r'\\{(.*?)\\}', form.instance.query))
         for param_string in param_strings:
             new_parameter = Parameter(
-                user=self.request.user,
+                user=user,
                 query=form.instance,
                 name=param_string,
                 default=""
