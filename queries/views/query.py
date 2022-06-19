@@ -33,7 +33,7 @@ class QueryListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(QueryListView, self).get_context_data(**kwargs)  # get the default context data
-        context['result_count'] = len(context['queries'])
+        context['result_count'] = len(self.object_list)
         return context
 
 
