@@ -12,7 +12,9 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.models import Query, Parameter, Database
+from queries.domain.ActionEnum import ActionEnum
+from queries.domain.TableEnum import TableEnum
+from queries.models import Query, Parameter, Database, UserSearch, UserAction
 from queries.views import get_org_databases, user_can_access_query
 from queries.views.access import user_can_access_database
 
@@ -47,6 +49,12 @@ class QuerySearchView(LoginRequiredMixin, ListView):
         s = self.request.GET.get('s')
         databases = get_org_databases(self)
         if s is not None and len(s) > 0:
+            # saving query
+            user = self.request.user
+            org = user.profile.selected_organization
+            user_search = UserSearch(user=user, organization=org, search=s)
+            user_search.save()
+            # performing search
             words = s.split()
             # https://stackoverflow.com/questions/20222457/django-building-a-queryset-with-q-objects
             # https://docs.djangoproject.com/en/4.0/ref/models/querysets/#q-objects
@@ -165,6 +173,15 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     default=""
                 )
                 new_parameter.save()
+        # logging action
+        user_action = UserAction(
+            user=self.request.user,
+            organiztion=form.instance.organization,
+            row_id=form.instance.id,
+            action=ActionEnum.EDIT,
+            table=TableEnum.QUERY
+        )
+        user_action.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

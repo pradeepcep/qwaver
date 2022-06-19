@@ -47,7 +47,7 @@ class Parameter(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
-    name = models.CharField(max_length=256, default="")
+    name = models.CharField(max_length=64, default="")
     default = models.CharField(max_length=256, blank=True, null=True)
     # if the user inputs a value for this field, then the template plus the value is inserted
     # e.g.: template_defined = "AND campaign_id = {v}"
@@ -82,15 +82,22 @@ class Result(models.Model):
 
 # the specific value for an input field
 class Value(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
-    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    parameter_name = models.CharField(max_length=64, default="")
     value = models.CharField(max_length=256, default="")
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
 
 
-class Action(models.Model):
+class UserAction(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    query = models.ForeignKey(Query, on_delete=models.CASCADE)
-    name = models.CharField(max_length=32, default="")
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    row_id = models.IntegerField()
+    action = models.IntegerField()
+    table = models.IntegerField()
+
+
+class UserSearch(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    search = models.CharField(max_length=64, default="")

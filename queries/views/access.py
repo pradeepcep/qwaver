@@ -1,6 +1,8 @@
 from django.core.exceptions import PermissionDenied
 
-from queries.models import Database
+from queries.domain.ActionEnum import ActionEnum
+from queries.domain.TableEnum import TableEnum
+from queries.models import Database, UserAction
 from users.models import UserOrganization
 
 
@@ -24,5 +26,13 @@ def user_can_access_database(user, database):
         user.profile.selected_organization = database.organization
         user.profile.save()
     else:
+        user_action = UserAction(
+            user=user,
+            organiztion=database.organization,
+            row_id=database.id,
+            action=ActionEnum.PERMISSION_DENIED,
+            table=TableEnum.DATABASE
+        )
+        user_action.save()
         raise PermissionDenied(
             "user not part of the organization to which the database belongs")

@@ -1,0 +1,9 @@
+{% extends "queries/base.html" %}
+{% block content %}
+    <h2>Searches</h2>
+    <ul>
+    {% for search in searches %}
+            <li><img class="rounded-circle article-img" src="{{ search.user.profile.image.url }}"> {{ search.search }}, {{ search.timestamp }}</li>
+    {% endfor %}
+    </ul>
+{% endblock content %}

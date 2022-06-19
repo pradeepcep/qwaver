@@ -27,4 +27,7 @@ urlpatterns = [
     path('database/<int:pk>/edit/', DatabaseEditView.as_view(), name='database-update'),
     path('databases/', DatabaseListView.as_view(), name='database-list'),
     path('database/<int:pk>/delete/', DatabaseDeleteView.as_view(), name='database-delete'),
+
+    path('searches/', UserSearchListView.as_view(), name='query-searches'),
+
 ]
