@@ -3,7 +3,7 @@
     <h2>Searches</h2>
     <ul>
     {% for search in searches %}
-            <li><img class="rounded-circle article-img" src="{{ search.user.profile.image.url }}"> {{ search.search }}, {{ search.timestamp }}</li>
+        <li><img class="rounded-circle article-img" src="{{ search.user.profile.image.url }}"> {{ search.search }}, <div style="color: #333; display: inline" class="inline">{{ search.timestamp }}</div></li>
     {% endfor %}
     </ul>
 {% endblock content %}

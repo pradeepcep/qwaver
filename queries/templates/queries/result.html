@@ -22,7 +22,7 @@
                     <h1 class="display-1">{{ single|safe }}</h1>
                 {% elif is_chart %}
                     <img src="data:image/{{ image_encoding }};base64,{{ chart|safe }}" class="contain"/>
-                    <div style="display: none">
+                    <div style="">
                         {{ tableHtml|safe }}
                     </div>
                 {% else %}

@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class ActionEnum(Enum):
+class ActionEnum(IntEnum):
     CREATE = 1
     EDIT = 2
     RUN = 3

@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class TableEnum(Enum):
+class TableEnum(IntEnum):
     QUERY = 1
     DATABASE = 2
     COMMENT = 3

@@ -52,8 +52,7 @@ class QuerySearchView(LoginRequiredMixin, ListView):
             # saving query
             user = self.request.user
             org = user.profile.selected_organization
-            user_search = UserSearch(user=user, organization=org, search=s)
-            user_search.save()
+            UserSearch.objects.create(user=user, organization=org, search=s)
             # performing search
             words = s.split()
             # https://stackoverflow.com/questions/20222457/django-building-a-queryset-with-q-objects
@@ -68,8 +67,7 @@ class QuerySearchView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(QuerySearchView, self).get_context_data(**kwargs)  # get the default context data
-        # TODO: is there a way to not have to call get_queryset again?
-        context['result_count'] = len(self.get_queryset())
+        context['result_count'] = len(self.object_list)
         return context
 
 
@@ -153,6 +151,7 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return form
 
     def form_valid(self, form):
+        user_can_access_query(self.request.user, form.instance)
         self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
         # creating any parameters
@@ -176,7 +175,7 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # logging action
         user_action = UserAction(
             user=self.request.user,
-            organiztion=form.instance.organization,
+            organization=form.instance.database.organization,
             row_id=form.instance.id,
             action=ActionEnum.EDIT,
             table=TableEnum.QUERY
@@ -191,9 +190,6 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def test_func(self):
-        user = self.request.user
-        query = self.get_object()
-        user_can_access_query(user, query)
         return True
 
 
@@ -226,7 +222,6 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             query=query.query,
             author=user
         )
-        clone.save()
         params = Parameter.objects.filter(query=query)
         for param in params:
             param_clone = Parameter.objects.create(
@@ -239,6 +234,10 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             param_clone.save()
         return clone
 
+    def form_valid(self, form):
+        user_can_access_query(self.request.user, form.instance)
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super(QueryCloneView, self).get_context_data(**kwargs)  # get the default context data
         context['title'] = "Clone"
@@ -247,7 +246,4 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def test_func(self):
-        user = self.request.user
-        query = self.get_object()
-        user_can_access_query(user, query)
         return True
