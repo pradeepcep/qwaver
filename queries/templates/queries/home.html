@@ -30,7 +30,6 @@
     <!-- Queries -->
     {% for query in queries %}
         <article class="pl-0 pr-0">
-            <img class="rounded-circle article-img float-right" src="{{ query.author.profile.image.url }}">
             <div class="media-body">
                 <div class="article-metadata">
                     <a class="mr-2" href="{% url 'user-queries' query.author.username %}">{{ query.author }}</a>

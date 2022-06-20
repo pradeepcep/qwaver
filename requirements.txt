@@ -12,3 +12,4 @@ pandas
 numpy
 matplotlib
 psycopg2-binary==2.9.3
+pymysql

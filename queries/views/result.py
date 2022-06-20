@@ -3,6 +3,7 @@ from io import BytesIO
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import pymysql
 import sqlalchemy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -47,16 +48,19 @@ def execute(request, id):
     # formatting the text to avoid problems with the % character in queries
     sql = sqlalchemy.text(sql)
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
-    engine = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+    if db.title == "Aurora":
+        connection = create_engine(f"mysql+pymysql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+    else:
+        connection = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     if is_easter:
         return render(request, 'queries/easter.html', {})
         # return redirect("http://synthblast.com")
     else:
         try:
-            df = pd.read_sql(sql, engine)
+            df = pd.read_sql(sql, connection)
             # df_reduced = df.head(max_table_rows)
             df_reduced = df
-            is_chart = df.columns.size > 1 and len(df.index) > 2 and is_numeric_dtype(df.iloc[:, 1])
+            is_chart = df.columns.size == 2 and len(df.index) > 1 and is_numeric_dtype(df.iloc[:, 1])
             is_single = df.columns.size == 1 and len(df.index) == 1
             single = df.iat[0, 0]
             chart = None
