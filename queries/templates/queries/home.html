@@ -58,20 +58,21 @@
                     <div class="form-group">
                         <button class="btn btn-primary" type="submit">Run</button>
                     </div>
-
-                    {% if query.author == user %}
-                        <div class="float-right">
-                            <a class="btn btn-outline-secondary btn-sm mr-1"
-                               href="{% url 'query-update' query.id %}">Edit</a>
-                            <a class="btn btn-outline-success btn-sm mr-1" href="{% url 'query-clone' query.id %}">
-                                <i class="bi bi-files mr-1"></i>
-                                Clone
-                            </a>
-                            <a class="btn btn-outline-danger btn-sm mr-1"
-                               href="{% url 'query-delete' query.id %}">Delete</a>
-                        </div>
-                    {% endif %}
                 </form>
+                {% if query.author == user %}
+                    <div class="container">
+                    <div class="">
+                        <a class="btn btn-outline-secondary btn-sm mr-1"
+                           href="{% url 'query-update' query.id %}">Edit</a>
+                        <a class="btn btn-outline-success btn-sm mr-1" href="{% url 'query-clone' query.id %}">
+                            <i class="bi bi-files mr-1"></i>
+                            Clone
+                        </a>
+                        <a class="btn btn-outline-danger btn-sm mr-1"
+                           href="{% url 'query-delete' query.id %}">Delete</a>
+                    </div>
+                    </div>
+                {% endif %}
             </div>
         </article>
     {% endfor %}

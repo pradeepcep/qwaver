@@ -13,7 +13,7 @@ from sqlalchemy import create_engine
 from . import user_can_access_query
 from ..models import Query, Parameter
 
-max_table_rows = 50
+max_table_rows = 100
 image_encoding = 'jpg'
 
 
@@ -58,14 +58,21 @@ def execute(request, id):
     else:
         try:
             df = pd.read_sql(sql, connection)
-            # df_reduced = df.head(max_table_rows)
-            df_reduced = df
-            is_chart = df.columns.size == 2 and len(df.index) > 1 and is_numeric_dtype(df.iloc[:, 1])
-            is_single = df.columns.size == 1 and len(df.index) == 1
-            single = df.iat[0, 0]
+            df_reduced = df.head(max_table_rows)
+            # df_reduced = df
+            row_count = len(df.index)
+            column_count = df.columns.size
             chart = None
-            if is_chart:
-                chart = get_chart(df_reduced)
+            is_chart = False
+            if row_count > 0:
+                is_chart = column_count == 2 and row_count > 1 and is_numeric_dtype(df.iloc[:, 1])
+                is_single = column_count == 1 and row_count == 1
+                single = df.iat[0, 0]
+                if is_chart:
+                    chart = get_chart(df_reduced)
+            else:
+                is_single = True
+                single = "no results"
             table_style = ""
             if is_dark:
                 table_style = "table-dark"

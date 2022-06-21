@@ -120,20 +120,22 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         database = get_object_or_404(Database, pk=form.instance.database.id)
         user_can_access_database(user, database)
         form.instance.author = user
+        response = super().form_valid(form)
         # updating user's profile so their default database is the one just used
         self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
         # creating any parameters
-        param_strings = set(re.findall(r'\\{(.*?)\\}', form.instance.query))
+        query = self.object
+        param_strings = set(re.findall(r'\{(.*?)\}', form.instance.query))
         for param_string in param_strings:
             new_parameter = Parameter(
                 user=user,
-                query=form.instance,
+                query=self.object,
                 name=param_string,
                 default=""
             )
             new_parameter.save()
-        return super().form_valid(form)
+        return response
 
     def get_context_data(self, **kwargs):
         context = super(QueryCreateView, self).get_context_data(**kwargs)  # get the default context data
