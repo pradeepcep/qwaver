@@ -32,6 +32,7 @@ class Query(models.Model):
     public = models.BooleanField(
         default=True,
         help_text="If public, your whole team can view it.  If not, only you.")
+    run_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

@@ -58,6 +58,9 @@ def execute(request, id):
     else:
         try:
             df = pd.read_sql(sql, connection)
+            # increment run count for query
+            query.run_count += 1
+            query.save()
             df_reduced = df.head(max_table_rows)
             # df_reduced = df
             row_count = len(df.index)
