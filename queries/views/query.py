@@ -30,7 +30,9 @@ class QueryListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         # https://stackoverflow.com/questions/9410647/how-to-filter-model-results-for-multiple-values-for-a-many-to-many-field-in-djan
-        queries = Query.objects.filter(database_id__in=get_org_databases(self)).order_by('-run_count', '-date_created')
+        # queries = Query.objects.filter(database_id__in=get_org_databases(self)).order_by('-run_count', '-date_created')
+        queries = Query.objects.filter(database_id__in=get_org_databases(self))\
+            .order_by('-last_run_date', '-date_created')
         return queries
 
     def get_context_data(self, **kwargs):
@@ -59,7 +61,7 @@ class QuerySearchView(LoginRequiredMixin, ListView):
             # https://docs.djangoproject.com/en/4.0/ref/models/querysets/#q-objects
             q = Q(database_id__in=databases)
             for word in words:
-                q &= Q(title__contains=word) | Q(description__contains=word)
+                q &= Q(title__contains=word) | Q(description__contains=word) | Q(query__contains=word)
             queries = Query.objects.filter(q).order_by('-run_count', '-date_created')
             return queries
         else:

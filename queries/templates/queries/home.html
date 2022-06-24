@@ -33,7 +33,7 @@
             <div class="media-body">
                 <div class="article-metadata">
                     <a class="mr-2" href="{% url 'user-queries' query.author.username %}">{{ query.author }}</a>
-                    <small class="text-muted">{{ query.date_created|date:"F d, Y" }}</small>
+                    <small class="text-muted">{{ query.date_created|date:"F d, Y" }} {{ query.run_count }}</small>
                 </div>
                 <h3 class="mb-0"><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h3>
                 {#                <h3 class="mb-0"><a class="article-title" onclick="hideShow('form_' + {{ query.id }})" href="#">{{ query }}</a>#}

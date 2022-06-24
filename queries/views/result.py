@@ -1,4 +1,5 @@
 import base64
+from datetime import datetime
 from io import BytesIO
 
 import matplotlib.pyplot as plt
@@ -43,6 +44,7 @@ def execute(request, id):
         elif param_value == 'dml':
             is_easter = True
         param_values[param.name] = param_value
+        # if there are results, save the param value as default
         sql = sql.replace(f"{{{param.name}}}", param_value)
         title = title.replace(f"{{{param.name}}}", param_value)
     # formatting the text to avoid problems with the % character in queries
@@ -57,11 +59,12 @@ def execute(request, id):
         # return redirect("http://synthblast.com")
     else:
         try:
-            df = pd.read_sql(sql, connection)
+            df_full = pd.read_sql(sql, connection)
             # increment run count for query
             query.run_count += 1
+            query.last_run_date = datetime.now()
             query.save()
-            df_reduced = df.head(max_table_rows)
+            df = df_full.head(max_table_rows)
             # df_reduced = df
             row_count = len(df.index)
             column_count = df.columns.size
@@ -72,7 +75,13 @@ def execute(request, id):
                 is_single = column_count == 1 and row_count == 1
                 single = df.iat[0, 0]
                 if is_chart:
-                    chart = get_chart(df_reduced)
+                    chart = get_chart(df)
+                # make image tags
+                for row in range(row_count):
+                    for col in range(column_count):
+                        val = df.iat[row, col]
+                        if isinstance(val, str) and val.startswith("http") and (val.endswith(".jpg") or val.endswith(".gif")):
+                            df.iat[row, col] = f'<img src="{val}">'
             else:
                 is_single = True
                 single = "no results"
@@ -81,8 +90,8 @@ def execute(request, id):
                 table_style = "table-dark"
             context = {
                 'title': title,
-                'table': df_reduced,
-                'tableHtml': df_reduced.to_html(classes=[f"table {table_style} table-sm table-responsive"],
+                'table': df,
+                'tableHtml': df.to_html(classes=[f"table {table_style} table-sm table-responsive"],
                                                 table_id="results",
                                                 index=False),
                 'query': query,

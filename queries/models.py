@@ -33,6 +33,7 @@ class Query(models.Model):
         default=True,
         help_text="If public, your whole team can view it.  If not, only you.")
     run_count = models.IntegerField(default=0)
+    last_run_date = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
         return self.title

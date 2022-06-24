@@ -65,6 +65,17 @@
                             <a class="dropdown-item" href="{% url 'database-list' %}">Databases</a>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <!-- Search -->
+
+                            <div class="text-center ml-4">
+                                <form action="{% url 'query-search' %}">
+                                    <input type="text" class="form-control-sm" style="background-color: black" name="s" value="{{ request.GET.s }}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                                </form>
+                            </div>
+
+                    </li>
                 </ul>
             {% endif %}
 
