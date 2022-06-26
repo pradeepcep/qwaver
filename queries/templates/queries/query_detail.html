@@ -15,7 +15,7 @@
                 {% endif %}
             </div>
             <h2 class="article-title">{{ object.title }}</h2>
-            <form method="GET" action="/query/{{ object.id }}/run">
+            <form method="GET" action="{% url 'query-run' object.id %}">
                 {#                {% csrf_token %}#}
                 <fieldset class="form-group">
                     {% for param in params %}

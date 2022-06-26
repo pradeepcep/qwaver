@@ -67,35 +67,20 @@ class Parameter(models.Model):
         return self.name.replace(" ", "_")
 
 
-class Instance(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    query = models.ForeignKey(Query, on_delete=models.CASCADE)
-
-
 class Result(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
-    instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    dataframe = models.JSONField()
-    chart = models.TextField(default="")
-    preview = models.TextField(default="")
+    dataframe = models.JSONField(null=True)
+    chart = models.TextField(null=True)
+    preview = models.TextField(null=True)
 
 
 # the specific value for an input field
 class Value(models.Model):
     parameter_name = models.CharField(max_length=64, default="")
     value = models.CharField(max_length=256, default="")
-    instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
-
-
-class UserAction(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    row_id = models.IntegerField()
-    action = models.IntegerField()
-    table = models.IntegerField()
+    result = models.ForeignKey(Result, on_delete=models.CASCADE)
 
 
 class UserSearch(models.Model):

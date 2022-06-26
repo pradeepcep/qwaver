@@ -14,11 +14,9 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.domain.ActionEnum import ActionEnum
-from queries.domain.TableEnum import TableEnum
-from queries.models import Query, Parameter, Database, UserSearch, UserAction
+from queries.models import Query, Parameter, Database, UserSearch
 from queries.views import get_org_databases, user_can_access_query
-from queries.views.access import user_can_access_database
+from queries.common.access import user_can_access_database
 
 pagination_count = 10
 
@@ -186,15 +184,6 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     default=""
                 )
                 new_parameter.save()
-        # logging action
-        user_action = UserAction(
-            user=self.request.user,
-            organization=form.instance.database.organization,
-            row_id=form.instance.id,
-            action=ActionEnum.EDIT,
-            table=TableEnum.QUERY
-        )
-        user_action.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

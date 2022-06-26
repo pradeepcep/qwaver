@@ -1,15 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import (
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView
+    UpdateView
 )
 
-from queries.models import Parameter, Query
-from queries.views.access import user_can_access_query
+from queries.models import Parameter
+from queries.common.access import user_can_access_query
 
 
 class ParameterEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

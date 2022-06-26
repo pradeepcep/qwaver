@@ -9,7 +9,7 @@ from django.views.generic import (
 )
 
 from queries.models import Database
-from queries.views.access import get_org_databases, user_can_access_database
+from queries.common.access import get_org_databases, user_can_access_database
 
 
 class DatabaseListView(ListView):
