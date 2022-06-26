@@ -1,9 +1,11 @@
+import datetime
 import re
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.views.generic import (
     ListView,
     DetailView,
@@ -37,6 +39,14 @@ class QueryListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(QueryListView, self).get_context_data(**kwargs)  # get the default context data
+        days_ago = timezone.now() - datetime.timedelta(days=2)
+        user = self.request.user
+        searches = UserSearch.objects\
+            .filter(user=user, organization=user.profile.selected_organization, timestamp__gt=days_ago)\
+            .values('search')\
+            .annotate(dcount=Count('search'))\
+            .order_by()[:5]
+        context['recent_searches'] = [d['search'] for d in searches]
         context['result_count'] = len(self.object_list)
         return context
 

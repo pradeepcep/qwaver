@@ -14,7 +14,15 @@
     <div class="row search-box mb-3">
         <div class="col-md-12 mt-4 mb-4 text-center">
             <form action="{% url 'query-search' %}">
-                <input type="text" class="search-field" name="s" value="{{ request.GET.s }}">
+                <input type="text" class="search-field" name="s" value="{{ request.GET.s }}" list="recent_searches">
+                <!-- recent searches -->
+                {% if recent_searches|length > 0 %}
+                    <datalist id="recent_searches">
+                        {% for recent_search in recent_searches %}
+                            <option value="{{ recent_search }}">
+                        {% endfor %}
+                    </datalist>
+                {% endif %}
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
@@ -61,16 +69,16 @@
                 </form>
                 {% if query.author == user %}
                     <div class="container">
-                    <div class="">
-                        <a class="btn btn-outline-secondary btn-sm mr-1"
-                           href="{% url 'query-update' query.id %}">Edit</a>
-                        <a class="btn btn-outline-success btn-sm mr-1" href="{% url 'query-clone' query.id %}">
-                            <i class="bi bi-files mr-1"></i>
-                            Clone
-                        </a>
-                        <a class="btn btn-outline-danger btn-sm mr-1"
-                           href="{% url 'query-delete' query.id %}">Delete</a>
-                    </div>
+                        <div class="">
+                            <a class="btn btn-outline-secondary btn-sm mr-1"
+                               href="{% url 'query-update' query.id %}">Edit</a>
+                            <a class="btn btn-outline-success btn-sm mr-1" href="{% url 'query-clone' query.id %}">
+                                <i class="bi bi-files mr-1"></i>
+                                Clone
+                            </a>
+                            <a class="btn btn-outline-danger btn-sm mr-1"
+                               href="{% url 'query-delete' query.id %}">Delete</a>
+                        </div>
                     </div>
                 {% endif %}
             </div>
