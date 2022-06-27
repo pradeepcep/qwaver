@@ -14,7 +14,7 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.models import Query, Parameter, Database, UserSearch
+from queries.models import Query, Parameter, Database, UserSearch, Value, Result
 from queries.views import get_org_databases, user_can_access_query
 from queries.common.access import user_can_access_database
 
@@ -106,7 +106,21 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(QueryDetailView, self).get_context_data(**kwargs)  # get the default context data
-        context['params'] = Parameter.objects.filter(query=self.object)
+        user = self.request.user
+        params = Parameter.objects.filter(query=self.object)
+
+        most_recent_result = Result.objects.filter(user=user, query=self.object).order_by('-timestamp').first()
+        if most_recent_result is None:
+            # not limiting to user if the user hasn't run this query before
+            most_recent_result = Result.objects.filter(query=self.object).order_by('-timestamp').first()
+        if most_recent_result is not None:
+            values = Value.objects.filter(result=most_recent_result)
+            for param in params:
+                matching_value = next((x for x in values if x.parameter_name == param.name), None)
+                param.name = matching_value.parameter_name
+                param.default = matching_value.value
+
+        context['params'] = params
         return context
 
 
