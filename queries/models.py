@@ -71,7 +71,11 @@ class Result(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=256, null=True)
     dataframe = models.JSONField(null=True)
+    table = models.TextField(null=True)
+    single = models.CharField(max_length=64, null=True)
+    image_encoding = models.CharField(max_length=16, null=True)
     chart = models.TextField(null=True)
     preview = models.TextField(null=True)
 

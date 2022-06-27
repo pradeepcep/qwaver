@@ -6,26 +6,60 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pymysql
 import sqlalchemy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.views.generic import DetailView
 from pandas.api.types import is_numeric_dtype
 from sqlalchemy import create_engine
 
 from . import user_can_access_query
-from ..models import Query, Parameter
+from ..models import Query, Parameter, Result, Value
 
 max_table_rows = 100
 image_encoding = 'jpg'
 
 
+class ResultDetailView(LoginRequiredMixin, DetailView):
+    model = Result
+    context_object_name = 'result'
+
+    def get_object(self, queryset=None):
+        user = self.request.user
+        result = get_object_or_404(Result, id=self.kwargs.get('pk'))
+        user_can_access_query(user, result.query)
+        return result
+
+    def get_context_data(self, **kwargs):
+        context = super(ResultDetailView, self).get_context_data(**kwargs)
+        values = Value.objects.filter(result=self.object)
+        current_parameters = Parameter.objects.filter(query=self.object.query)
+
+        has_valid_parameters = True
+        for value in values:
+            # if the value of this result does not match any of the current parameters of the query
+            if not any(parameter.name == value.parameter_name for parameter in current_parameters):
+                has_valid_parameters = False
+        for parameter in current_parameters:
+            # if a current parameter for the query doesn't match any of the saved values
+            if not any(parameter.name == value.parameter_name for value in values):
+                has_valid_parameters = False
+        context['params'] = values
+        context['has_valid_parameters'] = has_valid_parameters
+        return context
+
+
 def execute(request, id):
-    if not request.user.is_authenticated:
+    user = request.user
+    if not user.is_authenticated:
         return redirect(reverse('login'))
     query = get_object_or_404(Query, pk=id)
-    user_can_access_query(request.user, query)
+    user_can_access_query(user, query)
     params = Parameter.objects.filter(query=query)
-    db = query.database
-    is_dark = request.user.is_authenticated and request.user.profile.display_mode == 2
+    is_dark = user.is_authenticated and user.profile.display_mode == 2
+    table_style = ""
+    if is_dark:
+        table_style = "table-dark"
     if is_dark:
         plt.style.use('dark_background')
     else:
@@ -38,7 +72,7 @@ def execute(request, id):
     param_values = {}
     is_easter = False
     for param in params:
-        param_value = request.GET.get(param.name)
+        param_value = request.POST.get(param.name)
         if param_value is None:
             param_value = param.default
         elif param_value == 'dml':
@@ -50,6 +84,7 @@ def execute(request, id):
     # formatting the text to avoid problems with the % character in queries
     sql = sqlalchemy.text(sql)
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
+    db = query.database
     if db.title == "Aurora":
         connection = create_engine(f"mysql+pymysql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     else:
@@ -64,46 +99,50 @@ def execute(request, id):
             query.run_count += 1
             query.last_run_date = datetime.now()
             query.save()
+
             df = df_full.head(max_table_rows)
             # df_reduced = df
             row_count = len(df.index)
             column_count = df.columns.size
             chart = None
-            is_chart = False
+            single = None
             if row_count > 0:
                 is_chart = column_count == 2 and row_count > 1 and is_numeric_dtype(df.iloc[:, 1])
                 is_single = column_count == 1 and row_count == 1
-                single = df.iat[0, 0]
+                if is_single:
+                    single = df.iat[0, 0]
                 if is_chart:
                     chart = get_chart(df)
                 # make image tags
-                for row in range(row_count):
-                    for col in range(column_count):
-                        val = df.iat[row, col]
-                        if isinstance(val, str) and val.startswith("http") and (val.endswith(".jpg") or val.endswith(".gif")):
-                            df.iat[row, col] = f'<img src="{val}">'
+                # for row in range(row_count):
+                #     for col in range(column_count):
+                #         val = df.iat[row, col]
+                #         if isinstance(val, str) and val.startswith("http") and (val.endswith(".jpg") or val.endswith(".gif")):
+                #             df.iat[row, col] = f'<img src="{val}">'
             else:
-                is_single = True
                 single = "no results"
-            table_style = ""
-            if is_dark:
-                table_style = "table-dark"
-            context = {
-                'title': title,
-                'table': df,
-                'tableHtml': df.to_html(classes=[f"table {table_style} table-sm table-responsive"],
+            result = Result(
+                user=user,
+                query=query,
+                title=title,
+                dataframe=df.to_json(),
+                table=df.to_html(classes=[f"table {table_style} table-sm table-responsive"],
                                                 table_id="results",
                                                 index=False),
-                'query': query,
-                'image_encoding': image_encoding,
-                'chart': chart,
-                'is_chart': is_chart,
-                'is_single': is_single,
-                'single': single,
-                'param_values': param_values,
-                'params': params
-            }
-            return render(request, 'queries/result.html', context)
+                single=single,
+                image_encoding=image_encoding,
+                chart=chart
+            )
+            result.save()
+            # save parameter values
+            for param_name, param_value in param_values.items():
+                value = Value(
+                    parameter_name=param_name,
+                    value=param_value,
+                    result=result
+                )
+                value.save()
+            return redirect(reverse('result-detail', args=[result.pk]))
         except Exception as err:
             context = {
                 'title': title,

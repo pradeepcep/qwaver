@@ -1,0 +1,78 @@
+{% extends "queries/base.html" %}
+{% load static %}
+{% block content %}
+    <!-- for downloading tables -->
+    <script src="{% static 'queries/tablefunctions.js' %}"></script>
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                {% if result.query.author == user %}
+                    <div>
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1 float-right"
+                           href="{% url 'query-update' result.query.id %}">Edit
+                            Query</a>
+                    </div>
+                {% endif %}
+            </div>
+            <h2 class="article-title">{{ result.title }}</h2>
+            <div class="mt-4">
+                {% if result.single != null %}
+                    <h1 class="display-1">{{ result.single|safe }}</h1>
+                {% elif result.chart != null %}
+                    <img src="data:image/{{ result.image_encoding }};base64,{{ result.chart|safe }}" class="contain"/>
+                    <div style="">
+                        {{ result.table|safe }}
+                    </div>
+                {% else %}
+                    {{ result.table|safe }}
+                {% endif %}
+            </div>
+
+
+            <hr>
+            <!-- rerun -->
+            {% if has_valid_parameters %}
+                <form method="POST" action="{% url 'query-run' result.query.id %}">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        {% for  param in params %}
+                            <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
+                                {{ param.parameter_name }} </label>
+                                <div><input type="text" name="{{ param.parameter_name }}" value="{{ param.value }}"
+                                            maxlength="100"
+                                            class="textinput textInput form-control" id="{{ param.parameter_name }}">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Rerun</button>
+                    </div>
+                </form>
+            {% else %}
+                <div class="alert alert-warning">
+                    This result is from an old version of the query. The parameters used to produce this result do not
+                    match those currently associated with the query
+                </div>
+            {% endif %}
+
+            <!-- download -->
+            {% if result.single == null %}
+                <a class="btn btn-success mr-2 float-left"
+                   href="javascript:download_table_as_csv('results')">
+                    <i class="bi bi-filetype-csv mr-1"></i>
+                    Download CSV
+                </a>
+
+            {% endif %}
+
+            <!-- clone query -->
+            <a class="btn btn-success mr-2 float-left" href="{% url 'query-clone' result.query.id %}">
+                <i class="bi bi-files mr-1"></i>
+                Clone Query
+            </a>
+
+
+        </div>
+    </article>
+{% endblock content %}
