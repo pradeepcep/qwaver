@@ -14,20 +14,9 @@
                     </div>
                 {% endif %}
             </div>
-            <h2 class="article-title">{{ result.title }}</h2>
-            <div class="mt-4">
-                {% if result.single != null %}
-                    <h1 class="display-1">{{ result.single|safe }}</h1>
-                {% elif result.chart != null %}
-                    <img src="data:image/{{ result.image_encoding }};base64,{{ result.chart|safe }}" class="contain"/>
-                    <div style="">
-                        {{ result.table|safe }}
-                    </div>
-                {% else %}
-                    {{ result.table|safe }}
-                {% endif %}
-            </div>
 
+            <h2 class="article-title">{{ result.title }}</h2>
+            {% include "queries/result_template.html" with result=result %}
 
             <hr>
             <!-- rerun -->

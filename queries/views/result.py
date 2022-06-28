@@ -1,5 +1,5 @@
 import base64
-from datetime import datetime
+import datetime
 from io import BytesIO
 
 import matplotlib.pyplot as plt
@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.views.generic import DetailView
 from pandas.api.types import is_numeric_dtype
 from sqlalchemy import create_engine
+from dateutil.parser import parse
 
 from . import user_can_access_query
 from ..models import Query, Parameter, Result, Value
@@ -93,7 +94,7 @@ def execute(request, id):
         return render(request, 'queries/easter.html', {})
         # return redirect("http://synthblast.com")
     else:
-        try:
+        # try:
             df_full = pd.read_sql(sql, connection)
             df = df_full.head(max_table_rows)
             # df_reduced = df
@@ -131,7 +132,7 @@ def execute(request, id):
             result.save()
             # update query with latest result
             query.run_count += 1
-            query.last_run_date = datetime.now()
+            query.last_run_date = datetime.datetime.now()
             query.latest_result = result
             query.save()
             # save parameter values
@@ -143,14 +144,14 @@ def execute(request, id):
                 )
                 value.save()
             return redirect(reverse('result-detail', args=[result.pk]))
-        except Exception as err:
-            context = {
-                'title': title,
-                'query': query,
-                'error': err,
-                'params': params
-            }
-            return render(request, 'queries/result_error.html', context)
+        # except Exception as err:
+        #     context = {
+        #         'title': title,
+        #         'query': query,
+        #         'error': err,
+        #         'params': params
+        #     }
+        #     return render(request, 'queries/result_error.html', context)
 
 
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/
@@ -167,16 +168,35 @@ def get_graph():
 
 
 def get_chart(dataframe):
-    # ax = plt.axes()
-    # ax.xaxis.set_major_locator(ticker.MaxNLocator(3))
-    # plt.locator_params(nbins=4)
     header = dataframe.head()
     columns = list(header.columns.values)
-
-    dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4))
-    plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
+    first_value = dataframe[columns[0]].iat[0]
+    # if first_value is number or date, assume this is a bar chart
+    if isinstance(first_value, datetime.date) or is_number(first_value):
+        dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4), legend=False)
+        plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
+    else:
+        grouped = dataframe.groupby([columns[0]]).sum().sort_values([columns[1]], ascending=False)
+        grouped.plot(y=columns[1], kind='pie', figsize=(7, 4), legend=False)
+        plt.axis('off')
     plt.tight_layout()
-    # plt.switch_backend('AGG')
-    # plt.axis('off')
     chart = get_graph()
     return chart
+
+
+# https://stackoverflow.com/questions/25341945/check-if-string-has-date-any-format
+def is_date(string):
+    try:
+        parse(string, fuzzy=False)
+        return True
+    except ValueError:
+        return False
+
+
+# https://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-float?page=1&tab=scoredesc#tab-top
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False

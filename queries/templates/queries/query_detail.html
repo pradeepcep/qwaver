@@ -33,4 +33,10 @@
             </form>
         </div>
     </article>
+
+    {% if query.latest_result != null %}
+        <hr>
+        <h3>Latest Result: {{ query.last_run_date|timesince }} ago</h3>
+        {% include "queries/result_template.html" with result=query.latest_result %}
+    {% endif %}
 {% endblock content %}

@@ -18,7 +18,7 @@ from queries.models import Query, Parameter, Database, UserSearch, Value, Result
 from queries.views import get_org_databases, user_can_access_query
 from queries.common.access import user_can_access_database
 
-pagination_count = 10
+pagination_count = 8
 
 
 class QueryListView(LoginRequiredMixin, ListView):
@@ -43,7 +43,7 @@ class QueryListView(LoginRequiredMixin, ListView):
             .filter(user=user, organization=user.profile.selected_organization, timestamp__gt=days_ago)\
             .values('search')\
             .annotate(dcount=Count('search'))\
-            .order_by()[:5]
+            .order_by()[:10]
         context['recent_searches'] = [d['search'] for d in searches]
         context['result_count'] = len(self.object_list)
         return context

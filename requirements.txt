@@ -8,8 +8,9 @@ pytz==2022.1
 requests==2.27.1
 urllib3==1.26.9
 sqlalchemy==1.4.36
-pandas
+pandas~=1.4.2
 numpy
-matplotlib
+matplotlib~=3.5.2
 psycopg2-binary==2.9.3
-pymysql
+pymysql~=1.0.2
+python-dateutil~=2.8.2
