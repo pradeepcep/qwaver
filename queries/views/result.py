@@ -95,11 +95,6 @@ def execute(request, id):
     else:
         try:
             df_full = pd.read_sql(sql, connection)
-            # increment run count for query
-            query.run_count += 1
-            query.last_run_date = datetime.now()
-            query.save()
-
             df = df_full.head(max_table_rows)
             # df_reduced = df
             row_count = len(df.index)
@@ -134,6 +129,11 @@ def execute(request, id):
                 chart=chart
             )
             result.save()
+            # update query with latest result
+            query.run_count += 1
+            query.last_run_date = datetime.now()
+            query.latest_result = result
+            query.save()
             # save parameter values
             for param_name, param_value in param_values.items():
                 value = Value(

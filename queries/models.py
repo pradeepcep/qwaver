@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import ManyToManyField
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -34,6 +35,8 @@ class Query(models.Model):
         help_text="If public, your whole team can view it.  If not, only you.")
     run_count = models.IntegerField(default=0)
     last_run_date = models.DateTimeField(default=None, null=True)
+    # https://stackoverflow.com/questions/34003865/django-reverse-query-name-clash
+    latest_result = models.ForeignKey("queries.Result", related_name='+', on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
         return self.title

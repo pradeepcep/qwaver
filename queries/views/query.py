@@ -117,8 +117,9 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
             values = Value.objects.filter(result=most_recent_result)
             for param in params:
                 matching_value = next((x for x in values if x.parameter_name == param.name), None)
-                param.name = matching_value.parameter_name
-                param.default = matching_value.value
+                if matching_value is not None:
+                    # param.name = matching_value.parameter_name
+                    param.default = matching_value.value
 
         context['params'] = params
         return context

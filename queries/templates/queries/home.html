@@ -37,51 +37,70 @@
 
     <!-- Queries -->
     {% for query in queries %}
-        <article class="pl-0 pr-0">
+        <article class="pl-0 pr-0 row mb-5">
+            {% if query.latest_result != null %}
+                <div class="col-md-9">
+            {% else %}
+                <div class="col-md-12">
+            {% endif %}
             <div class="media-body">
                 <div class="article-metadata">
                     <a class="mr-2" href="{% url 'user-queries' query.author.username %}">{{ query.author }}</a>
                     <small class="text-muted">{{ query.date_created|date:"F d, Y" }} {{ query.run_count }}</small>
                 </div>
                 <h3 class="mb-0"><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h3>
-                {#                <h3 class="mb-0"><a class="article-title" onclick="hideShow('form_' + {{ query.id }})" href="#">{{ query }}</a>#}
-                {#                </h3>#}
+{#                                <h3 class="mb-0"><a class="article-title" onclick="hideShow('form_' + {{ query.id }})" href="#">{{ query }}</a>#}
+{#                                </h3>#}
                 <div class="mb-4 mt-0">
                     <div style="color: gray" class="d-inline">{{ query.database }}</div>
                     {% if query.description != null %}
                         : {{ query.description }}
                     {% endif %}
                 </div>
-                <form method="GET" action="/query/{{ query.id }}/run" style="display:none;" id="form_{{ query.id }}">
-                    <fieldset class="form-group">
-                        {% for param in query.get_params %}
-                            <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
-                                {{ param.name }} </label>
-                                <div><input type="text" name="{{ param.name }}" value="{{ param.default }}"
-                                            maxlength="100"
-                                            class="textinput textInput form-control" id="{{ param.name }}"></div>
-                            </div>
-                        {% endfor %}
-                    </fieldset>
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Run</button>
-                    </div>
-                </form>
+{#                <form method="GET" action="{% url 'query-run' query.id %}" style="display:none;" id="form_{{ query.id }}">#}
+{#                    <fieldset class="form-group">#}
+{#                        {% for param in query.get_params %}#}
+{#                            <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">#}
+{#                                {{ param.name }} </label>#}
+{#                                <div><input type="text" name="{{ param.name }}" value="{{ param.default }}"#}
+{#                                            maxlength="100"#}
+{#                                            class="textinput textInput form-control" id="{{ param.name }}"></div>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                    </fieldset>#}
+{#                    <div class="form-group">#}
+{#                        <button class="btn btn-primary" type="submit">Run</button>#}
+{#                    </div>#}
+{#                </form>#}
                 {% if query.author == user %}
-                    <div class="container">
-                        <div class="">
-                            <a class="btn btn-outline-secondary btn-sm mr-1"
-                               href="{% url 'query-update' query.id %}">Edit</a>
-                            <a class="btn btn-outline-success btn-sm mr-1" href="{% url 'query-clone' query.id %}">
-                                <i class="bi bi-files mr-1"></i>
-                                Clone
-                            </a>
-                            <a class="btn btn-outline-danger btn-sm mr-1"
-                               href="{% url 'query-delete' query.id %}">Delete</a>
-                        </div>
-                    </div>
+{#                    <div class="container">#}
+{#                        <div class="">#}
+{#                            <a class="btn btn-outline-secondary btn-sm mr-1"#}
+{#                               href="{% url 'query-update' query.id %}">Edit</a>#}
+{#                            <a class="btn btn-outline-success btn-sm mr-1" href="{% url 'query-clone' query.id %}">#}
+{#                                <i class="bi bi-files mr-1"></i>#}
+{#                                Clone#}
+{#                            </a>#}
+{#                            <a class="btn btn-outline-danger btn-sm mr-1"#}
+{#                               href="{% url 'query-delete' query.id %}">Delete</a>#}
+{#                        </div>#}
+{#                    </div>#}
                 {% endif %}
             </div>
+            {% if query.latest_result != null %}
+                </div>
+                <div class="col-md-3">
+                    latest: {{ query.last_run_date|timesince }} ago
+                    {% if query.latest_result.chart != null %}
+                        <img src="data:image/{{ query.latest_result.image_encoding }};base64,{{ query.latest_result.chart|safe }}"
+                             class="contain" height="100px"/>
+                    {% elif query.latest_result.single != null %}
+                        <h1 class="display-3">{{ query.latest_result.single }}</h1>
+                    {% endif %}
+                </div>
+            {% else %}
+                </div>
+            {% endif %}
         </article>
     {% endfor %}
     {% if is_paginated %}
