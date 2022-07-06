@@ -36,7 +36,7 @@ class DatabaseCreateView(LoginRequiredMixin, CreateView):
             messages.error(self.request, f'You need to first create an organization before you can create a database')
             return redirect('profile')
         else:
-            form.instance.selected_organization = user.profile.selected_organization
+            form.instance.organization = user.profile.selected_organization
         return super().form_valid(form)
 
 

@@ -6,13 +6,22 @@
     <article class="media content-section">
         <div class="media-body">
             <div class="article-metadata">
+                <div class="float-right">
                 {% if result.query.author == user %}
                     <div>
-                        <a class="btn btn-secondary btn-sm mt-1 mb-1 float-right"
-                           href="{% url 'query-update' result.query.id %}">Edit
-                            Query</a>
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                           href="{% url 'query-update' result.query.id %}">
+                            <i class="bi bi-pencil mr-1"></i>
+                            Edit Query
+                        </a>
                     </div>
                 {% endif %}
+                <!-- clone query -->
+                <a class="btn btn-sm btn-secondary mr-2 float-left" href="{% url 'query-clone' result.query.id %}">
+                    <i class="bi bi-files mr-1"></i>
+                    Clone Query
+                </a>
+                </div>
             </div>
 
             <h2 class="article-title">{{ result.title }}</h2>
@@ -44,22 +53,6 @@
                     match those currently associated with the query
                 </div>
             {% endif %}
-
-            <!-- download -->
-            {% if result.single == null %}
-                <a class="btn btn-success mr-2 float-left"
-                   href="javascript:download_table_as_csv('results')">
-                    <i class="bi bi-filetype-csv mr-1"></i>
-                    Download CSV
-                </a>
-
-            {% endif %}
-
-            <!-- clone query -->
-            <a class="btn btn-success mr-2 float-left" href="{% url 'query-clone' result.query.id %}">
-                <i class="bi bi-files mr-1"></i>
-                Clone Query
-            </a>
 
 
         </div>

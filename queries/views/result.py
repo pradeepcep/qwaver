@@ -172,10 +172,12 @@ def get_chart(dataframe):
     columns = list(header.columns.values)
     first_value = dataframe[columns[0]].iat[0]
     # if first_value is number or date, assume this is a bar chart
-    if isinstance(first_value, datetime.date) or is_number(first_value):
+    if first_value is not None and isinstance(first_value, datetime.date):
         dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4), legend=False)
         plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
     else:
+        # converting first column to a string
+        dataframe[columns[0]] = dataframe[columns[0]].astype(str)
         grouped = dataframe.groupby([columns[0]]).sum().sort_values([columns[1]], ascending=False)
         grouped.plot(y=columns[1], kind='pie', figsize=(7, 4), legend=False)
         plt.axis('off')
@@ -198,5 +200,5 @@ def is_number(s):
     try:
         float(s)
         return True
-    except ValueError:
+    except Exception:
         return False

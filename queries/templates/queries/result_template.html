@@ -6,7 +6,17 @@
             <img src="data:image/{{ result.image_encoding }};base64,{{ result.chart|safe }}" class="contain"/>
         </div>
     {% endif %}
-    <div style="">
+    <div class="mb-4" style="overflow: auto; max-height: 10em;">
         {{ result.table|safe }}
     </div>
+    <!-- download -->
+    {% if result.single == null %}
+        <div style="width: 100%; display: inline-block">
+            <a class="btn btn-success mr-2 float-left"
+               href="javascript:download_table_as_csv('results')">
+                <i class="bi bi-filetype-csv mr-1"></i>
+                Download CSV
+            </a>
+        </div>
+    {% endif %}
 </div>
