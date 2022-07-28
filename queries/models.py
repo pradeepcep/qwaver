@@ -7,6 +7,7 @@ from django.urls import reverse
 from users.models import Organization
 
 
+# Database connection information
 class Database(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=1)
     title = models.CharField(max_length=256, default="")
@@ -15,6 +16,7 @@ class Database(models.Model):
     database = models.CharField(max_length=256, default="")
     user = models.CharField(max_length=256)
     password = models.CharField(max_length=256)
+    is_valid = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
@@ -37,6 +39,11 @@ class Query(models.Model):
     last_run_date = models.DateTimeField(default=None, null=True)
     # https://stackoverflow.com/questions/34003865/django-reverse-query-name-clash
     latest_result = models.ForeignKey("queries.Result", related_name='+', on_delete=models.DO_NOTHING, null=True)
+    # Set when a query is first run
+    is_valid = models.BooleanField(default=False)
+    # A running count for how many consecutive errors have happened recently.
+    # Reset to 0 if the query is successfully executed
+    recent_error_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

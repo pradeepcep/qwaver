@@ -37,6 +37,8 @@ class DatabaseCreateView(LoginRequiredMixin, CreateView):
             return redirect('profile')
         else:
             form.instance.organization = user.profile.selected_organization
+        # TODO: run "SELECT 1;" on database and set is_valid accordingly.
+        #  Maybe only creating a connection is necessary?
         return super().form_valid(form)
 
 
