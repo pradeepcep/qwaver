@@ -50,6 +50,11 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+# 1. Getting the user, query and parameters
+# 2. Creating a connection to the db
+# 3. Replacing placeholder parameters with their values
+# 4. Executing the query
+# 5. Saving the result to the DB
 def execute(request, id):
     user = request.user
     if not user.is_authenticated:
@@ -110,12 +115,6 @@ def execute(request, id):
                     single = df.iat[0, 0]
                 if is_chart:
                     chart = get_chart(df)
-                # make image tags
-                # for row in range(row_count):
-                #     for col in range(column_count):
-                #         val = df.iat[row, col]
-                #         if isinstance(val, str) and val.startswith("http") and (val.endswith(".jpg") or val.endswith(".gif")):
-                #             df.iat[row, col] = f'<img src="{val}">'
             else:
                 single = "no results"
             result = Result(

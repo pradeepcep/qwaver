@@ -14,7 +14,7 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.models import Query, Parameter, Database, UserSearch, Value, Result
+from queries.models import Query, Parameter, Database, UserSearch, Value, Result, QueryComment
 from queries.views import get_org_databases, user_can_access_query
 from queries.common.access import user_can_access_database
 
@@ -105,23 +105,9 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
         return query
 
     def get_context_data(self, **kwargs):
-        context = super(QueryDetailView, self).get_context_data(**kwargs)  # get the default context data
-        user = self.request.user
-        params = Parameter.objects.filter(query=self.object)
-
-        most_recent_result = Result.objects.filter(user=user, query=self.object).order_by('-timestamp').first()
-        if most_recent_result is None:
-            # not limiting to user if the user hasn't run this query before
-            most_recent_result = Result.objects.filter(query=self.object).order_by('-timestamp').first()
-        if most_recent_result is not None:
-            values = Value.objects.filter(result=most_recent_result)
-            for param in params:
-                matching_value = next((x for x in values if x.parameter_name == param.name), None)
-                if matching_value is not None:
-                    # param.name = matching_value.parameter_name
-                    param.default = matching_value.value
-
-        context['params'] = params
+        context = super(QueryDetailView, self).get_context_data(**kwargs)
+        context['params'] = Parameter.objects.filter(query=self.object)
+        context['comments'] = QueryComment.objects.filter(query=self.object).order_by('-timestamp')
         return context
 
 
@@ -149,8 +135,8 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         # updating user's profile so their default database is the one just used
         self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
-        # creating any parameters
-        query = self.object
+        # creating any parameters specified by
+        # getting all values in the string between two curly braces
         param_strings = set(re.findall(r'\{(.*?)\}', form.instance.query))
         for param_string in param_strings:
             new_parameter = Parameter(
@@ -163,7 +149,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         return response
 
     def get_context_data(self, **kwargs):
-        context = super(QueryCreateView, self).get_context_data(**kwargs)  # get the default context data
+        context = super(QueryCreateView, self).get_context_data(**kwargs)
         context['title'] = "Create"
         return context
 
@@ -181,7 +167,7 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         user_can_access_query(self.request.user, form.instance)
         self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
-        # creating any parameters
+        # getting all parameter strings between curly braces
         param_strings = set(re.findall(r'\{(.*?)\}', form.instance.query))
         # retrieve currently created params
         params = Parameter.objects.filter(query=form.instance)
