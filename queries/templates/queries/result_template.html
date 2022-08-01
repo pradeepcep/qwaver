@@ -6,7 +6,7 @@
             <img src="data:image/{{ result.image_encoding }};base64,{{ result.chart|safe }}" class="contain"/>
         </div>
     {% endif %}
-    <div class="mb-4" style="overflow: auto; max-height: 10em;">
+    <div class="mb-4">
         {{ result.table|safe }}
     </div>
     <!-- download -->
