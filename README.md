@@ -16,6 +16,9 @@ qwiki links: [Intro](#the-fascinating-story) • [Help!](#help) • [Installatio
 </div>
 
 ## The Fascinating Story
+
+[![Join the chat at https://gitter.im/qwiki-dev/community](https://badges.gitter.im/qwiki-dev/community.svg)](https://gitter.im/qwiki-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 If you're like me, you have hundreds of queries stored in your DB admin tool for several connected DBs. A lot your time
 is spent searching through them, altering WHERE clauses, exporting the results, plotting charts, and emailing the
 results (chart + data + query for validation). Often you've got others on your team doing the exact same thing
