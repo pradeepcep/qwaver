@@ -29,7 +29,7 @@
     {% if title %}
         <title>{{ title }}</title>
     {% else %}
-        <title>QAC</title>
+        <title>qwiki</title>
     {% endif %}
 </head>
 <body class="bootstrap-dark">
@@ -37,7 +37,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
             <a class="navbar-brand mr-4" href="{% url 'queries-home' %}">
-                QAC
+            <img src="https://qwiki.dev/media/qwiki-logo.png" height="50" alt="qwiki">
                 {% if user.is_authenticated %}
                     : {{ user.profile.selected_organization }}
                 {% endif %}
