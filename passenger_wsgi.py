@@ -6,7 +6,7 @@ from django.core.wsgi import get_wsgi_application
 
 # Set up paths and environment variables
 sys.path.append(os.getcwd())
-os.environ['DJANGO_SETTINGS_MODULE'] = 'django_project.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'qwiki.settings'
 
 # Set script name for the PATH_INFO fix below
 SCRIPT_NAME = os.getcwd()

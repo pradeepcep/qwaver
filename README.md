@@ -98,6 +98,9 @@ If you want to run locally:
     * makemigrations
     * migrate
 
+Environment variables:
+```DJANGO_SETTINGS_MODULE=qwiki.settings```
+
 Run python server, go to localhost
 
 ## Thank yous
