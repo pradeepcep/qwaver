@@ -21,26 +21,27 @@ is spent searching through them, altering WHERE clauses, exporting the results, 
 results (chart + data + query for validation). Often you've got others on your team doing the exact same thing
 re-inventing the wheel left and right.
 
-This lead to the development of qwiki (think: "query wiki").
+Then this happens:
 
-Hey, do you have time for business question involving our database?
+Boss: Hey, do you have time for business question involving our database?
 
-Sure!  Give me 20 minutes..
+You: Sure!  Give me 20 minutes..
 
 17 minutes later...
 
-Here you go!  See attached chart and data!
+You: Here you go!  See attached chart and data!
 
-Thanks!  could you do like 100 more with different time periods and countries?
+Boss: Thanks!  could you do like 100 more with different time periods and countries?
 
 Your skills as a query artist were definitely needed that first time, but the second time the need comes from that
 person you're helping not having any experience with queries at all.
 
-**Q:** Don't other tools out there help with this?
-**A:** Yeah, but they all require you (shudder) learn a new platform. Be it a "simple" markup language (lookin' at you,
-Looker)
-or some sort of intricate UI designed more for dashboards than actually getting insights. I mean: you already know your
-query language, can't we just stick with that??
+* **Q:** What does "qwiki" mean?
+  * **A:** It's a portamentau of "query wiki"
+* **Q:** Don't other tools out there help with this?
+  * **A:** Yeah, but they all require you (shudder) learn a new platform. Be it a "simple" markup language (lookin' at you,
+Looker) or some sort of intricate UI designed more for dashboards than actually getting insights. You already know your
+query language, let's leverage that strength!
 
 ## Help!
 
