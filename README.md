@@ -31,7 +31,7 @@ You: Sure!  Give me 20 minutes..
 
 You: Here you go!  See attached chart and data!
 
-Boss: Thanks!  could you do like 100 more with different time periods and countries?
+Boss: Thanks!  could you do like 100 similar variations with different time periods and countries?
 
 Your skills as a query artist were definitely needed that first time, but the second time the need comes from that
 person you're helping not having any experience with queries at all.
