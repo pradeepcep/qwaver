@@ -1,0 +1,30 @@
+<div class="card-columns">
+    {% for query in queries %}
+        <article class="card" style="background-color: #282a36; display: inline-block">
+            {% if query.latest_result != null %}
+                {% if query.latest_result.chart != null %}
+                    <img src="data:image/{{ query.latest_result.image_encoding }};base64,{{ query.latest_result.chart|safe }}"
+                         class="contain" width="100%"/>
+                {% elif query.latest_result.single != null %}
+                    <h1 class="display-3 text-center">{{ query.latest_result.single }}</h1>
+                {% endif %}
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ query }}</h5>
+                <p class="card-text">
+                    {% if query.latest_result != null %}
+                        run {{ query.last_run_date|timesince }} ago<br>
+                    {% endif %}
+                    {% if query.description != null %}
+                        {{ query.description }}<br>
+                    {% endif %}
+                    {{ query.database }}<br>
+                </p>
+                <a href="{% url 'query-detail' query.id %}" class="btn btn-primary stretched-link">Run</a>
+                {% if query.author == user %}
+                    <a href="{% url 'query-update' query.id %}" class="btn btn-outline-secondary ml-1">Edit</a>
+                {% endif %}
+            </div>
+        </article>
+    {% endfor %}
+</div>

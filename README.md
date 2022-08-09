@@ -73,10 +73,8 @@ Helping with this project will make you one of the cooler people that I know. Ho
     * Search results should not include flagged queries
     * The author of a flagged query should be given an alert
 * card layout for home page
-    * https://getbootstrap.com/docs/4.0/components/card/
-    * use .card-columns in parent div
-    * use .stretched-link:
-    * https://stackoverflow.com/questions/54404865/make-bootstrap-card-entirely-clickable
+    * use [.card-columns](https://getbootstrap.com/docs/4.0/components/card/) in parent div
+    * use [.stretched-link](https://stackoverflow.com/questions/54404865/make-bootstrap-card-entirely-clickable):
 * track average execution time for queries
 
 ### General improvements
