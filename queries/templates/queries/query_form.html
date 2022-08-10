@@ -19,6 +19,12 @@
         }
     </script>
     <div class="content-section">
+        <div class="top-right">
+            <a class="btn btn-success mr-2 float-left" href="{% url 'query-clone' object.id %}">
+                <i class="bi bi-files mr-1"></i>
+                Clone
+            </a>
+        </div>
         <form method="POST" {% if is_clone %}
               action="{% url 'query-update' object.id %}"
         {% endif %}
@@ -32,10 +38,6 @@
                 <button class="btn btn-primary" type="submit" onclick="copyContent();">Save</button>
                 {% if object != null %}
                     <div class="float-right">
-                        <a class="btn btn-success mr-2 float-left" href="{% url 'query-clone' object.id %}">
-                            <i class="bi bi-files mr-1"></i>
-                            Clone
-                        </a>
                         <a class="btn btn-danger mr-2"
                            href="{% url 'query-delete' object.id %}">
                             <i class="bi bi-file-earmark-x"></i>
@@ -61,9 +63,9 @@
         let myCodeMirror = CodeMirror.fromTextArea(textArea, codeMirrorConfig);
     </script>
 
-    <h3>Parameters:</h3>
     {% if object != null %}
         {% if params|length > 0 %}
+            <h3>Parameters:</h3>
             <table class="table table-dark">
                 <thead>
                 <tr>

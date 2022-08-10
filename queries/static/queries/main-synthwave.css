@@ -1,9 +1,8 @@
 /* Dracula theme: https://draculatheme.com/contribute */
 
 body {
-    background: #111111;
     color: #f8f8f2;
-    background: url('/media/bkgnd.jpg') no-repeat center center fixed;
+    background: url('/media/bkgnd.jpg') #111111 no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

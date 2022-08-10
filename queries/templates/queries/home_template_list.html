@@ -1,5 +1,5 @@
 {% for query in queries %}
-    <article class="pl-0 pr-0 row mb-5">
+    <article class="pl-0 pr-0 row mb-5 content-section">
         {% if query.latest_result != null %}
             <div class="col-md-8">
         {% else %}
@@ -10,12 +10,17 @@
                 <a class="mr-2" href="{% url 'user-queries' query.author.username %}">{{ query.author }}</a>
                 <small class="text-muted">{{ query.date_created|date:"F d, Y" }} {{ query.run_count }}</small>
             </div>
-            <h3 class="mb-0"><a class="article-title" href="{% url 'query-detail' query.id %}">{{ query }}</a></h3>
+            <h3 class="mb-0"><a class="article-title stretched-link" href="{% url 'query-detail' query.id %}">{{ query }}</a></h3>
             <div class="mb-4 mt-0">
                 <div style="color: gray" class="d-inline">{{ query.database }}</div>
                 {% if query.description != null %}
                     : {{ query.description }}
                 {% endif %}
+                <p>
+                    {% if query.latest_result != null %}
+                        run {{ query.last_run_date|timesince }} ago
+                    {% endif %}
+                </p>
             </div>
             {% if query.author == user %}
                 {#                    <div class="container">#}
@@ -36,9 +41,7 @@
             </div>
             <div class="col-md-4">
                 <a href="{% url 'query-detail' query.id %}">
-                    run {{ query.last_run_date|timesince }} ago
                     {% if query.latest_result.chart != null %}
-
                         <img src="data:image/{{ query.latest_result.image_encoding }};base64,{{ query.latest_result.chart|safe }}"
                              class="contain" height="150px"/>
                     {% elif query.latest_result.single != null %}

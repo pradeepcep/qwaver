@@ -14,9 +14,9 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.models import Query, Parameter, Database, UserSearch, Value, Result, QueryComment
-from queries.views import get_org_databases, user_can_access_query
 from queries.common.access import user_can_access_database
+from queries.models import Query, Parameter, Database, UserSearch, QueryComment
+from queries.views import get_org_databases, user_can_access_query
 
 pagination_count = 12
 

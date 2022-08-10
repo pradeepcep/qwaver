@@ -115,3 +115,9 @@ a.article-title:hover {
 pre {
 
 }
+
+.top-right {
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
