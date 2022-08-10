@@ -62,7 +62,7 @@ def execute(request, id):
     query = get_object_or_404(Query, pk=id)
     user_can_access_query(user, query)
     params = Parameter.objects.filter(query=query)
-    is_dark = user.is_authenticated and user.profile.display_mode == 2
+    is_dark = user.is_authenticated and user.profile.display_mode != 1
     table_style = ""
     if is_dark:
         table_style = "table-dark"
