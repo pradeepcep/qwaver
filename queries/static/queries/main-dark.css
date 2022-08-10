@@ -9,6 +9,10 @@ h1, h2, h3, h4, h5, h6 {
     color: #525983;
 }
 
+.card-override {
+    background-color: #282a36;
+}
+
 .bg-steel {
     background-color: #282a36;
 }
@@ -56,7 +60,6 @@ a.article-title:hover {
 
 .search-box {
     border-color: #44475a;
-    background-color: #223;
 }
 
 

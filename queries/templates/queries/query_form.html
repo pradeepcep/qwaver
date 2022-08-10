@@ -50,7 +50,7 @@
     <script>
         let textArea = document.getElementById('id_query');
         let codeMirrorConfig = {
-            {% if user.is_authenticated and user.profile.display_mode == 2 %}
+            {% if user.is_authenticated and user.profile.display_mode != 1 %}
                 theme: 'dracula',
             {% else %}
                 theme: 'default',

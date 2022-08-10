@@ -17,7 +17,7 @@ from dateutil.parser import parse
 from . import user_can_access_query
 from ..models import Query, Parameter, Result, Value
 
-max_table_rows = 100
+max_table_rows = 500
 image_encoding = 'jpg'
 
 

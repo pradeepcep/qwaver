@@ -1,0 +1,97 @@
+/* Dracula theme: https://draculatheme.com/contribute */
+
+body {
+    background: #111111;
+    color: #f8f8f2;
+    background: url('/media/bkgnd.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+h1 {
+    color: white
+}
+
+h2, h3, h4, h5, h6 {
+    color: magenta;
+}
+
+.card-override {
+    background-color: rgba(0,0,0,.85) !important;
+    box-shadow: 0 0 10px darkcyan;
+}
+
+.bg-steel {
+
+}
+
+.list-group-item {
+    background-color: #282a36;
+    border-color: magenta;
+}
+
+.navbar {
+    color: #cbd5db;
+    background: url('/media/bkgnd2.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    border-bottom: magenta 1px solid;
+}
+
+.navbar-nav .nav-link {
+    color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+}
+
+.content-section {
+    background: #111111;
+    border-color: darkmagenta;
+}
+
+.article-title {
+    color: #8ab4f8;
+}
+
+a.article-title:hover {
+    color: #80b0f0;
+}
+
+
+.article-metadata {
+    border-bottom-color: #bd93f9;
+}
+
+.article-metadata a:hover {
+    color: #333;
+}
+
+
+.search-field {
+    background-color: black;
+    color: white
+}
+
+.search-box {
+    border-color: #44475a;
+    /*background-color: #330033;*/
+    background-color: rgba(255, 0, 255, 0.2);
+    /*background-color: rgba(0,0,0,.8);*/
+    box-shadow: 0 0 5px magenta;
+}
+
+
+.form-control {
+    background-color: #282a36;
+    color: white;
+}
+
+pre {
+    color: yellow;
+}

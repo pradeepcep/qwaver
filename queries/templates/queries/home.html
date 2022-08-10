@@ -11,7 +11,7 @@
         }
     </script>
     <!-- Search -->
-    <div class="row search-box mb-3">
+    <div class="row search-box bg-steel mb-3">
         <div class="col-md-12 mt-4 mb-4 text-center">
             <form action="{% url 'query-search' %}">
                 <input type="text" class="search-field" name="s" value="{{ request.GET.s }}" list="recent_searches">
@@ -35,7 +35,11 @@
         </div>
 
         <!-- Queries -->
-        {% include "queries/home_template_card.html" with quereies=queries %}
+        {% if request.GET.s == null %}
+            {% include "queries/home_template_card.html" with quereies=queries %}
+        {% else %}
+            {% include "queries/home_template_list.html" with quereies=queries %}
+        {% endif %}
 
         {% if is_paginated %}
 
