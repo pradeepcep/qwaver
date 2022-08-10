@@ -40,6 +40,8 @@ h2, h3, h4, h5, h6 {
     -o-background-size: cover;
     background-size: cover;
     border-bottom: magenta 1px solid;
+    box-shadow: -10px 10px 10px rgba(0,0,0,.3);
+    /*box-shadow: -10px 10px 20px rgba(0,0,0,.5);*/
 }
 
 .navbar-nav .nav-link {
@@ -53,6 +55,7 @@ h2, h3, h4, h5, h6 {
 .content-section {
     background: #111111;
     border-color: darkmagenta;
+    box-shadow: -10px 10px 20px rgba(0,0,0,.5);
 }
 
 .article-title {
@@ -94,4 +97,8 @@ a.article-title:hover {
 
 pre {
     color: yellow;
+}
+
+.result {
+    box-shadow: -10px 10px 20px rgba(0,0,0,.5);
 }

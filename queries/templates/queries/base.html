@@ -57,47 +57,51 @@
 
             {% if user.is_authenticated %}
                 <div class="collapse navbar-collapse" id="navbarToggle">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-item nav-link" href="{% url 'query-create' %}">New Query</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Actions
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Requests</a>
-                            <a class="dropdown-item" href="{% url 'query-create' %}">Query</a>
-                            <a class="dropdown-item" href="{% url 'database-list' %}">Databases</a>
-                        </div>
-                    </li>
-                </ul>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="{% url 'query-create' %}">New Query</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Requests</a>
+                                <a class="dropdown-item" href="{% url 'query-create' %}">Query</a>
+                                <a class="dropdown-item" href="{% url 'database-list' %}">Databases</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             {% endif %}
 
             <!-- Navbar Right Side -->
-            <div class="navbar-nav">
+            <ul class="navbar-nav">
                 {% if user.is_authenticated %}
-                    <div class="dropdown show">
-                        <a class="btn btn-primary-outline dropdown-toggle" href="#" role="button"
-                           id="dropdownMenuLink"
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle article-img" src="{{ user.profile.image.url }}">
                             {{ user.username }}
                         </a>
-
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
                             <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                            <a class="dropdown-item" href="/admin">Admin</a>
+                            {% if user.username == 'admin' or user.username == 'brian' %}
+                                <a class="dropdown-item" href="/admin">Admin</a>
+                            {% endif %}
                         </div>
-                    </div>
+                    </li>
                 {% else %}
-                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                    <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
                 {% endif %}
-            </div>
-            </div>
+            </ul>
         </div>
     </nav>
 </header>

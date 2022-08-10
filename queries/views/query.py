@@ -18,7 +18,7 @@ from queries.models import Query, Parameter, Database, UserSearch, Value, Result
 from queries.views import get_org_databases, user_can_access_query
 from queries.common.access import user_can_access_database
 
-pagination_count = 8
+pagination_count = 12
 
 
 class QueryListView(LoginRequiredMixin, ListView):
