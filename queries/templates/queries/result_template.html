@@ -3,11 +3,12 @@
         <h1 class="display-1">{{ result.single|safe }}</h1>
     {% elif result.chart != null %}
         <div class="mb-4">
-            <img src="data:image/{{ result.image_encoding }};base64,{{ result.chart|safe }}" class="contain" width="100%"/>
+            <img src="data:image/{{ result.image_encoding }};base64,{{ result.chart|safe }}" class="contain"
+                 width="100%"/>
         </div>
-        {% else %}
+    {% else %}
         <div class="mb-4" style="height: 20em; overflow: scroll">
-        {{ result.table|safe }}
+            {{ result.table|safe }}
         </div>
     {% endif %}
     <!-- download -->
