@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://qwaver.io">
-    <img src="https://qwaver.io/media/qwaver-logo.png" alt="qwaver logo">
+    <img src="https://qwaver.io/media/qwaver-header.jpg" alt="qwaver logo">
   </a>
 
 **Turn queries into easy-to-use tools your teammates can share.**
@@ -70,9 +70,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * flag queries -- if their results do no align with their title/description or are wrong in any other way
     * Search results should not include flagged queries
     * The author of a flagged query should be given an alert
-* card layout for home page
-    * use [.card-columns](https://getbootstrap.com/docs/4.0/components/card/) in parent div
-    * use [.stretched-link](https://stackoverflow.com/questions/54404865/make-bootstrap-card-entirely-clickable):
 * track average execution time for queries
 
 ### General improvements
