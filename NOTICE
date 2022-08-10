@@ -11,3 +11,8 @@ made available under the MIT license.
 The synthwave theme background images are modified derivatives of output from
 DALL-E (https://labs.openai.com/)
 Copyright 2015-2022 OpenAI
+
+Code formatting made possible by CodeMirror
+MIT license: https://github.com/codemirror/dev/blob/master/LICENSE
+Copyright (C) 2018 by Marijn Haverbeke <marijnh@gmail.com>, Adrian
+Heine <mail@adrianheine.de>, and others
