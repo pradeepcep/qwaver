@@ -71,6 +71,8 @@ Helping with this project will make you one of the cooler people that I know. Ho
     * Search results should not include flagged queries
     * The author of a flagged query should be given an alert
 * track average execution time for queries
+* For pie charts with more than 20 pie slices; make single slice be sum of the remainder
+* Add comments, likes
 
 ### General improvements
 If you see any ways that the app could be improved in these ways, let's work on it!

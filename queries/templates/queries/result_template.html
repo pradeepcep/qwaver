@@ -6,11 +6,10 @@
             <img src="data:image/{{ result.image_encoding }};base64,{{ result.chart|safe }}" class="contain"
                  width="100%"/>
         </div>
-    {% else %}
-        <div class="mb-4" style="height: 20em; overflow: scroll">
-            {{ result.table|safe }}
-        </div>
     {% endif %}
+    <div class="mb-4" style="height: 20em; overflow: scroll">
+        {{ result.table|safe }}
+    </div>
     <!-- download -->
     {% if result.single == null %}
         <div style="width: 100%; display: inline-block">

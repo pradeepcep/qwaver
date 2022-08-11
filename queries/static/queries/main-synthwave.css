@@ -14,7 +14,7 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
-    color: magenta;
+    color: #CC00CC;
 }
 
 .card-override {
@@ -52,7 +52,8 @@ h2, h3, h4, h5, h6 {
 }
 
 .content-section {
-    background: #111111;
+    /*background: #111111;*/
+    background: rgba(0,0,0,.85);
     border-color: darkmagenta;
     box-shadow: -10px 10px 20px rgba(0,0,0,.5);
 }
@@ -85,7 +86,7 @@ a.article-title:hover {
     /*background-color: #330033;*/
     background-color: rgba(255, 0, 255, 0.2);
     /*background-color: rgba(0,0,0,.8);*/
-    box-shadow: 0 0 5px magenta;
+    box-shadow: 0 0 7px magenta;
 }
 
 

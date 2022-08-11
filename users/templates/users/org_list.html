@@ -1,0 +1,12 @@
+{% extends "queries/base.html" %}
+{% block content %}
+    <a class="btn btn-primary mb-4 mt-4" href="{% url 'org-create' %}" role="button">New Organization</a>
+    <h2>Organizations</h2>
+    {% for org in orgs %}
+        <article class="media content-section">
+          <div class="media-body">
+            <h2><a class="article-title" href="{% url 'org-update' org.id %}">{{ org.name }}</a></h2>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
