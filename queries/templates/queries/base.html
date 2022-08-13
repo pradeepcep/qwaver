@@ -18,12 +18,14 @@
             <link rel="stylesheet" type="text/css" href="{% static 'queries/main-synthwave.css' %}">
         {% elif user.profile.display_mode == 2 %}
             <link rel="stylesheet" type="text/css" href="{% static 'queries/main-dark.css' %}">
-        {% else %}
+        {% elif user.profile.display_mode == 1 %}
             <link rel="stylesheet" type="text/css" href="{% static 'queries/main-light.css' %}">
+        {% else %}
+            <link rel="stylesheet" type="text/css" href="{% static 'queries/main-synthwave.css' %}">
         {% endif %}
     {% else %}
         {# default theme #}
-        <link rel="stylesheet" type="text/css" href="{% static 'queries/main-light.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'queries/main-synthwave.css' %}">
     {% endif %}
 
 
@@ -70,7 +72,7 @@
                                 Actions
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-{#                                <a class="dropdown-item" href="#">Requests</a>#}
+                                {#                                <a class="dropdown-item" href="#">Requests</a>#}
                                 <a class="dropdown-item" href="{% url 'database-list' %}">Databases</a>
                                 <a class="dropdown-item" href="{% url 'organization-list' %}">Organizations</a>
                             </div>
@@ -110,7 +112,7 @@
 </header>
 <main role="main" class="">
     <div class="row d-flex justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
@@ -137,7 +139,6 @@
     </div>
 </main>
 
-<!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

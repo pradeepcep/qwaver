@@ -26,7 +26,9 @@ source /home/geneffec/virtualenv/qwaver/3.8/bin/activate && cd /home/geneffec/qw
 
 ## promotion ideas
 * add to [open source projects](https://github.com/wsvincent/awesome-django)
+* [Repo trending](https://www.freecodecamp.org/news/how-we-got-a-2-year-old-repo-trending-on-github-in-just-48-hours-12151039d78b/)
 
 
 ## copy ideas
 * an online (web based) database client
+* look at [dbvis](https://www.dbvis.com/)

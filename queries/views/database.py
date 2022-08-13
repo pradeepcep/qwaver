@@ -12,7 +12,7 @@ from queries.models import Database
 from queries.common.access import get_org_databases, user_can_access_database
 
 
-class DatabaseListView(ListView):
+class DatabaseListView(LoginRequiredMixin, ListView):
     model = Database
     template_name = 'queries/database_list.html'
     context_object_name = 'databases'

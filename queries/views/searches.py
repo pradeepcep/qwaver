@@ -1,10 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
 from queries.models import UserSearch
 from queries.views import get_org_databases
 
 
-class UserSearchListView(ListView):
+class UserSearchListView(LoginRequiredMixin, ListView):
     model = UserSearch
     template_name = 'queries/search_list.html'
     context_object_name = 'searches'

@@ -106,7 +106,10 @@ If you want to run locally:
     * migrate
 
 Environment variables:
-```DJANGO_SETTINGS_MODULE=qwaver.settings```
+```
+DJANGO_SETTINGS_MODULE=qwaver.settings
+SECRET_KEY=[your secret key]
+```
 
 Run python server, go to localhost
 
