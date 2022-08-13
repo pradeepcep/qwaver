@@ -46,6 +46,10 @@ class DatabaseEditView(LoginRequiredMixin, UpdateView):
     model = Database
     fields = ['title', 'host', 'port', 'database', 'user', 'password']
 
+    def test_func(self):
+        user_can_access_database(self.request.user, self.get_object())
+        return True
+
 
 class DatabaseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Database

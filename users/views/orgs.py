@@ -1,6 +1,4 @@
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import (
     ListView,
@@ -30,7 +28,10 @@ class OrganizationCreateView(LoginRequiredMixin, CreateView):
     fields = ['name']
 
     def get_success_url(self):
-        # TODO: add UserOrganizatioin for user creating this org
+        # adding UserOrganization for user creating this org
+        # so that the user hase access to it immediately
+        user_org = UserOrganization.objects.create(user=self.request.user, organization=self.object)
+        user_org.save()
         return reverse('organization-list')
 
 
@@ -38,13 +39,24 @@ class OrganizationEditView(LoginRequiredMixin, UpdateView):
     model = Organization
     fields = ['name']
 
+    def get_object(self, queryset=None):
+        obj = super().get_object()
+        user_can_access_org(self.request.user, obj)
+        return obj
+
 
 class OrganizationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Organization
 
-    def get_success_url(self):
-        return reverse('organization-list')
+    def get_object(self, queryset=None):
+        obj = super().get_object()
+        user_can_access_org(self.request.user, obj)
+        return obj
 
     def test_func(self):
-        user_can_access_org(self.request.user, self.get_object())
         return True
+
+    def get_success_url(self):
+        org = self.object
+        UserOrganization.objects.filter(organization=org).delete()
+        return reverse('organization-list')

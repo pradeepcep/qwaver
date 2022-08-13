@@ -30,6 +30,7 @@ def user_can_access_database(user, database):
 
 def user_can_access_org(user, org):
     user_orgs = UserOrganization.objects.filter(user=user)
-    if not any(user_org.id == org.id for user_org in user_orgs):
+    if not any(user_org.organization.id == org.id for user_org in user_orgs):
         raise PermissionDenied(
-            "user not part of the organization to which the database belongs")
+            "user not member of organization: " + str(org.id)
+        )

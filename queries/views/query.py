@@ -160,11 +160,11 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
+        user_can_access_query(self.request.user, form.instance)
         form.fields['database'].queryset = get_org_databases(self)
         return form
 
     def form_valid(self, form):
-        user_can_access_query(self.request.user, form.instance)
         self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
         # getting all parameter strings between curly braces
