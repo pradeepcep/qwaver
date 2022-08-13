@@ -32,3 +32,4 @@ source /home/geneffec/virtualenv/qwaver/3.8/bin/activate && cd /home/geneffec/qw
 ## copy ideas
 * an online (web based) database client
 * look at [dbvis](https://www.dbvis.com/)
+* run queries from a ski lift

@@ -5,7 +5,7 @@ from .views.result import ResultDetailView
 urlpatterns = [
     path('', QueryListView.as_view(), name='queries-home'),
     path('user/<str:username>', UserQueryListView.as_view(), name='user-queries'),
-    path('about/', about, name='queries-about'),
+    path('about/', about, name='about'),
 
     path('query/new/', QueryCreateView.as_view(), name='query-create'),
     path('query/<int:pk>/', QueryDetailView.as_view(), name='query-detail'),

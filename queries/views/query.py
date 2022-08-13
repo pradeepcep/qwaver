@@ -4,7 +4,7 @@ import re
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.views.generic import (
     ListView,
@@ -21,12 +21,17 @@ from queries.views import get_org_databases, user_can_access_query
 pagination_count = 12
 
 
-class QueryListView(LoginRequiredMixin, ListView):
+class QueryListView(ListView):
     model = Query
-    template_name = 'queries/home.html'  # <app>/<model>_<viewtype>.html
+    template_name = 'queries/query_list.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'queries'
     ordering = ['-date_created']
     paginate_by = pagination_count
+
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('about')
+        return super(QueryListView, self).get(*args, **kwargs)
 
     def get_queryset(self):
         # https://stackoverflow.com/questions/9410647/how-to-filter-model-results-for-multiple-values-for-a-many-to-many-field-in-djan
@@ -51,7 +56,7 @@ class QueryListView(LoginRequiredMixin, ListView):
 
 class QuerySearchView(LoginRequiredMixin, ListView):
     model = Query
-    template_name = 'queries/home.html'
+    template_name = 'queries/query_list.html'
     context_object_name = 'queries'
     paginate_by = pagination_count
 

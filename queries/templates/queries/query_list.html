@@ -36,9 +36,9 @@
 
         <!-- Queries -->
         {% if request.GET.s == null and result_count > 5 %}
-            {% include "queries/home_template_card.html" with quereies=queries %}
+            {% include "queries/query_list_card.html" with quereies=queries %}
         {% else %}
-            {% include "queries/home_template_list.html" with quereies=queries %}
+            {% include "queries/query_list_row.html" with quereies=queries %}
         {% endif %}
 
         {% if is_paginated %}
