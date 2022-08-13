@@ -23,3 +23,10 @@ source /home/geneffec/virtualenv/qwaver/3.8/bin/activate && cd /home/geneffec/qw
 ### Titles
 * Online Database Client
 * Web-based Database Client
+
+## promotion ideas
+* add to [open source projects](https://github.com/wsvincent/awesome-django)
+
+
+## copy ideas
+* an online (web based) database client

@@ -51,6 +51,16 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * Easy:  If you're in the code and see where something could be improved, but can't make the improvement right then,
   add  `# TODO` comment with a helpful description of what needs to be done and submit a PR.
 
+## The Data Model
+* The hierarchy is like this:
+  * Org -> Database -> Query -> Result
+  * Each "->" represents a one-to-many relationship
+* Users and Organizations
+  * User and Organization have a many-to-many relationship with the connection defined by UserOrganization
+    * Each organization can have many users
+    * Each user can belong to many organizations
+  * When using Qwaver, a user has a selected organization defined in their profile
+
 ### Feature requests
 #### Big, important things:
 * First time user flow:
