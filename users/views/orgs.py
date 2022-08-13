@@ -20,8 +20,8 @@ class OrganizationListView(ListView):
 
     def get_queryset(self):
         # TODO: is there a better way to do this with only one query instead of two?
-        userOrgs = UserOrganization.objects.filter(user=self.request.user).values_list('organization', flat=True)
-        orgs = Organization.objects.filter(pk__in=userOrgs)
+        user_orgs = UserOrganization.objects.filter(user=self.request.user).values_list('organization', flat=True)
+        orgs = Organization.objects.filter(pk__in=user_orgs)
         return orgs
 
 
