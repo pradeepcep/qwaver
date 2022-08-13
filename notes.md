@@ -1,12 +1,12 @@
 # Working with cPanel
-/home/geneffec/virtualenv/wowmydata/3.7/bin/pip install --upgrade pip
+/home/geneffec/virtualenv/qwaver/3.7/bin/pip install --upgrade pip
 
-/home/geneffec/virtualenv/wowmydata/3.7/bin/pip3 install -r requirements.txt
+/home/geneffec/virtualenv/qwaver/3.7/bin/pip3 install -r requirements.txt
 
-source /home/geneffec/virtualenv/wowmydata/3.8/bin/activate && cd /home/geneffec/wowmydata
+source /home/geneffec/virtualenv/qwaver/3.8/bin/activate && cd /home/geneffec/qwaver
 
 
-# Achievements
+## Achievements
 * you create a functional query
 * creat a functional parameterized query
 * someone uses your query
@@ -15,7 +15,11 @@ source /home/geneffec/virtualenv/wowmydata/3.8/bin/activate && cd /home/geneffec
 * someone 
 * You edited a query
 
-# Awards
+## Awards
 * edit others queries
 * invite others
-* 
+
+## advertising ideas
+### Titles
+* Online Database Client
+* Web-based Database Client

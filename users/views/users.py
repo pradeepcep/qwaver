@@ -1,9 +1,9 @@
-from django.forms import ModelMultipleChoiceField
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import UserOrganization
+from django.shortcuts import render, redirect
+
+from users.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from users.models import UserOrganization
 
 
 def register(request):
