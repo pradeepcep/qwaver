@@ -14,7 +14,7 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
-    color: #CC00CC;
+    color: #EE00EE;
 }
 
 .card-override {
@@ -56,6 +56,12 @@ h2, h3, h4, h5, h6 {
     background: rgba(0,0,0,.85);
     border-color: darkmagenta;
     box-shadow: -10px 10px 20px rgba(0,0,0,.5);
+}
+
+.feature-box {
+    background: rgba(0,0,0,.5);
+    box-shadow: -10px 10px 20px rgba(0,0,0,.5);
+    margin: 10px;
 }
 
 .article-title {

@@ -23,40 +23,87 @@
 </div>
 
 <main role="main" class="">
+    <div style="text-align: center">
+        <img src="/media/qwaver-logo.png" style="margin: 75px 0px 0px 0px" width="800">
+        <div style="margin: 10px 0px 75px 0px">
+            Turn queries into easy-to-use tools even your CEO can use.
+        </div>
+    </div>
     <div class="row d-flex justify-content-center">
-        <img src="/media/qwaver-logo.png" style="margin: 75px 0px 75px 0px" width="800">
+
         <div class="col-md-10">
             <div class="row d-flex justify-content-center align-text-top">
                 <div class="col-md-7 align-top">
-                    <div style="background: black; padding: 20px; border-radius: 6px; text-align: center; min-width: 600px; width: 650px">
+                    <div style="background: black; text-align: center; padding: 20px; ">
                         <img src="/media/three-screen-shots.jpg" class="align-top"
                              width="600">
                     </div>
                 </div>
                 <div class="col-md-5">
                     <h1>Free and Open Source</h1>
-                    <div>
+                    <div style="margin: 20px 0px 20px 0px">
                         <!-- Place this tag where you want the button to render. -->
-<!-- Place this tag where you want the button to render. -->
-<a class="github-button" href="https://github.com/brianrisk/qwaver" aria-label="Star brianrisk/qwaver on GitHub">Star on GitHub</a>
+                        <!-- Place this tag where you want the button to render. -->
+                        <a class="github-button" href="https://github.com/brianrisk/qwaver"
+                           aria-label="Star brianrisk/qwaver on GitHub">Star on GitHub</a>
                     </div>
-                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Get It</a>
+                    <div style="margin-bottom: 20px">
+                        Qwaver is free open source software. No subscriptions or licensing fees
+                    </div>
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Get On It</a>
                 </div>
             </div>
         </div>
+
+        <div class="container">
+            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                <div class="feature col feature-box">
+                    <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                        <h1 class="m-2"><i class="bi bi-clipboard-data"></i></h1>
+                    </div>
+                    <h2>Access your database from anywhere</h2>
+                    <p>From the airport, at the playground with your kids or dangling in a ski lift -- your database,
+                        and all your beautiful, saved queries -- are available on your phone</p>
+                    <a href="{% url 'register' %}" class="icon-link d-inline-flex align-items-center">
+                        Set it up
+                    </a>
+                </div>
+                <div class="feature col feature-box">
+                    <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                        <h1 class="m-2"><i class="bi bi-chat-heart"></i></h1>
+                    </div>
+                    <h2>Your queries become useful, sharable tools</h2>
+                    <p>Easily add parameters to queries and make them powerful, sharable tools even your boss can use.</p>
+                    <a href="{% url 'register' %}" class="icon-link d-inline-flex align-items-center">
+                        Get started
+                    </a>
+                </div>
+                <div class="feature col feature-box">
+                    <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                        <h1 class="m-2"><i class="bi bi-cloud-arrow-down"></i></h1>
+                    </div>
+                    <h2>Charts and data, package neatly</h2>
+                    <p>Charts instantly spring from your queried data.  Share with a link and it's all there:  the chart, the data for download, and the query used to produce it</p>
+                    <a href="{% url 'register' %}" class="icon-link d-inline-flex align-items-center">
+                        Free account
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </main>
 
-{#<!-- jQuery first, then Popper.js, then Bootstrap JS -->#}
-{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"#}
-{#        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
-{#        crossorigin="anonymous"></script>#}
-{#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"#}
-{#        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"#}
-{#        crossorigin="anonymous"></script>#}
-{#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"#}
-{#        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"#}
-{#        crossorigin="anonymous"></script>#}
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
