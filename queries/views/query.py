@@ -29,8 +29,16 @@ class QueryListView(ListView):
     paginate_by = pagination_count
 
     def get(self, *args, **kwargs):
+        # not registered
         if not self.request.user.is_authenticated:
             return redirect('about')
+        # no org
+        elif self.request.user.profile.selected_organization is None:
+            return redirect('organization-create')
+        # no database
+        # TODO make selected_organization when creating organization
+        # elif Database.objects.filter(organization=self.request.user.profile.selected_organization)
+        # no query
         return super(QueryListView, self).get(*args, **kwargs)
 
     def get_queryset(self):

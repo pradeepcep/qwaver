@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
@@ -10,10 +11,13 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Your account has been created! You are now able to log in')
-            return redirect('login')
+            password = form.cleaned_data.get('password')
+            messages.success(request, f'Your account has been created!')
+            login(request, user)
+            # login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return redirect('queries-home')
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})

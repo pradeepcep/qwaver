@@ -28,10 +28,14 @@ class OrganizationCreateView(LoginRequiredMixin, CreateView):
     fields = ['name']
 
     def get_success_url(self):
+        user = self.request.user
         # adding UserOrganization for user creating this org
         # so that the user hase access to it immediately
-        user_org = UserOrganization.objects.create(user=self.request.user, organization=self.object)
+        user_org = UserOrganization.objects.create(user=user, organization=self.object)
         user_org.save()
+        # making this the selected org for the user
+        user.profile.selected_organization = self.object
+        user.profile.save()
         return reverse('organization-list')
 
 
@@ -45,6 +49,9 @@ class OrganizationEditView(LoginRequiredMixin, UpdateView):
         return obj
 
 
+# todo cannot delete org if the org is currently selected in user's profile
+#  or anyone's profile for that matter!
+#  for now I'm removing delete functionality until this is figured out
 class OrganizationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Organization
 
