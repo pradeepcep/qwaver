@@ -27,6 +27,14 @@ class DatabaseCreateView(LoginRequiredMixin, CreateView):
     model = Database
     fields = ['title', 'host', 'port', 'database', 'user', 'password']
 
+    def get_context_data(self, **kwargs):
+        # get the default context data
+        context = super(DatabaseCreateView, self).get_context_data(**kwargs)
+        # if the user organization has no database, indicate we're in the set-up flow
+        if len(get_org_databases(self)) == 0:
+            context['is_setup'] = True
+        return context
+
     def get_success_url(self):
         return reverse('database-list')
 

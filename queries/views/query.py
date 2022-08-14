@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import (
     ListView,
@@ -20,7 +21,8 @@ from queries.views import get_org_databases, user_can_access_query
 
 pagination_count = 12
 
-
+# The main view of the app.
+# This handles the signup-flow
 class QueryListView(ListView):
     model = Query
     template_name = 'queries/query_list.html'  # <app>/<model>_<viewtype>.html
@@ -36,9 +38,11 @@ class QueryListView(ListView):
         elif self.request.user.profile.selected_organization is None:
             return redirect('organization-create')
         # no database
-        # TODO make selected_organization when creating organization
-        # elif Database.objects.filter(organization=self.request.user.profile.selected_organization)
+        elif len(get_org_databases(self)) == 0:
+            return redirect('database-create')
         # no query
+        elif len(Query.objects.filter(database_id__in=get_org_databases(self))) == 0:
+            return redirect('query-create')
         return super(QueryListView, self).get(*args, **kwargs)
 
     def get_queryset(self):

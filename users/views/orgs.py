@@ -27,15 +27,28 @@ class OrganizationCreateView(LoginRequiredMixin, CreateView):
     model = Organization
     fields = ['name']
 
+    def get_context_data(self, **kwargs):
+        # get the default context data
+        context = super(OrganizationCreateView, self).get_context_data(**kwargs)
+        # if the user has no selected organization, indicate we're in the set-up flow
+        user = self.request.user
+        if user.profile.selected_organization is None:
+            context['is_setup'] = True
+        return context
+
     def get_success_url(self):
         user = self.request.user
         # adding UserOrganization for user creating this org
         # so that the user hase access to it immediately
         user_org = UserOrganization.objects.create(user=user, organization=self.object)
         user_org.save()
+        # checking if in setup flow
+        is_setup = user.profile.selected_organization is None
         # making this the selected org for the user
         user.profile.selected_organization = self.object
         user.profile.save()
+        if is_setup:
+            return reverse('queries-home')
         return reverse('organization-list')
 
 

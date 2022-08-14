@@ -2,6 +2,15 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
+        {% if is_setup %}
+            <h1>
+            Step 2
+            </h1>
+            <p>
+                Now that you've set up your user, create an organization.
+                An organization is the name of the business, website, etc. that has the databases.
+            </p>
+        {% endif %}
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -16,11 +25,17 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Save</button>
-{#                {% if object != null %}#}
-{#                    <a class="btn btn-danger btn-sm mt-1 mb-1"#}
-{#                       href="{% url 'organization-delete' object.id %}">Delete</a>#}
-{#                {% endif %}#}
+                <button class="btn btn-outline-info" type="submit">
+                    {% if is_setup %}
+                        Next →
+                    {% else %}
+                        Save
+                    {% endif %}
+                </button>
+                {#                {% if object != null %}#}
+                {#                    <a class="btn btn-danger btn-sm mt-1 mb-1"#}
+                {#                       href="{% url 'organization-delete' object.id %}">Delete</a>#}
+                {#                {% endif %}#}
             </div>
         </form>
     </div>

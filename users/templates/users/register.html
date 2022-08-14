@@ -2,10 +2,10 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
+        <h1>Step 1: Create Your User</h1>
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Step 1: Create Your User</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">

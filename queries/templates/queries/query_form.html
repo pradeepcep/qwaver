@@ -19,6 +19,14 @@
         }
     </script>
     <div class="content-section">
+        <h1>
+            Step 4
+        </h1>
+        <p>
+            Final step!  Now that you've connected your database, make a query.  Easiest is to paste in one you've already
+            written.
+        </p>
+
         {% if object != null %}
             <div class="top-right">
                 <a class="btn btn-success mr-2 float-left" href="{% url 'query-clone' object.id %}">
@@ -37,7 +45,13 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-primary" type="submit" onclick="copyContent();">Save</button>
+                <button class="btn btn-primary" type="submit" onclick="copyContent();">
+                    {% if is_setup %}
+                        Next →
+                    {% else %}
+                        Save
+                    {% endif %}
+                </button>
                 {% if object != null %}
                     <div class="float-right">
                         <a class="btn btn-danger mr-2"

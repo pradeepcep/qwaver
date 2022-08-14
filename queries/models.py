@@ -10,10 +10,10 @@ from users.models import Organization
 # Database connection information
 class Database(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=1)
-    title = models.CharField(max_length=256, default="")
+    title = models.CharField(max_length=256, default="", help_text='Can be any name you want such as "Transaction events"')
     host = models.CharField(max_length=256)
     port = models.IntegerField()
-    database = models.CharField(max_length=256, default="")
+    database = models.CharField(max_length=256, default="", help_text="The name of the database on your server")
     user = models.CharField(max_length=256)
     password = models.CharField(max_length=256)
     is_valid = models.BooleanField(default=True)
