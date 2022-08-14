@@ -11,27 +11,34 @@
         }
     </script>
     <!-- Search -->
-    <div class="row search-box bg-steel mb-3">
-        <div class="col-md-12 mt-4 mb-4 text-center">
-            <form action="{% url 'query-search' %}">
-                <input type="text" class="search-field" name="s" value="{{ request.GET.s }}" list="recent_searches">
-                <!-- recent searches -->
-                {% if recent_searches|length > 0 %}
-                    <datalist id="recent_searches">
-                        {% for recent_search in recent_searches %}
-                            <option value="{{ recent_search }}">
-                        {% endfor %}
-                    </datalist>
-                {% endif %}
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
+    <!-- Only display when there are more than a few results -->
+    {% if result_count > 5 %}
+        <div class="row search-box bg-steel mb-3">
+            <div class="col-md-12 mt-4 mb-4 text-center">
+                <form action="{% url 'query-search' %}">
+                    <input type="text" class="search-field" name="s" value="{{ request.GET.s }}" list="recent_searches">
+                    <!-- recent searches -->
+                    {% if recent_searches|length > 0 %}
+                        <datalist id="recent_searches">
+                            {% for recent_search in recent_searches %}
+                                <option value="{{ recent_search }}">
+                            {% endfor %}
+                        </datalist>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
         </div>
-    </div>
+    {% endif %}
 
     <!-- Result count -->
     {% if result_count > 0 %}
         <div class="col-md-12 mt-4 mb-4 ml-0 pl-0 text-left" style="color: gray;">
-            {{ result_count }} results.
+            {% if result_count == 1 %}
+                1 query.
+            {% else %}
+                {{ result_count }} queries.
+            {% endif %}
         </div>
 
         <!-- Queries -->
