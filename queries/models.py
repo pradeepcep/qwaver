@@ -14,7 +14,7 @@ class Database(models.Model):
     host = models.CharField(max_length=256)
     port = models.IntegerField()
     database = models.CharField(max_length=256, default="", help_text="The name of the database on your server")
-    user = models.CharField(max_length=256)
+    user = models.CharField(max_length=256, help_text="Ideally with read-only permissions")
     password = models.CharField(max_length=256)
     is_valid = models.BooleanField(default=True)
 

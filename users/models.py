@@ -4,7 +4,7 @@ from PIL import Image
 
 
 class Organization(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, help_text="Usually the name of your business or website")
     readonly_fields = ('id',)
 
     def __str__(self):

@@ -13,6 +13,10 @@ Parameterize! Visualize! Collaboratize?!
 </a>
 
 qwaver links: [Intro](#the-fascinating-story) • [Help!](#help) • [Installation](#installation) • [Thanks](#thank-yous)
+
+<a href="https://qwaver.io">
+    <img src="https://qwaver.io/media/three-screen-shots.jpg" alt="qwaver logo">
+  </a>
 </div>
 
 ## The Fascinating Story
