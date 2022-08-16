@@ -106,7 +106,10 @@ qwaver is already up and running on [qwaver.io](https://qwaver.io)
 
 If you want to run locally:
 
+`pip install -r requirements.txt`
+
 * manage.py
+    * collectstatic --no-input 
     * createsuperuser
     * makemigrations
     * migrate

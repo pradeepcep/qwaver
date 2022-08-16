@@ -1,7 +1,7 @@
 
 
 # Working with cPanel
-[installing with cPanel](https://www.a2hosting.com/kb/developer-corner/python/installing-and-configuring-django-on-linux-shared-hosting)
+[installing with cPanel](https://medium.com/@pyzimos/deploying-django-web-application-using-cpanel-6687b8057439)
 
 /home/geneffec/virtualenv/qwaver/3.7/bin/pip install --upgrade pip
 
