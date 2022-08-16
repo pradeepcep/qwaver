@@ -9,6 +9,9 @@
 
 source /home/geneffec/virtualenv/qwaver/3.8/bin/activate && cd /home/geneffec/qwaver
 
+whenever code changes:
+
+`PID=$(systemctl show --value -p MainPID gunicorn.service) && kill -HUP $PID`
 
 ## Achievements
 * you create a functional query
