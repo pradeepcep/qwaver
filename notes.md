@@ -30,6 +30,12 @@ whenever code changes:
 ### Titles
 * Online Database Client
 * Web-based Database Client
+* Open Source Looker Killer: Qwaver
+
+## targeting
+* only computers (no phones / tablets)
+* keywords:
+  * 
 
 ## promotion ideas
 * add to [open source projects](https://github.com/wsvincent/awesome-django)
