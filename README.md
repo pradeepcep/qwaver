@@ -91,6 +91,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * create exceptions table and log exceptions
 * creat easy way to leave feedback
 
+#### Issues:
+* query parameters no longer recommending last specified
+
 ### General improvements
 If you see any ways that the app could be improved in these ways, let's work on it!
 
