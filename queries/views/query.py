@@ -4,7 +4,7 @@ import re
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import (
@@ -33,7 +33,8 @@ class QueryListView(ListView):
     def get(self, *args, **kwargs):
         # not registered
         if not self.request.user.is_authenticated:
-            return redirect('about')
+            return render(self.request, 'queries/about.html')
+            # return redirect('about')
         # no org
         elif self.request.user.profile.selected_organization is None:
             return redirect('organization-create')
