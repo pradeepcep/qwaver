@@ -1,6 +1,6 @@
 <div align="center">
-  <a href="https://qwaver.io">
-    <img src="https://qwaver.io/media/qwaver-header.jpg" alt="qwaver logo">
+  <a href="http://qwaver.io">
+    <img src="http://qwaver.io/media/qwaver-header.jpg" alt="qwaver logo">
   </a>
 
 **Turn queries into easy-to-use tools your teammates can share.**
@@ -11,11 +11,12 @@ Parameterize! Visualize! Collaboratize?!
 <a href="https://github.com/brianrisk/qwaver/graphs/contributors">
 <img src="https://img.shields.io/github/contributors/brianrisk/qwaver.svg">
 </a>
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 qwaver links: [Intro](#the-fascinating-story) • [Help!](#help) • [Installation](#installation) • [Thanks](#thank-yous)
 
-<a href="https://qwaver.io">
-    <img src="https://qwaver.io/media/three-screen-shots.jpg" alt="qwaver logo">
+<a href="http://qwaver.io">
+    <img src="http://qwaver.io/media/three-screen-shots.jpg" alt="qwaver logo">
   </a>
 </div>
 
@@ -50,7 +51,7 @@ query language, let's leverage that strength!
 Helping with this project will make you one of the cooler people that I know. How can I (meaning you) do that?
 
 * Easy:  Give this project a ⭐️!
-* Easy:  Kick the tires.  [qwaver.io](https://qwaver.io) has the latest version running.
+* Easy:  Kick the tires.  [qwaver.io](http://qwaver.io) has the latest version running.
 * Easy:  Edit this file and make a PR to add any feature requests.
 * Easy:  If you're in the code and see where something could be improved, but can't make the improvement right then,
   add  `# TODO` comment with a helpful description of what needs to be done and submit a PR.
@@ -90,6 +91,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * create 404 page
 * create exceptions table and log exceptions
 * creat easy way to leave feedback
+* email verification
 
 #### Issues:
 * query parameters no longer recommending last specified
@@ -105,7 +107,7 @@ If you see any ways that the app could be improved in these ways, let's work on 
 * support for more databases
 
 ## Installation
-qwaver is already up and running on [qwaver.io](https://qwaver.io)
+qwaver is already up and running on [qwaver.io](http://qwaver.io)
 
 If you want to run locally:
 
