@@ -167,6 +167,16 @@ def get_graph():
     return graph
 
 
+def get_svg_graph():
+    buffer = BytesIO()
+    plt.savefig(buffer, format='svg')
+    buffer.seek(0)
+    image_data = str(buffer.getvalue())
+    image_data = image_data.replace('\\n', '\n')
+    buffer.close()
+    return image_data
+
+
 def get_chart(dataframe):
     header = dataframe.head()
     columns = list(header.columns.values)
