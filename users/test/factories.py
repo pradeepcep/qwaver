@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from users.models import (
     Organization,
-    OrganizationInvite,
+    Invitation,
     UserOrganization,
 )
 
@@ -36,11 +36,10 @@ class UserOrganizationFactory(factory.django.DjangoModelFactory):
         model = UserOrganization
 
 
-class OrganizationInviteFactory(factory.django.DjangoModelFactory):
-
+class InviteFactory(factory.django.DjangoModelFactory):
+    creator = factory.SubFactory(UserFactory)
     organization = factory.SubFactory(OrganizationFactory)
-    user = factory.SubFactory(UserFactory)
     email = FuzzyText(suffix='@example.com')
 
     class Meta:
-        model = OrganizationInvite
+        model = Invitation

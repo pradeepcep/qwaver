@@ -39,6 +39,7 @@ urlpatterns = [
     path('organization/<int:pk>/delete/', OrganizationDeleteView.as_view(), name='organization-delete'),
 
     path('invitation/new/', InvitationCreateView.as_view(), name='invitation-create'),
+    # TODO: these two seem redundant
     path('invitation/<int:pk>/', InvitationEditView.as_view(), name='invitation-detail'),
     path('invitation/<int:pk>/edit/', InvitationEditView.as_view(), name='invitation-update'),
     path('invitations/', InvitationListView.as_view(), name='invitation-list'),

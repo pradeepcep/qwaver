@@ -20,21 +20,20 @@ class InvitationListView(LoginRequiredMixin, ListView):
         # get or 404 if creating user has no org on profile
         selected_organization = self.request.user.profile.selected_organization
         if selected_organization is None:
-            raise Http404("Selected Organization not found in user profile")
-        orgs = Invitation.objects.filter(organization=selected_organization)
-        return orgs
+            raise Http404("No Organization selected in user profile")
+        invitations = Invitation.objects.filter(organization=selected_organization)
+        return invitations
 
 
 class InvitationCreateView(LoginRequiredMixin, CreateView):
     model = Invitation
     fields = ['email']
 
-    def get_object(self, queryset=None):
-        obj = super().get_object()
-        obj.creator = self.request.user
-        return obj
-
     def get_success_url(self):
+        obj = self.object
+        obj.creator = self.request.user
+        obj.organization = self.request.user.profile.selected_organization
+        obj.save()
         return reverse('invitation-list')
 
 
@@ -56,13 +55,12 @@ class InvitationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Invitation
 
     # TODO: this is a duplicate of get_object in InvitationEditView.  reuse?
-    def get_object(self, queryset=None):
+    def test_func(self):
+        print("here in InvitationDeleteView")
         obj = super().get_object()
         # we do not want a user to edit an invitation for an org to which they do not belong
         user_can_access_org(self.request.user, obj.organization)
-        return obj
-
-    def test_func(self):
+        # this return won't be reached if the user cannot access the org
         return True
 
     def get_success_url(self):
