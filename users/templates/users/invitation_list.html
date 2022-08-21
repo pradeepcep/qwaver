@@ -1,12 +1,16 @@
 {% extends "queries/base.html" %}
 {% block content %}
-    <a class="btn btn-primary mb-4 mt-4" href="{% url 'invitation-create' %}" role="button">New Invitation</a>
     <h2>Invitations</h2>
+    <p>
+        Note: You need to let a person you add know that they need to sign up at <a href="{% url 'register' %}">qwaver.io/register</a>.
+        Once they do, they will automatically be added to any organizations where they have invitation.
+    </p>
+    <a class="btn btn-primary mb-4 mt-4" href="{% url 'invitation-create' %}" role="button">New Invitation</a>
     {% for object in object_list %}
         <article class="media content-section">
-          <div class="media-body">
-            <h2><a class="article-title" href="{% url 'invitation-update' object.id %}">{{ object.email }}</a></h2>
-          </div>
+            <div class="media-body">
+                <h2><a class="article-title" href="{% url 'invitation-update' object.id %}">{{ object.email }}</a></h2>
+            </div>
         </article>
     {% endfor %}
 {% endblock content %}

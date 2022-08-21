@@ -94,6 +94,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * creat easy way to leave feedback
 * email verification
 * a country or date selector when param is {country} or {date}
+* For parameters set maximum and minimum and numeric values
+* Add open graph social previews to results. This will necessitate making an image url
+* pre-populate for a new database two queries: list public tables, list columns given a table name
 
 #### URGENT
 * in results.py, connection type needs to be determined by port number

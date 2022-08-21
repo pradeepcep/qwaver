@@ -1,13 +1,17 @@
 {% extends "queries/base.html" %}
 {% block content %}
-    <a class="btn btn-primary mb-4 mt-4" href="{% url 'organization-create' %}" role="button">New Organization</a>
     <h2>Organizations</h2>
+    <p>
+        An organization is a way of grouping database connections such that everyone who is a member of the organization
+        can have access to the associated databases.
+    </p>
+    <a class="btn btn-primary mb-4 mt-4" href="{% url 'organization-create' %}" role="button">New Organization</a>
     {% for org in orgs %}
         <article class="media content-section">
-          <div class="media-body">
-            <h2><a class="article-title" href="{% url 'organization-update' org.id %}">{{ org.name }}</a></h2>
-{#              <a class="btn btn-primary" href="{% url 'invitation-create' %}" role="button">Invite someone</a>#}
-          </div>
+            <div class="media-body">
+                <h2><a class="article-title" href="{% url 'organization-update' org.id %}">{{ org.name }}</a></h2>
+                {#              <a class="btn btn-primary" href="{% url 'invitation-create' %}" role="button">Invite someone</a>#}
+            </div>
         </article>
     {% endfor %}
 {% endblock content %}
