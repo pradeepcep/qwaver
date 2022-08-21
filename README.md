@@ -12,6 +12,7 @@ Parameterize! Visualize! Collaboratize?!
 <img src="https://img.shields.io/github/contributors/brianrisk/qwaver.svg">
 </a>
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![master passing](https://github.com/brianrisk/qwaver/actions/workflows/unit-test.yml/badge.svg?branch=master)
 
 qwaver links: [Intro](#the-fascinating-story) • [Help!](#help) • [Installation](#installation) • [Thanks](#thank-yous)
 
@@ -82,7 +83,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
 * test database connection when adding new database
 * webpage preview when sharing results via slack or email
-* flag queries -- if their results do no align with their title/description or are wrong in any other way
+* flag queries -- if their results do not align with their title/description or are wrong in any other way
     * Search results should not include flagged queries
     * The author of a flagged query should be given an alert
 * track average execution time for queries
@@ -92,9 +93,15 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * create exceptions table and log exceptions
 * creat easy way to leave feedback
 * email verification
+* a country or date selector when param is {country} or {date}
+
+#### URGENT
+* in results.py, connection type needs to be determined by port number
 
 #### Issues:
 * query parameters no longer recommending last specified
+
+[notes](./notes.md)
 
 ### General improvements
 If you see any ways that the app could be improved in these ways, let's work on it!

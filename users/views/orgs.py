@@ -11,9 +11,9 @@ from queries.models import Organization
 from users.models import UserOrganization
 
 
-class OrganizationListView(ListView):
+class OrganizationListView(LoginRequiredMixin, ListView):
     model = Organization
-    template_name = 'queries/organization_list.html'
+    template_name = 'users/organization_list.html'
     context_object_name = 'orgs'
 
     def get_queryset(self):

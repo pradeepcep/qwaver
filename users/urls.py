@@ -4,6 +4,7 @@ from django.urls import path
 
 from users import views as user_views
 from users.views import OrganizationCreateView, OrganizationEditView, OrganizationListView, OrganizationDeleteView
+from users.views.invites import InvitationCreateView, InvitationEditView, InvitationListView, InvitationDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,4 +37,10 @@ urlpatterns = [
     path('organization/<int:pk>/edit/', OrganizationEditView.as_view(), name='organization-update'),
     path('organizations/', OrganizationListView.as_view(), name='organization-list'),
     path('organization/<int:pk>/delete/', OrganizationDeleteView.as_view(), name='organization-delete'),
+
+    path('invitation/new/', InvitationCreateView.as_view(), name='invitation-create'),
+    path('invitation/<int:pk>/', InvitationEditView.as_view(), name='invitation-detail'),
+    path('invitation/<int:pk>/edit/', InvitationEditView.as_view(), name='invitation-update'),
+    path('invitations/', InvitationListView.as_view(), name='invitation-list'),
+    path('invitation/<int:pk>/delete/', InvitationDeleteView.as_view(), name='invitation-delete'),
 ]

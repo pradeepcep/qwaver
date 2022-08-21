@@ -1,0 +1,12 @@
+{% extends "queries/base.html" %}
+{% block content %}
+    <a class="btn btn-primary mb-4 mt-4" href="{% url 'invitation-create' %}" role="button">New Invitation</a>
+    <h2>Invitations</h2>
+    {% for object in objects %}
+        <article class="media content-section">
+          <div class="media-body">
+            <h2><a class="article-title" href="{% url 'invitation-update' object.id %}">{{ object.name }}</a></h2>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

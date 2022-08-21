@@ -21,6 +21,7 @@ from queries.views import get_org_databases, user_can_access_query
 
 pagination_count = 12
 
+
 # The main view of the app.
 # This handles the signup-flow
 class QueryListView(ListView):
@@ -34,7 +35,6 @@ class QueryListView(ListView):
         # not registered
         if not self.request.user.is_authenticated:
             return render(self.request, 'queries/about.html')
-            # return redirect('about')
         # no org
         elif self.request.user.profile.selected_organization is None:
             return redirect('organization-create')

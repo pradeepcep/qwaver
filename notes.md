@@ -31,11 +31,19 @@ whenever code changes:
 * Online Database Client
 * Web-based Database Client
 * Open Source Looker Killer: Qwaver
+* Advanced business insights
 
 ## targeting
 * only computers (no phones / tablets)
 * keywords:
-  * 
+  * BI, database insights, paramaterized sql, sql variables
+  * qwaver (duh)
+
+### Where to advertise:
+* Google Ads
+* YouTube
+* StackOverflow
+* LinkedIn
 
 ## promotion ideas
 * add to [open source projects](https://github.com/wsvincent/awesome-django)
@@ -46,3 +54,8 @@ whenever code changes:
 * an online (web based) database client
 * look at [dbvis](https://www.dbvis.com/)
 * run queries from a ski lift
+
+## public data
+* Examples of public databases that I can access remotely
+* data available via public database
+* https://docs.rfam.org/en/latest/database.html

@@ -3,3 +3,6 @@
 db.sqlite3
 media/profile_pics
 *__pycache__*
+debug.log
+env
+static

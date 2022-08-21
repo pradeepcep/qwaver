@@ -4,6 +4,7 @@ from PIL import Image
 
 
 class Organization(models.Model):
+
     name = models.CharField(max_length=64, help_text="Usually the name of your business or website")
     readonly_fields = ('id',)
 
@@ -19,10 +20,15 @@ class UserOrganization(models.Model):
         return self.user.username + " <> " + self.organization.name
 
 
-class OrganizationInvite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
-    email = models.CharField(max_length=128)
+# When a user signs up with a specific email, they will be invited to the organization
+class Invitation(models.Model):
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, default=1)  # who made the invitation
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, default=1)
+    email = models.CharField(max_length=128, help_text="The email of the person you'd like to invite")
+    accepted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.creator.username + ", " + self.organization.name + ": " + self.email
 
 
 class Profile(models.Model):
