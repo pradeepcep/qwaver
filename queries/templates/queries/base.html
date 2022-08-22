@@ -99,7 +99,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
                             <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                            {% if user.username == 'admin' or user.username == 'brian' %}
+                            {% if user.username == 'root' or user.username == 'admin' or user.username == 'brian' %}
                                 <a class="dropdown-item" href="/admin">Admin</a>
                             {% endif %}
                         </div>
