@@ -72,12 +72,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 
 ### Feature requests
 #### Big, important things:
-* First time user flow:
-    * create user
-    * create / join organization (if invites apply)
-    * create database if none in organization
-* An invitation system allowing people to invite others to their organization and for people to review/accept/decline
-  invitations
 * JS charts on pages
 * qwavers (esp. those with parameters) can be APIs as well
 * Query collections -- user-defined lists of queries that all conform to a given topic
@@ -85,7 +79,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 #### Small but cool things:
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
 * test database connection when adding new database
-* webpage preview when sharing results via slack or email
+* webpage preview when sharing results via slack or email (e.g. add open graph social previews to results. This will necessitate making an image url)
 * flag queries -- if their results do not align with their title/description or are wrong in any other way
     * Search results should not include flagged queries
     * The author of a flagged query should be given an alert
@@ -98,12 +92,11 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * email verification
 * a country or date selector when param is {country} or {date}
 * For parameters set maximum and minimum and numeric values
-* Add open graph social previews to results. This will necessitate making an image url
 * pre-populate for a new database two queries: list public tables, list columns given a table name
 * list users in an organization
 
 #### URGENT
-* in results.py, connection type needs to be determined by port number
+* For database, add database_type with selections for what is supported + 'other'
 
 #### Issues:
 * query parameters no longer recommending last specified
