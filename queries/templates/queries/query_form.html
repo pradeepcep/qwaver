@@ -19,13 +19,16 @@
         }
     </script>
     <div class="content-section">
-        <h1>
-            Step 4
-        </h1>
-        <p>
-            Final step!  Now that you've connected your database, make a query.  Easiest is to paste in one you've already
-            written.
-        </p>
+        {% if is_setup %}
+            <h1>
+                Step 4
+            </h1>
+            <p>
+                Final step! Now that you've connected your database, make a query. Easiest is to paste in one you've
+                already
+                written.
+            </p>
+        {% endif %}
 
         {% if object != null %}
             <div class="top-right">

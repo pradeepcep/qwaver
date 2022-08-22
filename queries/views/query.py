@@ -42,7 +42,7 @@ class QueryListView(ListView):
         elif len(get_org_databases(self)) == 0:
             return redirect('database-create')
         # no query
-        elif len(Query.objects.filter(database_id__in=get_org_databases(self))) == 0:
+        elif not Query.objects.filter(database_id__in=get_org_databases(self)).exists():
             return redirect('query-create')
         return super(QueryListView, self).get(*args, **kwargs)
 
@@ -64,6 +64,9 @@ class QueryListView(ListView):
             .order_by()[:10]
         context['recent_searches'] = [d['search'] for d in searches]
         context['result_count'] = len(self.object_list)
+        # if we're in signup flow
+        if not Query.objects.filter(database_id__in=get_org_databases(self)).exists():
+            context['is_setup'] = True
         return context
 
 
