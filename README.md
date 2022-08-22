@@ -14,14 +14,17 @@ Parameterize! Visualize! Collaboratize?!
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 ![master passing](https://github.com/brianrisk/qwaver/actions/workflows/unit-test.yml/badge.svg?branch=master)
 
-qwaver links: [Intro](#the-fascinating-story) • [Help!](#help) • [Installation](#installation) • [Thanks](#thank-yous)
+qwaver links: [Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help!](#help) • [Installation](#installation) • [Thanks](#thank-yous)
 
 <a href="http://qwaver.io">
     <img src="http://qwaver.io/media/three-screen-shots.jpg" alt="qwaver logo">
   </a>
 </div>
 
-## The Fascinating Story
+## Latest Build
+The latest code is running at [QWAVER.io](http://qwaver.io)
+
+## Use Cases
 If you're like me, you have hundreds of queries stored in your DB admin tool for several connected DBs. A lot your time
 is spent searching through them, altering WHERE clauses, exporting the results, plotting charts, and emailing the
 results (chart + data + query for validation). Often you've got others on your team doing the exact same thing
@@ -97,6 +100,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * For parameters set maximum and minimum and numeric values
 * Add open graph social previews to results. This will necessitate making an image url
 * pre-populate for a new database two queries: list public tables, list columns given a table name
+* list users in an organization
 
 #### URGENT
 * in results.py, connection type needs to be determined by port number

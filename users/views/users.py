@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from users.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from users.models import UserOrganization
+from users.models import UserOrganization, Invitation
 
 
 def register(request):
@@ -15,12 +15,29 @@ def register(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             messages.success(request, f'Your account has been created!')
+            resolve_invitations(user)
             login(request, user)
             # login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('queries-home')
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+def resolve_invitations(user):
+    invitations = Invitation.objects.filter(email__iexact=user.email)
+
+    if len(invitations) > 0:
+        # set one of these as the selected organization on the user profile
+        user.profile.selected_organization = invitations.first().organization
+        user.profile.save()
+        # add for each invitation
+        for invitation in invitations:
+            user_org = UserOrganization.objects.create(user=user, organization=invitation.organization)
+            user_org.save()
+            # we don't need the invitation anymore
+            invitation.delete()
+
 
 
 @login_required
