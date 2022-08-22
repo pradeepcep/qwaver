@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.http import Http404
@@ -53,15 +54,30 @@ class InvitationCreateView(LoginRequiredMixin, CreateView):
         # first check if the user already exists.  If so, create that link and delete the invite
         # TODO add email validation and only get invited users who have validated.
         #  This keeps bad actors from guessing a user email address and getting the invite
-        invited_user = User.objects.get(email=invitation.email)
-        if invited_user is not None:
-            invited_user_org = UserOrganization.objects.get(user=invited_user,organization=org)
-            if invited_user_org is not None:
-                invitation.delete()
-
-        invitation.creator = user
-        invitation.organization = org
-        invitation.save()
+        if User.objects.filter(email=invitation.email).exists():
+            invited_user = User.objects.get(email=invitation.email)
+            invited_user_already_in = UserOrganization.objects.filter(user=invited_user, organization=org).exists()
+            if not invited_user_already_in:
+                invited_user_org = UserOrganization(user=invited_user, organization=org)
+                invited_user_org.save()
+                message = f"User {invited_user.username} with email {invitation.email} has been added to {org.name}."
+                messages.success(self.request, message)
+            else:
+                message = f"A user with email {invitation.email} is already a member of {org.name}."
+                messages.info(self.request, message)
+            # TODO else: status message that user already exists
+            invitation.delete()
+        else:
+            # check the invitation doesn't already exist
+            if Invitation.objects.filter(email=invitation.email, organization=org).exists():
+                message = f"An invitation for {invitation.email} already exists."
+                messages.error(self.request, message)
+            else:
+                invitation.creator = user
+                invitation.organization = org
+                invitation.save()
+                message = f"An invitation {invitation.email} has been added to {org.name}."
+                messages.success(self.request, message)
         return reverse('invitation-list')
 
 

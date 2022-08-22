@@ -15,7 +15,7 @@ def register(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             messages.success(request, f'Your account has been created!')
-            resolve_invitations(user)
+            resolve_invitations(user, request)
             login(request, user)
             # login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('queries-home')
@@ -24,7 +24,7 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
-def resolve_invitations(user):
+def resolve_invitations(user, request):
     invitations = Invitation.objects.filter(email__iexact=user.email)
 
     if len(invitations) > 0:
@@ -37,6 +37,7 @@ def resolve_invitations(user):
             user_org.save()
             # we don't need the invitation anymore
             invitation.delete()
+            messages.success(request, f'You have been added to the organization {invitation.organization.name}')
 
 
 
