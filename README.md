@@ -75,6 +75,8 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * JS charts on pages
 * qwavers (esp. those with parameters) can be APIs as well
 * Query collections -- user-defined lists of queries that all conform to a given topic
+* add API access in addition to database access. Is that possible? We need it to be turned as a table to be treated generically
+* "Starters": pre-defined sets of queries and collections if a database is for a common CMS
 
 #### Small but cool things:
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
@@ -94,6 +96,8 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * For parameters set maximum and minimum and numeric values
 * pre-populate for a new database two queries: list public tables, list columns given a table name
 * list users in an organization
+* automatically add "admin" to new organizations
+* Add google analytics
 
 #### URGENT
 * For database, add database_type with selections for what is supported + 'other'

@@ -1,14 +1,3 @@
-
-
-# Working with cPanel
-[installing with cPanel](https://medium.com/@pyzimos/deploying-django-web-application-using-cpanel-6687b8057439)
-
-/home/geneffec/virtualenv/qwaver/3.7/bin/pip install --upgrade pip
-
-/home/geneffec/virtualenv/qwaver/3.7/bin/pip3 install -r requirements.txt
-
-source /home/geneffec/virtualenv/qwaver/3.8/bin/activate && cd /home/geneffec/qwaver
-
 whenever code changes:
 
 `PID=$(systemctl show --value -p MainPID gunicorn.service) && kill -HUP $PID`
@@ -29,9 +18,14 @@ whenever code changes:
 ## advertising ideas
 ### Titles
 * Online Database Client
+* Social Database Client
 * Web-based Database Client
 * Open Source Looker Killer: Qwaver
 * Advanced business insights
+* Free database client
+* Web based SQL client
+* Fred SQL client
+* Open source SQL client
 
 ## targeting
 * only computers (no phones / tablets)
