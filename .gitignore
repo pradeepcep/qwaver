@@ -6,4 +6,4 @@ media/profile_pics
 debug.log
 env
 static
-qwaver/settings.py
+qwaver/settings.ini
