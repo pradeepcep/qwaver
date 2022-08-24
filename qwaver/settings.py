@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from configparser import RawConfigParser
+
+# loading settings.ini
+config = RawConfigParser()
+settings_folder = os.path.dirname(os.path.abspath(__file__))
+ini_file = os.path.join(settings_folder, 'settings.ini')
+config.read(ini_file)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,9 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# TODO: can this be made an environment variable?  Didn't work with my cPanel deploy
-# SECRET_KEY = os.environ.get('SECRET_KEY')
-SECRET_KEY = '5k=c2_ou_)w&mvef212u5=)9@iiel#0=*p14$5+9^ygq7t*3ie'
+SECRET_KEY = config.get('config', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -76,9 +81,17 @@ WSGI_APPLICATION = 'qwaver.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config.get('config', 'DATABASE_NAME'),
+        'USER': config.get('config', 'DATABASE_USER'),
+        'PASSWORD': config.get('config', 'DATABASE_PASS'),
+        'HOST': config.get('config', 'DATABASE_HOST'),
+        'PORT': config.get('config', 'DATABASE_PORT'),
     }
 }
 

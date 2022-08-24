@@ -136,10 +136,16 @@ Run python server, go to localhost
 `python3 manage.py runserver`
 
 
-Environment variables:
+Environment variables.  Create these as a settings.ini file in the `qwaver` directory that contains `settings.py`
 ```
+[config]
 DJANGO_SETTINGS_MODULE=qwaver.settings
 SECRET_KEY=[your secret key]
+DATABASE_NAME=[your value]
+DATABASE_USER=[your value]
+DATABASE_PASS=[your value]
+DATABASE_HOST=[your value]
+DATABASE_PORT=[your value]
 ```
 
 

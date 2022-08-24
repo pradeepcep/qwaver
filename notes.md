@@ -26,6 +26,7 @@ whenever code changes:
 * Web based SQL client
 * Fred SQL client
 * Open source SQL client
+* Free SQL tool
 
 ## targeting
 * only computers (no phones / tablets)
