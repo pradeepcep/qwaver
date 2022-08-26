@@ -80,20 +80,24 @@ WSGI_APPLICATION = 'qwaver.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config.get('config', 'DATABASE_NAME'),
-        'USER': config.get('config', 'DATABASE_USER'),
-        'PASSWORD': config.get('config', 'DATABASE_PASS'),
-        'HOST': config.get('config', 'DATABASE_HOST'),
-        'PORT': config.get('config', 'DATABASE_PORT'),
+if config.get('config', 'DATABASE_NAME') == 'prod':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config.get('config', 'DATABASE_NAME'),
+            'USER': config.get('config', 'DATABASE_USER'),
+            'PASSWORD': config.get('config', 'DATABASE_PASS'),
+            'HOST': config.get('config', 'DATABASE_HOST'),
+            'PORT': config.get('config', 'DATABASE_PORT'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

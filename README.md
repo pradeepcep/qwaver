@@ -32,7 +32,7 @@ re-inventing the wheel left and right.
 
 Then this happens:
 
-Boss: Hey, do you have time for business question involving our database?
+Boss: Hey, do you have time for {business question involving our databases}?
 
 You: Sure!  Give me 20 minutes..
 
@@ -40,7 +40,7 @@ You: Sure!  Give me 20 minutes..
 
 You: Here you go!  See attached chart and data!
 
-Boss: Thanks!  could you do like 100 similar variations with different time periods and countries?
+Boss: Thanks!  could you do 100 similar variations with different time periods and countries?
 
 Your skills as a query artist were definitely needed that first time, but the second time the need comes from that
 person you're helping not having any experience with queries at all.
@@ -135,11 +135,15 @@ Run python server, go to localhost
 
 `python3 manage.py runserver`
 
+Environment variables:
+```
+DJANGO_SETTINGS_MODULE=qwaver.settings
+```
 
-Environment variables.  Create these as a settings.ini file in the `qwaver` directory that contains `settings.py`
+Configurations.  Create these as a settings.ini file in the `qwaver` directory that contains `settings.py`
 ```
 [config]
-DJANGO_SETTINGS_MODULE=qwaver.settings
+ENVIRONMENT=[any value not 'prod' uses non-production logic]
 SECRET_KEY=[your secret key]
 DATABASE_NAME=[your value]
 DATABASE_USER=[your value]
