@@ -9,9 +9,19 @@ from users.models import Organization
 
 # Database connection information
 class Database(models.Model):
-    MYSQL = 'mysql'
-    POSTGRES = 'postgres'
-    REDSHIFT = 'redshift'
+    MYSQL = 'MySQL'
+    POSTGRES = 'PostgreSQL'
+    REDSHIFT = 'Redshift'
+    MARIADB = 'MariaDB'
+    ORACLE = 'Oracle'
+    CHOICES = (
+        (MYSQL, MYSQL),
+        (POSTGRES, POSTGRES),
+        (REDSHIFT, REDSHIFT),
+        (MARIADB, MARIADB),
+        (ORACLE, ORACLE),
+        (REDSHIFT, REDSHIFT)
+    )
     organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=1)
     title = models.CharField(max_length=256, default="", help_text='Can be any name you want such as "Transaction events"')
     host = models.CharField(max_length=256)
@@ -21,7 +31,7 @@ class Database(models.Model):
     password = models.CharField(max_length=256)
     platform = models.CharField(
         max_length=64,
-        choices=((MYSQL, MYSQL), (POSTGRES, POSTGRES), (REDSHIFT, REDSHIFT)), default=MYSQL
+        choices=CHOICES, default=MYSQL
     )
     is_valid = models.BooleanField(default=True)
 
