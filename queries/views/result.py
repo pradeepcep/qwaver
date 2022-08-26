@@ -100,7 +100,7 @@ def execute(request, id):
         return render(request, 'queries/easter.html', {})
         # return redirect("http://synthblast.com")
     else:
-        # try:
+        try:
             df_full = pd.read_sql(sql, connection)
             df = df_full.head(max_table_rows)
             # df_reduced = df
@@ -144,14 +144,14 @@ def execute(request, id):
                 )
                 value.save()
             return redirect(reverse('result-detail', args=[result.pk]))
-        # except Exception as err:
-        #     context = {
-        #         'title': title,
-        #         'query': query,
-        #         'error': err,
-        #         'params': params
-        #     }
-        #     return render(request, 'queries/result_error.html', context)
+        except Exception as err:
+            context = {
+                'title': title,
+                'query': query,
+                'error': err,
+                'params': params
+            }
+            return render(request, 'queries/result_error.html', context)
 
 
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/
