@@ -19,7 +19,10 @@ class Database(models.Model):
     database = models.CharField(max_length=256, default="", help_text="The name of the database on your server")
     user = models.CharField(max_length=256, help_text="Ideally with read-only permissions")
     password = models.CharField(max_length=256)
-    platform = models.CharField(choices=((MYSQL, MYSQL), (POSTGRES, POSTGRES), (REDSHIFT, REDSHIFT)), default=MYSQL)
+    platform = models.CharField(
+        max_length=64,
+        choices=((MYSQL, MYSQL), (POSTGRES, POSTGRES), (REDSHIFT, REDSHIFT)), default=MYSQL
+    )
     is_valid = models.BooleanField(default=True)
 
     def __str__(self):

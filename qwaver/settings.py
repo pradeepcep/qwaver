@@ -104,9 +104,7 @@ if config.get('config', 'ENVIRONMENT') == 'prod':
             'PASSWORD': config.get('config', 'DATABASE_PASS'),
             'HOST': config.get('config', 'DATABASE_HOST'),
             'PORT': config.get('config', 'DATABASE_PORT'),
-            'OPTIONS': {
-                'CONN_MAX_AGE':  config.get('config', 'DATABASE_CON_MAX_AGE'),
-            }
+            'CONN_MAX_AGE': int(config.get('config', 'DATABASE_CONN_MAX_AGE')),
         }
     }
 else:
