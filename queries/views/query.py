@@ -177,7 +177,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
 
 class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
-    fields = ['title', 'database', 'description', 'query', 'active', 'public']
+    fields = ['title', 'database', 'description', 'query']
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
