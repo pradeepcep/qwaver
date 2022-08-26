@@ -192,6 +192,7 @@ class ViewTests(TestCase):
             reverse('database-update', kwargs={'pk': self.database.pk}),
             {
                 'title': 'new-title',
+                'platform': Database.MYSQL,
                 'host': 'new-host',
                 'port': 1122,
                 'database': 'select *',

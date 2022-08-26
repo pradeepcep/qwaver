@@ -21,6 +21,7 @@ class DatabaseFactory(DjangoModelFactory):
 
     organization = factory.SubFactory(OrganizationFactory)
     title = factory.Sequence(lambda n: f'test-database-{n}')
+    platform = FuzzyText()
     user = FuzzyText()
     port = FuzzyInteger(low=1000)
     host = FuzzyText()
