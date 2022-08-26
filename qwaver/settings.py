@@ -15,18 +15,18 @@ from configparser import RawConfigParser
 
 # loading settings.ini
 config = RawConfigParser()
-# dummy settings; these will be replaced when loading 'settings.ini'
-config['config'] = {
-    'ENVIRONMENT': 'local',
-    'SECRET_KEY': '**************************************************',
-    'DATABASE_NAME': '[your database name]',
-    'DATABASE_USER': '[your database user]',
-    'DATABASE_PASS': '[the database password for that user]',
-    'DATABASE_HOST': '[the database host url]',
-    'DATABASE_PORT': '[the database connetion port]'
-}
 settings_folder = os.path.dirname(os.path.abspath(__file__))
 ini_file = os.path.join(settings_folder, 'settings.ini')
+# dummy settings; these will be replaced when loading 'settings.ini'
+config['config'] = {
+        'ENVIRONMENT': 'local',
+        'SECRET_KEY': '**************************************************',
+        'DATABASE_NAME': '[your database name]',
+        'DATABASE_USER': '[your database user]',
+        'DATABASE_PASS': '[the database password for that user]',
+        'DATABASE_HOST': '[the database host url]',
+        'DATABASE_PORT': '[the database connetion port]'
+    }
 config.read(ini_file)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'qwaver.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-if config.get('config', 'DATABASE_NAME') == 'prod':
+if config.get('config', 'ENVIRONMENT') == 'prod':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
