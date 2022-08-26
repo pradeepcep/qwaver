@@ -25,7 +25,7 @@ config['config'] = {
     'DATABASE_USER': '[your database user]',
     'DATABASE_PASS': '[the database password for that user]',
     'DATABASE_HOST': '[the database host url]',
-    'DATABASE_PORT': '[the database connetion port]',
+    'DATABASE_PORT': '[the database connection port]',
     'DATABASE_CON_MAX_AGE': '0',
     'DEBUG': 'True',
 
@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'qwaver.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-if config.get('config', 'ENVIRONMENT') == 'prod':
+if config.get('config', 'ENVIRONMENT').lower() == 'prod':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
