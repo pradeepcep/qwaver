@@ -15,6 +15,16 @@ from configparser import RawConfigParser
 
 # loading settings.ini
 config = RawConfigParser()
+# dummy settings; these will be replaced when loading 'settings.ini'
+config['config'] = {
+    'ENVIRONMENT': 'local',
+    'SECRET_KEY': '**************************************************',
+    'DATABASE_NAME': '[your database name]',
+    'DATABASE_USER': '[your database user]',
+    'DATABASE_PASS': '[the database password for that user]',
+    'DATABASE_HOST': '[the database host url]',
+    'DATABASE_PORT': '[the database connetion port]'
+}
 settings_folder = os.path.dirname(os.path.abspath(__file__))
 ini_file = os.path.join(settings_folder, 'settings.ini')
 config.read(ini_file)
