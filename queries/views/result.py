@@ -91,8 +91,7 @@ def execute(request, id):
     sql = sqlalchemy.text(sql)
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
     db = query.database
-    # TODO: make these conditionals based on port numbers
-    if db.title == "Aurora":
+    if db.platform == db.MYSQL:
         connection = create_engine(f"mysql+pymysql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     else:
         connection = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")

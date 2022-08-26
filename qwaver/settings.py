@@ -26,7 +26,9 @@ config['config'] = {
     'DATABASE_PASS': '[the database password for that user]',
     'DATABASE_HOST': '[the database host url]',
     'DATABASE_PORT': '[the database connetion port]',
-    'DEBUG': 'True'
+    'DATABASE_CON_MAX_AGE': '0',
+    'DEBUG': 'True',
+
 }
 config.read(ini_file)
 
@@ -102,6 +104,9 @@ if config.get('config', 'ENVIRONMENT') == 'prod':
             'PASSWORD': config.get('config', 'DATABASE_PASS'),
             'HOST': config.get('config', 'DATABASE_HOST'),
             'PORT': config.get('config', 'DATABASE_PORT'),
+            'OPTIONS': {
+                'CONN_MAX_AGE':  config.get('config', 'DATABASE_CON_MAX_AGE'),
+            }
         }
     }
 else:

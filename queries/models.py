@@ -9,6 +9,9 @@ from users.models import Organization
 
 # Database connection information
 class Database(models.Model):
+    MYSQL = 'mysql'
+    POSTGRES = 'postgres'
+    REDSHIFT = 'redshift'
     organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=1)
     title = models.CharField(max_length=256, default="", help_text='Can be any name you want such as "Transaction events"')
     host = models.CharField(max_length=256)
@@ -16,6 +19,7 @@ class Database(models.Model):
     database = models.CharField(max_length=256, default="", help_text="The name of the database on your server")
     user = models.CharField(max_length=256, help_text="Ideally with read-only permissions")
     password = models.CharField(max_length=256)
+    platform = models.CharField(choices=((MYSQL, MYSQL), (POSTGRES, POSTGRES), (REDSHIFT, REDSHIFT)), default=MYSQL)
     is_valid = models.BooleanField(default=True)
 
     def __str__(self):
@@ -29,12 +33,6 @@ class Query(models.Model):
     query = models.TextField()
     date_created = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    active = models.BooleanField(
-        default=True,
-        help_text="Deactivate to remove query from search results. For example if the query is invalid.")
-    public = models.BooleanField(
-        default=True,
-        help_text="If public, your whole team can view it.  If not, only you.")
     run_count = models.IntegerField(default=0)
     last_run_date = models.DateTimeField(default=None, null=True)
     # https://stackoverflow.com/questions/34003865/django-reverse-query-name-clash
