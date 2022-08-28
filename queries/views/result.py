@@ -102,7 +102,6 @@ def execute(request, id):
         try:
             df_full = pd.read_sql(sql, connection)
             df = df_full.head(max_table_rows)
-            # df_reduced = df
             row_count = len(df.index)
             column_count = df.columns.size
             chart = None

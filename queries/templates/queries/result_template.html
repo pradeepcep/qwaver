@@ -7,11 +7,11 @@
                  width="100%"/>
         </div>
     {% endif %}
-    <div class="mb-4" style="height: 20em; overflow: scroll">
-        {{ result.table|safe }}
-    </div>
-    <!-- download -->
+    <!-- table and download -->
     {% if result.single == null %}
+        <div class="mb-4" style="height: 20em; overflow: scroll">
+            {{ result.table|safe }}
+        </div>
         <div style="width: 100%; display: inline-block">
             <a class="btn btn-success mr-2 float-left"
                href="javascript:download_table_as_csv('results')">
