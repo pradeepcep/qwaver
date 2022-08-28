@@ -25,13 +25,6 @@ qwaver links: [Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help
 The latest code is running at [QWAVER.io](http://qwaver.io)
 
 ## Use Cases
-If you're like me, you have hundreds of queries stored in your DB admin tool for several connected DBs. A lot your time
-is spent searching through them, altering WHERE clauses, exporting the results, plotting charts, and emailing the
-results (chart + data + query for validation). Often you've got others on your team doing the exact same thing
-re-inventing the wheel left and right.
-
-Then this happens:
-
 Boss: Hey, do you have time for {business question involving our databases}?
 
 You: Sure!  Give me 20 minutes..
@@ -42,8 +35,13 @@ You: Here you go!  See attached chart and data!
 
 Boss: Thanks!  could you do 100 similar variations with different time periods and countries?
 
-Your skills as a query artist were definitely needed that first time, but the second time the need comes from that
-person you're helping not having any experience with queries at all.
+Your skills as a query artist were definitely needed that first time. But the second time? 
+That's just changing a few key values.  Your boss could do that himself... but he isn't comfortable with SQL.
+
+If you're like me, you have hundreds of queries stored in your DB admin tool for several connected DBs. A lot your time
+is spent searching through them, altering WHERE clauses, exporting the results, plotting charts, and emailing the
+results (chart + data + query for validation). Often you've got others on your team doing the exact same thing
+re-inventing the wheel left and right.
 
 * **Q:** Don't other tools out there help with this?
   * **A:** Yeah, but they all require you (shudder) learn a new platform. Be it a "simple" markup language (lookin' at you,
