@@ -160,11 +160,11 @@ LOGIN_REDIRECT_URL = 'queries-home'
 LOGIN_URL = 'login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+EMAIL_HOST = config.get('config', 'EMAIL_HOST')
+EMAIL_PORT = int(config.get('config', 'EMAIL_PORT'))
+EMAIL_USE_TLS = config.get('config', 'EMAIL_USE_TLS') == 'True'
+EMAIL_HOST_USER = config.get('config', 'EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config.get('config', 'EMAIL_HOST_PASSWORD')
 
 # LOGGING = {
 #     'version': 1,

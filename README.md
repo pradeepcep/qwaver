@@ -95,10 +95,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * pre-populate for a new database two queries: list public tables, list columns given a table name
 * list users in an organization
 * automatically add "admin" to new organizations
-* Add google analytics
-
-#### URGENT
-* For database, add database_type with selections for what is supported + 'other'
 
 #### Issues:
 * query parameters no longer recommending last specified
