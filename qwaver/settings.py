@@ -28,7 +28,11 @@ config['config'] = {
     'DATABASE_PORT': '[the database connection port]',
     'DATABASE_CON_MAX_AGE': '0',
     'DEBUG': 'True',
-
+    'EMAIL_HOST': 'xxxxxxxxxx',
+    'EMAIL_PORT': '0',
+    'EMAIL_USE_TLS': 'True',
+    'EMAIL_HOST_USER': 'xxxxxxxxxx',
+    'EMAIL_HOST_PASSWORD': 'xxxxxxxxxx'
 }
 config.read(ini_file)
 
