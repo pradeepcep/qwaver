@@ -26,7 +26,7 @@ config['config'] = {
     'DATABASE_PASS': '[the database password for that user]',
     'DATABASE_HOST': '[the database host url]',
     'DATABASE_PORT': '[the database connection port]',
-    'DATABASE_CON_MAX_AGE': '0',
+    'DATABASE_CONN_MAX_AGE': '0',
     'DEBUG': 'True',
     'EMAIL_HOST': 'xxxxxxxxxx',
     'EMAIL_PORT': '0',
@@ -98,7 +98,6 @@ WSGI_APPLICATION = 'qwaver.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
 if config.get('config', 'ENVIRONMENT').lower() == 'prod':
     DATABASES = {
         'default': {
@@ -108,7 +107,8 @@ if config.get('config', 'ENVIRONMENT').lower() == 'prod':
             'PASSWORD': config.get('config', 'DATABASE_PASS'),
             'HOST': config.get('config', 'DATABASE_HOST'),
             'PORT': config.get('config', 'DATABASE_PORT'),
-            'CONN_MAX_AGE': int(config.get('config', 'DATABASE_CONN_MAX_AGE')),
+            'CONN_MAX_AGE': None,
+            # 'OPTIONS': {'sslmode': 'require'},
         }
     }
 else:
