@@ -95,6 +95,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * pre-populate for a new database two queries: list public tables, list columns given a table name
 * list users in an organization
 * automatically add "admin" to new organizations
+* automatically add a limit to every query
 
 #### Issues:
 * query parameters no longer recommending last specified
