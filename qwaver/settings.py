@@ -21,6 +21,7 @@ ini_file = os.path.join(settings_folder, 'settings.ini')
 config['config'] = {
     'ENVIRONMENT': 'local',
     'SECRET_KEY': '**************************************************',
+    'DATABASE_ENGINE': '[your database ENGINE]',
     'DATABASE_NAME': '[your database name]',
     'DATABASE_USER': '[your database user]',
     'DATABASE_PASS': '[the database password for that user]',
@@ -101,14 +102,16 @@ WSGI_APPLICATION = 'qwaver.wsgi.application'
 if config.get('config', 'ENVIRONMENT').lower() == 'prod':
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': config.get('config', 'DATABASE_ENGINE'),
             'NAME': config.get('config', 'DATABASE_NAME'),
             'USER': config.get('config', 'DATABASE_USER'),
             'PASSWORD': config.get('config', 'DATABASE_PASS'),
             'HOST': config.get('config', 'DATABASE_HOST'),
             'PORT': config.get('config', 'DATABASE_PORT'),
             'CONN_MAX_AGE': None,
-            # 'OPTIONS': {'sslmode': 'require'},
+            'OPTIONS': {
+                # 'sslmode': 'require'
+            },
         }
     }
 else:
