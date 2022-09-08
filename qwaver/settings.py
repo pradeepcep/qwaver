@@ -174,6 +174,7 @@ EMAIL_HOST_USER = config.get('config', 'EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config.get('config', 'EMAIL_HOST_PASSWORD')
 
 ADMINS = [('Brian', 'geneffects@gmail.com')]
+SERVER_EMAIL = 'server@qwaver.io'
 
 # LOGGING = {
 #     'version': 1,
