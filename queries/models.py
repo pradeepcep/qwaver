@@ -42,7 +42,7 @@ class Database(models.Model):
 class Query(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=256, null=True, blank=True)
-    database = models.ForeignKey(Database, on_delete=models.CASCADE)
+    database = models.ForeignKey(Database, on_delete=models.CASCADE, null=False, blank=False)
     query = models.TextField()
     date_created = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

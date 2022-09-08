@@ -173,6 +173,8 @@ EMAIL_USE_TLS = config.get('config', 'EMAIL_USE_TLS') == 'True'
 EMAIL_HOST_USER = config.get('config', 'EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config.get('config', 'EMAIL_HOST_PASSWORD')
 
+ADMINS = [('Brian', 'geneffects@gmail.com')]
+
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
