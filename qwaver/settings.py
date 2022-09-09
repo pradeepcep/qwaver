@@ -14,6 +14,8 @@ import os
 from configparser import RawConfigParser
 
 # loading settings.ini
+import pymysql
+
 config = RawConfigParser()
 settings_folder = os.path.dirname(os.path.abspath(__file__))
 ini_file = os.path.join(settings_folder, 'settings.ini')
@@ -121,6 +123,13 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+
+# TODO make conditional if using MySQL
+# Fake PyMySQL's version and install as MySQLdb
+# https://adamj.eu/tech/2020/02/04/how-to-use-pymysql-with-django/
+pymysql.version_info = (1, 4, 2, "final", 0)
+pymysql.install_as_MySQLdb()
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
