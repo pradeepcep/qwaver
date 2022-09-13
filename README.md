@@ -7,12 +7,12 @@
 
 Parameterize! Visualize! Collaboratize?!
 
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![master passing](https://github.com/brianrisk/qwaver/actions/workflows/unit-test.yml/badge.svg?branch=master)
 [![Join the chat at https://gitter.im/qwaver-io/community](https://badges.gitter.im/qwaver-io/community.svg)](https://gitter.im/qwaver-io/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <a href="https://github.com/brianrisk/qwaver/graphs/contributors">
 <img src="https://img.shields.io/github/contributors/brianrisk/qwaver.svg">
 </a>
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![master passing](https://github.com/brianrisk/qwaver/actions/workflows/unit-test.yml/badge.svg?branch=master)
 
 qwaver links: [Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help!](#help) • [Installation](#installation) • [Thanks](#thank-yous)
 
@@ -96,11 +96,10 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * list users in an organization
 * automatically add "admin" to new organizations
 * automatically add a limit to every query
+* login via google, github, linkedin
 
 #### Issues:
 * query parameters no longer recommending last specified
-
-[notes](./notes.md)
 
 ### General improvements
 If you see any ways that the app could be improved in these ways, let's work on it!
@@ -125,7 +124,6 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 ```
 
-
 Run python server, go to localhost
 
 `python3 manage.py runserver`
@@ -135,17 +133,10 @@ Environment variables:
 DJANGO_SETTINGS_MODULE=qwaver.settings
 ```
 
-Configurations.  Create these as a settings.ini file in the `qwaver` directory that contains `settings.py`
-```
-[config]
-ENVIRONMENT=[any value not 'prod' uses non-production logic]
-SECRET_KEY=[your secret key]
-DATABASE_NAME=[your value]
-DATABASE_USER=[your value]
-DATABASE_PASS=[your value]
-DATABASE_HOST=[your value]
-DATABASE_PORT=[your value]
-```
+Configurations.  Duplicate the file `settings-template.ini` in the `qwaver` 
+directory (the same directory that contains `settings.py`) and rename to
+`settings.ini`.  Update the settings for your particular environment..
+
 
 
 ## Thank yous
