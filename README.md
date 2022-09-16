@@ -75,6 +75,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * Query collections -- user-defined lists of queries that all conform to a given topic
 * add API access in addition to database access. Is that possible? We need it to be turned as a table to be treated generically
 * "Starters": pre-defined sets of queries and collections if a database is for a common CMS
+* collections and "linked collections".  linked collections are all of queries that take exatly one parameter: the id of a related object.
 
 #### Small but cool things:
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
@@ -97,6 +98,8 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * automatically add "admin" to new organizations
 * automatically add a limit to every query
 * login via google, github, linkedin
+* query model: parent (if the query is spawned); original (if the query is modified)
+* pretty API urls: qwaver.io/api/org-slug/query-name-slug
 
 #### Issues:
 * query parameters no longer recommending last specified
