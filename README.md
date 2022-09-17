@@ -99,6 +99,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * automatically add a limit to every query
 * login via google, github, linkedin
 * query model: parent (if the query is spawned); original (if the query is modified)
+* editing a query actually deactivates the original query and makes a new query
 * pretty API urls: qwaver.io/api/org-slug/query-name-slug
 
 #### Issues:
