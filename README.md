@@ -116,7 +116,7 @@ If you see any ways that the app could be improved in these ways, let's work on 
 * support for more databases
 
 ## Installation
-qwaver is already up and running on [qwaver.io](http://qwaver.io)
+Qwaver is already up and running on [qwaver.io](http://qwaver.io).  (It's free)
 
 If you want to run locally:
 
