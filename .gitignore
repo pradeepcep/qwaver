@@ -5,7 +5,7 @@ media/profile_pics
 *__pycache__*
 debug.log
 env
-static
+/static
 qwaver/settings.ini
 */migrations
 notes.md
