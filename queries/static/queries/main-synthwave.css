@@ -2,7 +2,7 @@
 
 body {
     color: #f8f8f2;
-    background: url('/media/bkgnd.jpg') #111111 no-repeat center center fixed;
+    background: url('/static/queries/images/bkgnd.jpg') #111111 no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -33,7 +33,7 @@ h2, h3, h4, h5, h6 {
 
 .navbar {
     color: #cbd5db;
-    background: url('/media/bkgnd2.jpg') no-repeat center center fixed;
+    background: url('/static/queries/images/bkgnd2.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
