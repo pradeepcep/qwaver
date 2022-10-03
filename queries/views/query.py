@@ -91,7 +91,7 @@ class QuerySearchView(LoginRequiredMixin, ListView):
             q = Q(database_id__in=databases)
             for word in words:
                 q &= Q(title__contains=word) | Q(description__contains=word) | Q(query__contains=word)
-            queries = Query.objects.filter(q).order_by('-run_count', '-date_created')
+            queries = Query.objects.filter(q).order_by('-last_run_date', '-date_created')
             return queries
         else:
             return Query.objects.filter(database_id__in=databases).order_by('-run_count', '-date_created')
