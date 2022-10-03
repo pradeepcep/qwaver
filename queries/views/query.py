@@ -142,9 +142,9 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         user = self.request.user
         form = super().get_form(*args, **kwargs)
         form.fields['database'].queryset = get_org_databases(self)
-        most_recent_database = user.profile.most_recent_database
-        if most_recent_database is not None:
-            form.fields['database'].initial = most_recent_database
+        # most_recent_database = user.profile.most_recent_database
+        # if most_recent_database is not None:
+        #     form.fields['database'].initial = most_recent_database
         return form
 
     def form_valid(self, form):
@@ -154,7 +154,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = user
         response = super().form_valid(form)
         # updating user's profile so their default database is the one just used
-        self.request.user.profile.most_recent_database = form.instance.database
+        # self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
         # creating any parameters specified by
         # getting all values in the string between two curly braces
@@ -186,7 +186,7 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return form
 
     def form_valid(self, form):
-        self.request.user.profile.most_recent_database = form.instance.database
+        # self.request.user.profile.most_recent_database = form.instance.database
         self.request.user.profile.save()
         # getting all parameter strings between curly braces
         param_strings = set(re.findall(r'\{(.*?)\}', form.instance.query))
