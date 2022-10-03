@@ -1,6 +1,6 @@
 <div align="center">
   <a href="http://qwaver.io">
-    <img src="http://qwaver.io/static/queries/images/qwaver-header.jpg" alt="qwaver logo">
+    <img src="http://qwaver.io/media/qwaver-header.jpg" alt="qwaver logo">
   </a>
 
 **Turn queries into easy-to-use tools your teammates can share.**
@@ -17,7 +17,7 @@ Parameterize! Visualize! Collaboratize?!
 qwaver links: [Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help!](#help) • [Installation](#installation) • [Thanks](#thank-yous)
 
 <a href="http://qwaver.io">
-    <img src="http://qwaver.io/static/queries/images/three-screen-shots.jpg" alt="qwaver logo">
+    <img src="http://qwaver.io/media/three-screen-shots.jpg" alt="qwaver logo">
   </a>
 </div>
 
