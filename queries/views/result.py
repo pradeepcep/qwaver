@@ -2,6 +2,7 @@ import base64
 import datetime
 from io import BytesIO
 
+import matplotlib.pyplot
 import matplotlib.pyplot as plt
 import pandas as pd
 import pymysql
@@ -19,6 +20,9 @@ from ..models import Query, Parameter, Result, Value
 
 max_table_rows = 500
 image_encoding = 'jpg'
+
+# So that server does not create (and then destroy) GUI windows that will never be seen
+matplotlib.pyplot.switch_backend('Agg')
 
 
 class ResultDetailView(LoginRequiredMixin, DetailView):
