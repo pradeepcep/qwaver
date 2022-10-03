@@ -5,15 +5,11 @@
     <!-- Global site tag (gtag.js) - Google Ads: 958028418 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-958028418"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-
-        gtag('config', 'AW-958028418');
+      gtag('config', 'AW-958028418');
     </script>
 
     <meta charset="utf-8">
@@ -30,7 +26,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
     <link rel="stylesheet" type="text/css" href="{% static 'queries/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'queries/social-buttons.css' %}">
     {% if user.is_authenticated %}
         {% if user.profile.display_mode == 3 %}
             <link rel="stylesheet" type="text/css" href="{% static 'queries/main-synthwave.css' %}">
@@ -107,7 +102,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle article-img" src="{{ MEDIA_URL }}..{{ user.profile.image.url }}">
+                            <img class="rounded-circle article-img" src="{{ user.profile.image.url }}">
                             {{ user.username }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">

@@ -55,7 +55,10 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-DEFAULT_APPS = [
+INSTALLED_APPS = [
+    'queries.apps.QueriesConfig',
+    'users.apps.UsersConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,19 +66,6 @@ DEFAULT_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-
-THIRD_PARTY_APPS = [
-    'crispy_forms',
-    'social_django'
-]
-
-LOCAL_APPS = [
-    'queries.apps.QueriesConfig',
-    'users.apps.UsersConfig',
-]
-
-INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
 
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
@@ -87,7 +77,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'qwaver.urls'
@@ -101,10 +90,8 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
             ],
         },
     },
@@ -162,15 +149,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = [
-    'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-]
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '423792552686-9mtplibj4r0m5erv05ojv3gaikhespsa.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'

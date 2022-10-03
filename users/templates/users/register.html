@@ -2,11 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
-        <h1>Create Your User</h1>
-        <a href=" {% url 'social:begin' 'google-oauth2' %} " class="google social-btn">
-            <i class="fa fa-google fa-fw"></i> Login with Google
-        </a>
-        <p>Or create you user here:</p>
+        <h1>Step 1: Create Your User</h1>
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
