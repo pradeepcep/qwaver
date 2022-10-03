@@ -4,13 +4,13 @@
     <div class="content-section">
         <h2>Log In</h2>
 
-        <a href=" {% url 'social:begin' 'google-oauth2' %} " class="google social-btn">
-            <i class="fa fa-google fa-fw"></i> Login with Google
-        </a>
-
-        <div>
-            <p>Or sign in manually:</p>
-        </div>
+{#        <a href=" {% url 'social:begin' 'google-oauth2' %} " class="google social-btn">#}
+{#            <i class="fa fa-google fa-fw"></i> Login with Google#}
+{#        </a>#}
+{##}
+{#        <div>#}
+{#            <p>Or sign in manually:</p>#}
+{#        </div>#}
 
 
         <form method="POST">
@@ -25,7 +25,7 @@
                 </small>
             </div>
         </form>
-        
+
         <div class="border-top pt-3">
             <small class="text-muted">
                 Need An Account? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
