@@ -35,9 +35,7 @@ config['config'] = {
     'EMAIL_PORT': '0',
     'EMAIL_USE_TLS': 'True',
     'EMAIL_HOST_USER': 'xxxxxxxxxx',
-    'EMAIL_HOST_PASSWORD': 'xxxxxxxxxx',
-    'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY': 'xxxxxxxxxx',
-    'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET': 'xxxxxxxxxx',
+    'EMAIL_HOST_PASSWORD': 'xxxxxxxxxx'
 }
 config.read(ini_file)
 
@@ -103,7 +101,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                # 'django.template.context_processors.media',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
@@ -168,8 +166,8 @@ AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config.get('config', 'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config.get('config', 'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '423792552686-9mtplibj4r0m5erv05ojv3gaikhespsa.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
