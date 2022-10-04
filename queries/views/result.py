@@ -5,15 +5,14 @@ from io import BytesIO
 import matplotlib.pyplot
 import matplotlib.pyplot as plt
 import pandas as pd
-import pymysql
 import sqlalchemy
+from dateutil.parser import parse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView
 from pandas.api.types import is_numeric_dtype
 from sqlalchemy import create_engine
-from dateutil.parser import parse
 
 from . import user_can_access_query
 from ..models import Query, Parameter, Result, Value
@@ -199,11 +198,12 @@ def get_chart(dataframe):
         if row_count > max_rows:
             # splitting dataframe by row index
             df1 = grouped.iloc[:max_rows, :]
+            # summing the remainder
             df2 = grouped.iloc[max_rows:, :].sum()
             # adding sum of remainder columns as final row
             df1.loc['Remaining Values', :] = df2.sum(axis=0)
             grouped = df1
-        grouped.plot(y=columns[1], kind='pie', figsize=(7, 4), legend=False)
+        grouped.plot(y=columns[1], autopct='%1.1f%%', kind='pie', figsize=(7, 4), legend=False)
         plt.axis('off')
     plt.tight_layout()
     chart = get_graph()
