@@ -7,15 +7,17 @@
         <div class="media-body">
             <div class="article-metadata">
                 <div class="float-right">
-                {% if result.query.author == user %}
-                    <div>
-                        <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                    {% if result.query.author == user %}
+                        <a class="btn btn-secondary btn-sm m-1 float-right"
                            href="{% url 'query-update' result.query.id %}">
                             <i class="bi bi-pencil mr-1"></i>
-                            Edit Query
+                            Edit
                         </a>
-                    </div>
-                {% endif %}
+                    {% endif %}
+                    <a class="btn btn-success btn-sm m-1 float-right" href="{% url 'query-clone' object.id %}">
+                        <i class="bi bi-files mr-1"></i>
+                        Clone
+                    </a>
                 </div>
             </div>
 
