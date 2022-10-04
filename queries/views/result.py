@@ -187,10 +187,22 @@ def get_chart(dataframe):
     if first_value is not None and isinstance(first_value, datetime.date):
         dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4), legend=False)
         plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
+    # Else, pie chart
     else:
         # converting first column to a string
         dataframe[columns[0]] = dataframe[columns[0]].astype(str)
         grouped = dataframe.groupby([columns[0]]).sum().sort_values([columns[1]], ascending=False)
+
+        # row count:
+        row_count = len(grouped.index)
+        max_rows = 49
+        if row_count > max_rows:
+            # splitting dataframe by row index
+            df1 = grouped.iloc[:max_rows, :]
+            df2 = grouped.iloc[max_rows:, :].sum()
+            # adding sum of remainder columns as final row
+            df1.loc['Remaining Values', :] = df2.sum(axis=0)
+            grouped = df1
         grouped.plot(y=columns[1], kind='pie', figsize=(7, 4), legend=False)
         plt.axis('off')
     plt.tight_layout()
