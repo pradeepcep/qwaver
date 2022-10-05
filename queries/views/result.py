@@ -1,5 +1,6 @@
 import base64
 import datetime
+import numbers
 from io import BytesIO
 
 import matplotlib.pyplot
@@ -124,8 +125,8 @@ def execute(request, id):
                 title=title,
                 dataframe=df.to_json(),
                 table=df.to_html(classes=[f"table {table_style} table-sm table-responsive"],
-                                                table_id="results",
-                                                index=False),
+                                 table_id="results",
+                                 index=False),
                 single=single,
                 image_encoding=image_encoding,
                 chart=chart
@@ -183,7 +184,9 @@ def get_chart(dataframe):
     columns = list(header.columns.values)
     first_value = dataframe[columns[0]].iat[0]
     # if first_value is number or date, assume this is a bar chart
-    if first_value is not None and isinstance(first_value, datetime.date):
+    is_bar = first_value is not None and \
+             (isinstance(first_value, datetime.date) or isinstance(first_value, numbers.Number))
+    if is_bar:
         dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4), legend=False)
         plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
     # Else, pie chart
