@@ -15,7 +15,7 @@ from django.views.generic import (
     DeleteView
 )
 
-from queries.common.access import user_can_access_database
+from queries.common.access import user_can_access_database, get_most_recent_database
 from queries.models import Query, Parameter, Database, UserSearch, QueryComment
 from queries.views import get_org_databases, user_can_access_query
 
@@ -142,8 +142,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         user = self.request.user
         form = super().get_form(*args, **kwargs)
         form.fields['database'].queryset = get_org_databases(self)
-        most_recent_database = Query.objects.filter(author=user)\
-            .order_by('-last_run_date', '-date_created').first().database
+        most_recent_database = get_most_recent_database(self)
         if most_recent_database is not None:
             form.fields['database'].initial = most_recent_database
         return form

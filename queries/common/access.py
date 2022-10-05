@@ -1,6 +1,6 @@
 from django.core.exceptions import PermissionDenied
 
-from queries.models import Database
+from queries.models import Database, Query
 from users.models import UserOrganization
 
 
@@ -11,6 +11,13 @@ def get_org_databases(self):
         raise PermissionDenied("Need a defined organization for profile of user " + user.username)
     databases = Database.objects.filter(organization=org)
     return databases
+
+def get_most_recent_database(self):
+    user = self.request.user
+    databases = get_org_databases(self)
+    most_recent_database = Query.objects.filter(database__in=databases, author=user) \
+        .order_by('-last_run_date', '-date_created').first().database
+    return most_recent_database
 
 
 def user_can_access_query(user, query):
