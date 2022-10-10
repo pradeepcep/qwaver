@@ -119,17 +119,14 @@ Qwaver is already up and running on [qwaver.io](http://qwaver.io).  (It's free)
 
 If you want to run locally:
 
-```
-pip install -r requirements.txt
+```bash
+pip3 install -r requirements.txt
 python3 manage.py collectstatic --no-input
-python3 manage.py createsuperuser
 python3 manage.py makemigrations
 python3 manage.py migrate
+python3 manage.py runserver
 ```
-
-Run python server, go to localhost
-
-`python3 manage.py runserver`
+When the server is running, go to localhost
 
 Environment variables:
 ```
@@ -139,8 +136,6 @@ DJANGO_SETTINGS_MODULE=qwaver.settings
 Configurations.  Duplicate the file `settings-template.ini` in the `qwaver` 
 directory (the same directory that contains `settings.py`) and rename to
 `settings.ini`.  Update the settings for your particular environment..
-
-
 
 ## Thank yous
 * Much of the user management code has been based on the snippets made available
