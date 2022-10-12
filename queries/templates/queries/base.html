@@ -5,11 +5,15 @@
     <!-- Global site tag (gtag.js) - Google Ads: 958028418 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-958028418"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-      gtag('config', 'AW-958028418');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'AW-958028418');
     </script>
 
     <meta charset="utf-8">
@@ -95,6 +99,21 @@
                     </ul>
                 </div>
             {% endif %}
+
+            <div class="mr-5">
+                <form action="{% url 'query-search' %}">
+                    <input type="text" class="form-control-sm search-field" name="s" value="{{ request.GET.s }}" list="recent_searches">
+                    <!-- recent searches -->
+                    {% if recent_searches|length > 0 %}
+                        <datalist id="recent_searches">
+                            {% for recent_search in recent_searches %}
+                                <option value="{{ recent_search }}">
+                            {% endfor %}
+                        </datalist>
+                    {% endif %}
+                    <button type="submit" class="btn btn-dark">Search</button>
+                </form>
+            </div>
 
             <!-- Navbar Right Side -->
             <ul class="navbar-nav">
