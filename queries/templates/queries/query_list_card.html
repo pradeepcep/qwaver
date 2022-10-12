@@ -1,6 +1,6 @@
 <div class="card-columns">
     {% for query in queries %}
-        <div class="card card-override" style="display: inline-block">
+        <div onclick="location.href='{% url 'query-detail' query.id %}';" class="card card-override" style="cursor: pointer; display: inline-block">
             {% if query.latest_result != null %}
                 {% if query.latest_result.chart != null %}
                     <img src="data:image/{{ query.latest_result.image_encoding }};base64,{{ query.latest_result.chart|safe }}"
@@ -20,10 +20,10 @@
                     {% endif %}
 {#                    {{ query.database }}<br>#}
                 </p>
-                <a href="{% url 'query-detail' query.id %}" class="btn btn-primary stretched-link">Go</a>
-                {% if query.author == user %}
-                    <a href="{% url 'query-update' query.id %}" class="btn btn-outline-secondary ml-1">Edit</a>
-                {% endif %}
+{#                <a href="{% url 'query-detail' query.id %}" class="btn btn-primary stretched-link">Go</a>#}
+{#                {% if query.author == user %}#}
+{#                    <a href="{% url 'query-update' query.id %}" class="btn btn-outline-secondary ml-1">Edit</a>#}
+{#                {% endif %}#}
             </div>
         </div>
     {% endfor %}
