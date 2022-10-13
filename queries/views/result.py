@@ -206,7 +206,7 @@ def get_chart(dataframe, title):
             # adding sum of remainder columns as final row
             df1.loc['Remaining Values', :] = df2.sum(axis=0)
             grouped = df1
-        grouped.plot(y=columns[1], autopct='%1.1f%%', kind='pie', figsize=(7, 4), legend=False)
+        grouped.plot(y=columns[1], autopct='%1.1f%%', kind='pie', figsize=(7, 4), legend=False, title=title)
         plt.axis('off')
     plt.tight_layout()
     chart = get_graph()
