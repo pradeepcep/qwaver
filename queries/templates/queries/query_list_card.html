@@ -1,4 +1,4 @@
-<div class="cards">
+<div class="cards mb-4">
     {% for query in queries %}
         <div onclick="location.href='{% url 'query-detail' query.id %}';" class="card card-override" style="cursor: pointer; display: inline-block">
             <img class="rounded-circle article-img profile-image-top-right" src="{{ user.profile.image.url }}">
