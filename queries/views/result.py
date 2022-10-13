@@ -116,7 +116,7 @@ def execute(request, id):
                 if is_single:
                     single = df.iat[0, 0]
                 if is_chart:
-                    chart = get_chart(df)
+                    chart = get_chart(df, title)
             else:
                 single = "no results"
             result = Result(
@@ -179,7 +179,7 @@ def get_svg_graph():
     return image_data
 
 
-def get_chart(dataframe):
+def get_chart(dataframe, title):
     header = dataframe.head()
     columns = list(header.columns.values)
     first_value = dataframe[columns[0]].iat[0]
@@ -187,7 +187,7 @@ def get_chart(dataframe):
     is_bar = first_value is not None and \
              (isinstance(first_value, datetime.date) or isinstance(first_value, numbers.Number))
     if is_bar:
-        dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4), legend=False)
+        dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4), legend=False, title=title)
         plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
     # Else, pie chart
     else:
