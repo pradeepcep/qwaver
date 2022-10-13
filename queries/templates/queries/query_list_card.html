@@ -1,6 +1,7 @@
-<div class="card-columns">
+<div class="cards">
     {% for query in queries %}
         <div onclick="location.href='{% url 'query-detail' query.id %}';" class="card card-override" style="cursor: pointer; display: inline-block">
+            <img class="rounded-circle article-img profile-image-top-right" src="{{ user.profile.image.url }}">
             {% if query.latest_result != null %}
                 {% if query.latest_result.chart != null %}
                     <img src="data:image/{{ query.latest_result.image_encoding }};base64,{{ query.latest_result.chart|safe }}"
@@ -9,7 +10,7 @@
                     <h1 class="display-3 text-center">{{ query.latest_result.single }}</h1>
                 {% endif %}
             {% endif %}
-            <div class="card-body">
+            <div>
                 <h5 class="card-title">{{ query }}</h5>
                 <p class="card-text">
                     {% if query.latest_result != null %}
