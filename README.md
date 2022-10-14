@@ -117,9 +117,11 @@ If you see any ways that the app could be improved in these ways, let's work on 
 ## Installation
 Qwaver is already up and running on [qwaver.io](http://qwaver.io).  (It's free)
 
-If you want to run locally:
+If you want to run locally, copy the following and run it in your terminal:
 
 ```bash
+git clone https://github.com/brianrisk/qwaver.git
+cd qwaver
 pip3 install -r requirements.txt
 python3 manage.py collectstatic --no-input
 python3 manage.py makemigrations
