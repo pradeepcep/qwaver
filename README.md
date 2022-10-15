@@ -24,6 +24,32 @@ qwaver links: [Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help
 ## Latest Build
 The latest code is running at [QWAVER.io](http://qwaver.io)
 
+## Installation
+Qwaver is already up and running on [qwaver.io](http://qwaver.io).  (It's free)
+
+If you want to run locally, copy the following and run it in your terminal:
+
+```bash
+git clone https://github.com/brianrisk/qwaver.git
+cd qwaver
+pip3 install -r requirements.txt
+python3 manage.py collectstatic --no-input
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
+```
+When the server is running, go to [localhost](http://localhost:8000)
+
+### Configurations
+
+The above installation will run with default settings using a local
+sqlite database.  However, if you'd like to run with a different configuration:
+
+Duplicate the file `settings-template.ini` in the `qwaver` 
+directory (the same directory that contains `settings.py`) and rename to
+`settings.ini`.  Update the settings for your particular environment..
+
+
 ## Use Cases
 ![qwaver in action](https://i.ytimg.com/an_webp/8OIL1gaSIp4/mqdefault_6s.webp?du=3000&sqp=COqJqJoG&rs=AOn4CLDN0_InJiKQWprAbkgJGLJpE5vobQ)
 
@@ -115,31 +141,6 @@ If you see any ways that the app could be improved in these ways, let's work on 
 * HTML/CSS styling
 * unit tests
 * support for more databases
-
-## Installation
-Qwaver is already up and running on [qwaver.io](http://qwaver.io).  (It's free)
-
-If you want to run locally, copy the following and run it in your terminal:
-
-```bash
-git clone https://github.com/brianrisk/qwaver.git
-cd qwaver
-pip3 install -r requirements.txt
-python3 manage.py collectstatic --no-input
-python3 manage.py makemigrations
-python3 manage.py migrate
-python3 manage.py runserver
-```
-When the server is running, go to [localhost](http://localhost:8000)
-
-Environment variables:
-```
-DJANGO_SETTINGS_MODULE=qwaver.settings
-```
-
-Configurations.  Duplicate the file `settings-template.ini` in the `qwaver` 
-directory (the same directory that contains `settings.py`) and rename to
-`settings.ini`.  Update the settings for your particular environment..
 
 ## Thank yous
 * Much of the user management code has been based on the snippets made available

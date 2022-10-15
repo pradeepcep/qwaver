@@ -1,6 +1,7 @@
 import base64
 import datetime
 import numbers
+from simphile import jaccard_similarity
 from io import BytesIO
 
 import matplotlib.pyplot
