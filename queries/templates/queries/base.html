@@ -100,21 +100,23 @@
                 </div>
             {% endif %}
 
-            <div class="mr-5">
-                <form action="{% url 'query-search' %}">
-                    <input type="text" class="form-control-sm search-field" name="s" value="{{ request.GET.s }}"
-                           list="recent_searches">
-                    <!-- recent searches -->
-                    {% if recent_searches|length > 0 %}
-                        <datalist id="recent_searches">
-                            {% for recent_search in recent_searches %}
-                                <option value="{{ recent_search }}">
-                            {% endfor %}
-                        </datalist>
-                    {% endif %}
-                    <button type="submit" class="btn btn-dark">Search</button>
-                </form>
-            </div>
+            {% if user.is_authenticated %}
+                <div class="mr-5">
+                    <form action="{% url 'query-search' %}">
+                        <input type="text" class="form-control-sm search-field" name="s" value="{{ request.GET.s }}"
+                               list="recent_searches">
+                        <!-- recent searches -->
+                        {% if recent_searches|length > 0 %}
+                            <datalist id="recent_searches">
+                                {% for recent_search in recent_searches %}
+                                    <option value="{{ recent_search }}">
+                                {% endfor %}
+                            </datalist>
+                        {% endif %}
+                        <button type="submit" class="btn btn-dark">Search</button>
+                    </form>
+                </div>
+            {% endif %}
 
             <!-- Navbar Right Side -->
             <ul class="navbar-nav">
