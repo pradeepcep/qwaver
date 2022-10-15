@@ -25,6 +25,8 @@ qwaver links: [Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help
 The latest code is running at [QWAVER.io](http://qwaver.io)
 
 ## Use Cases
+![qwaver in action](https://i.ytimg.com/an_webp/8OIL1gaSIp4/mqdefault_6s.webp?du=3000&sqp=COqJqJoG&rs=AOn4CLDN0_InJiKQWprAbkgJGLJpE5vobQ)
+
 Boss: Hey, do you have time for {business question involving our databases}?
 
 You: Sure!  Give me 20 minutes..
@@ -128,7 +130,7 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py runserver
 ```
-When the server is running, go to localhost
+When the server is running, go to [localhost](http://localhost:8000)
 
 Environment variables:
 ```
