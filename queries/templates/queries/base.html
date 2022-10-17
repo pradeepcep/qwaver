@@ -56,9 +56,9 @@
     {% else %}
         <title>
             QWAVER
-{#            {% if user.is_authenticated and user.profile.selected_organization != Null %}#}
-{#                : {{ user.profile.selected_organization }}#}
-{#            {% endif %}#}
+            {% if user.is_authenticated and user.profile.selected_organization != Null %}
+                : {{ user.profile.selected_organization }}
+            {% endif %}
         </title>
     {% endif %}
 </head>
@@ -68,9 +68,9 @@
         <div class="container">
             <a class="navbar-brand mr-4" href="{% url 'queries-home' %}">
                 <img src="/static/queries/images/qwaver-logo.png" height="30" style="margin: 10px;" alt="QWAVER">
-                {% if user.is_authenticated and user.profile.selected_organization != Null %}
-                    : {{ user.profile.selected_organization }}
-                {% endif %}
+{#                {% if user.is_authenticated and user.profile.selected_organization != Null %}#}
+{#                    : {{ user.profile.selected_organization }}#}
+{#                {% endif %}#}
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
