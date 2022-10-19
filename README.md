@@ -86,22 +86,11 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * Easy:  If you're in the code and see where something could be improved, but can't make the improvement right then,
   add  `# TODO` comment with a helpful description of what needs to be done and submit a PR.
 
-## The Data Model
-* The hierarchy is like this:
-  * Org -> Database -> Query -> Result
-  * Each "->" represents a one-to-many relationship
-* Users and Organizations
-  * User and Organization have a many-to-many relationship with the connection defined by UserOrganization
-    * Each organization can have many users
-    * Each user can belong to many organizations
-  * When using Qwaver, a user has a selected organization defined in their profile
-
 ### Feature requests
 #### Big, important things:
 * JS charts on pages
 * qwavers (esp. those with parameters) can be APIs as well
 * Query collections -- user-defined lists of queries that all conform to a given topic
-* add API access in addition to database access. Is that possible? We need it to be turned as a table to be treated generically
 * "Starters": pre-defined sets of queries and collections if a database is for a common CMS
 * "Linked collections".  linked collections are all of queries that take exatly one parameter: the id of a related object.
 
@@ -141,6 +130,18 @@ If you see any ways that the app could be improved in these ways, let's work on 
 * HTML/CSS styling
 * unit tests
 * support for more databases
+
+
+## The Data Model
+* The hierarchy is like this:
+  * Org -> Database -> Query -> Result
+  * Each "->" represents a one-to-many relationship
+* Users and Organizations
+  * User and Organization have a many-to-many relationship with the connection defined by UserOrganization
+    * Each organization can have many users
+    * Each user can belong to many organizations
+  * When using Qwaver, a user has a selected organization defined in their profile
+
 
 ## Thank yous
 * Much of the user management code has been based on the snippets made available

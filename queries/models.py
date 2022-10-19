@@ -19,8 +19,7 @@ class Database(models.Model):
         (POSTGRES, POSTGRES),
         (REDSHIFT, REDSHIFT),
         (MARIADB, MARIADB),
-        (ORACLE, ORACLE),
-        (REDSHIFT, REDSHIFT)
+        (ORACLE, ORACLE)
     )
     organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=1)
     title = models.CharField(max_length=256, default="", help_text='Can be any name you want such as "Transaction events"')

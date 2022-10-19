@@ -90,7 +90,7 @@ def execute(request, id):
         param_values[param.name] = param_value
         # if there are results, save the param value as default
         sql = sql.replace(f"{{{param.name}}}", param_value)
-        title = title.replace(f"{{{param.name}}}", param_value)
+        title = f"{title};\n {param.name}: {param_value}"
     # formatting the text to avoid problems with the % character in queries
     sql = sqlalchemy.text(sql)
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
