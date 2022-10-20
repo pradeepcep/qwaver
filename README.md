@@ -34,7 +34,8 @@ git clone https://github.com/brianrisk/qwaver.git
 cd qwaver
 pip3 install -r requirements.txt
 python3 manage.py collectstatic --no-input
-python3 manage.py makemigrations
+python3 manage.py makemigrations users
+python3 manage.py makemigrations queries
 python3 manage.py migrate
 python3 manage.py runserver
 ```
