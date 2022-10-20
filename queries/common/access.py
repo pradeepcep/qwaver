@@ -12,12 +12,16 @@ def get_org_databases(self):
     databases = Database.objects.filter(organization=org)
     return databases
 
+
 def get_most_recent_database(self):
     user = self.request.user
     databases = get_org_databases(self)
-    most_recent_database = Query.objects.filter(database__in=databases, author=user) \
-        .order_by('-last_run_date', '-date_created').first().database
-    return most_recent_database
+    if databases is not None:
+        most_recent_database = Query.objects.filter(database__in=databases, author=user) \
+            .order_by('-last_run_date', '-date_created').first().database
+        return most_recent_database
+    else:
+        return None
 
 
 def user_can_access_query(user, query):
