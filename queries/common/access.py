@@ -17,11 +17,12 @@ def get_most_recent_database(self):
     user = self.request.user
     databases = get_org_databases(self)
     if databases is not None:
-        most_recent_database = Query.objects.filter(database__in=databases, author=user) \
-            .order_by('-last_run_date', '-date_created').first().database
-        return most_recent_database
-    else:
-        return None
+        most_recent_query = Query.objects.filter(database__in=databases, author=user) \
+            .order_by('-last_run_date', '-date_created').first()
+        if most_recent_query is not None:
+            return most_recent_query.database
+    # when all else fails, return None
+    return None
 
 
 def user_can_access_query(user, query):
