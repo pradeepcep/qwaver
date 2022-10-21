@@ -143,6 +143,9 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         form = super().get_form(*args, **kwargs)
         form.fields['database'].queryset = get_org_databases(self)
         most_recent_database = get_most_recent_database(self)
+        if most_recent_database is None:
+            databases = get_org_databases(self)
+            most_recent_database = databases[0]
         if most_recent_database is not None:
             form.fields['database'].initial = most_recent_database
         return form
