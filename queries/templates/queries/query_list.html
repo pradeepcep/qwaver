@@ -22,11 +22,7 @@
         </div>
 
         <!-- Queries -->
-        {% if request.GET.s == null and result_count > 5 %}
-            {% include "queries/query_list_card.html" with quereies=queries %}
-        {% else %}
-            {% include "queries/query_list_row.html" with quereies=queries %}
-        {% endif %}
+        {% include "queries/query_list_card.html" with quereies=queries %}
 
         {% if is_paginated %}
 
