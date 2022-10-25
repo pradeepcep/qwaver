@@ -162,7 +162,8 @@ class ViewTests(TestCase):
         self.assertRedirects(response, reverse('query-detail', kwargs={'pk': self.query.pk}))
         self.query.refresh_from_db()
         assert self.query.title == 'new-title'
-        assert self.query.description == 'new-description'
+        # removing this assert as we're trying without description as a form field
+        # assert self.query.description == 'new-description'
         assert self.query.query == 'select *'
 
     def test_authorized_user_query_delete(self):
