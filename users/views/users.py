@@ -63,6 +63,8 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
         p_form.fields['selected_organization'].choices = orgs
+        # removing the display mode feature until it is more mature
+        del p_form.fields['display_mode']
 
     context = {
         'u_form': u_form,
