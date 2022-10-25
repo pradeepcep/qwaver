@@ -14,7 +14,7 @@ Parameterize! Visualize! Collaboratize?!
 <img src="https://img.shields.io/github/contributors/brianrisk/qwaver.svg">
 </a>
 
-qwaver links: [Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help!](#help) • [Installation](#installation) • [Thanks](#thank-yous)
+[Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help!](#help) • [Installation](#installation) • [Thanks](#thank-yous)
 
 <a href="http://qwaver.io">
     <img src="http://qwaver.io/static/queries/images/three-screen-shots.jpg" alt="qwaver logo">
