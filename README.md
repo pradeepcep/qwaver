@@ -42,7 +42,6 @@ python3 manage.py runserver
 When the server is running, go to [localhost](http://localhost:8000)
 
 ### Configurations
-
 The above installation will run with default settings using a local
 sqlite database.  However, if you'd like to run with a different configuration:
 
@@ -52,8 +51,6 @@ directory (the same directory that contains `settings.py`) and rename to
 
 
 ## Use Cases
-![qwaver in action](https://i.ytimg.com/an_webp/8OIL1gaSIp4/mqdefault_6s.webp?du=3000&sqp=COqJqJoG&rs=AOn4CLDN0_InJiKQWprAbkgJGLJpE5vobQ)
-
 Boss: Hey, do you have time for {business question involving our databases}?
 
 You: Sure!  Give me 20 minutes..
@@ -78,7 +75,6 @@ Looker) or some sort of intricate UI designed more for dashboards than actually 
 query language, let's leverage that strength!
 
 ## Help!
-
 Helping with this project will make you one of the cooler people that I know. How can I (meaning you) do that?
 
 * Easy:  Give this project a ⭐️!
@@ -142,7 +138,6 @@ If you see any ways that the app could be improved in these ways, let's work on 
     * Each organization can have many users
     * Each user can belong to many organizations
   * When using Qwaver, a user has a selected organization defined in their profile
-
 
 ## Thank yous
 * Much of the user management code has been based on the snippets made available
