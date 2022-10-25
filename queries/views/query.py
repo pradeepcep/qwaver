@@ -16,7 +16,7 @@ from django.views.generic import (
 )
 
 from queries.common.access import user_can_access_database, get_most_recent_database
-from queries.models import Query, Parameter, Database, UserSearch, QueryComment
+from queries.models import Query, Parameter, Database, UserSearch, QueryComment, Result, Value
 from queries.views import get_org_databases, user_can_access_query
 
 pagination_count = 12
@@ -127,7 +127,16 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(QueryDetailView, self).get_context_data(**kwargs)
-        context['params'] = Parameter.objects.filter(query=self.object)
+        most_recent_result = Result.objects.filter(query=self.object).order_by('-timestamp').first()
+        params = list(Parameter.objects.filter(query=self.object))
+        # pre-populating parameter values
+        if most_recent_result is not None:
+            values = list(Value.objects.filter(result=most_recent_result))
+            for param in params:
+                for x in values:
+                    if x.parameter_name == param.name:
+                        param.default = x.value
+        context['params'] = params
         context['comments'] = QueryComment.objects.filter(query=self.object).order_by('-timestamp')
         return context
 
