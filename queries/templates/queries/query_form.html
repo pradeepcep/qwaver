@@ -9,7 +9,7 @@
             let content = myCodeMirror.getValue();
             let format = window.sqlFormatter.format;
             textarea.textContent = format(content);
-            myCodeMirror.setValue(format(content))
+            myCodeMirror.setValue(format(content));
         }
     </script>
     <script>
@@ -80,6 +80,7 @@
             autofocus: true
         }
         let myCodeMirror = CodeMirror.fromTextArea(textArea, codeMirrorConfig);
+        myCodeMirror.setSize(null, 500);
     </script>
 
     {% if object != null %}

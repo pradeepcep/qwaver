@@ -134,7 +134,8 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
 
 class QueryCreateView(LoginRequiredMixin, CreateView):
     model = Query
-    fields = ['title', 'database', 'description', 'query']
+    # fields = ['title', 'database', 'description', 'query']
+    fields = ['title', 'database', 'query']
 
     # https://stackoverflow.com/questions/47363190/from-the-view-how-do-i-pass-custom-choices-into-a-forms-choicefield
     # https://stackoverflow.com/questions/5666505/how-to-subclass-djangos-generic-createview-with-initial-data
@@ -180,7 +181,8 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
 
 class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
-    fields = ['title', 'database', 'description', 'query']
+    # fields = ['title', 'database', 'description', 'query']
+    fields = ['title', 'database', 'query']
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
