@@ -92,6 +92,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * "Linked collections".  linked collections are all of queries that take exatly one parameter: the id of a related object.
 
 #### Small but cool things:
+* login via google, github, linkedin
+* have parent reference in queries.Query model (if the query was cloned from another)
+* have query text revision history
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
 * test database connection when adding new database
 * webpage preview when sharing results via slack or email (e.g. add open graph social previews to results. This will necessitate making an image url)
@@ -108,11 +111,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * For parameters set maximum and minimum and numeric values
 * pre-populate for a new database two queries: list public tables, list columns given a table name
 * list users in an organization
-* automatically add "admin" to new organizations
 * automatically add a limit to every query
-* login via google, github, linkedin
-* query model: parent (if the query is spawned); original (if the query is modified)
-* editing a query actually deactivates the original query and makes a new query
 * pretty API urls: qwaver.io/api/org-slug/query-name-slug
 
 #### Issues:
@@ -123,7 +122,6 @@ If you see any ways that the app could be improved in these ways, let's work on 
 
 * data security -- of paramount importance. In no way do we want a user to have access to data from an organization to
   which they do not belong
-* performance -- This needs to be SNAPPY!
 * HTML/CSS styling
 * unit tests
 * support for more databases
