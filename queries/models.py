@@ -54,7 +54,6 @@ class Query(models.Model):
     # A running count for how many consecutive errors have happened recently.
     # Reset to 0 if the query is successfully executed
     recent_error_count = models.IntegerField(default=0)
-    parent = models.ForeignKey("queries.Query", on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
         return self.title
