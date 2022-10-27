@@ -127,6 +127,8 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(QueryDetailView, self).get_context_data(**kwargs)
+        recent_results = Result.objects.filter(query=self.object, user=self.object.author).order_by('-timestamp')[:10]
+        # TODO: use the above but watch out for None/empty list
         most_recent_result = Result.objects.filter(query=self.object, user=self.object.author).order_by('-timestamp').first()
         params = list(Parameter.objects.filter(query=self.object))
         # pre-populating parameter values
@@ -137,6 +139,15 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
                     if x.parameter_name == param.name:
                         param.default = x.value
         context['params'] = params
+        # getting historic results
+        results = []
+        for result in recent_results:
+            line = {'result': result}
+            values = list(Value.objects.filter(result=result).order_by('parameter_name'))
+            line['values'] = values
+            results.append(line)
+        context['results'] = results
+        # getting comments on queries
         context['comments'] = QueryComment.objects.filter(query=self.object).order_by('-timestamp')
         return context
 

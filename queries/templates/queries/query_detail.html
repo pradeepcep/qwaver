@@ -1,17 +1,30 @@
 {% extends "queries/base.html" %}
 {% block content %}
     <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-    {% include "queries/query_template.html" with query=object %}
+        <div class="col-md-8">
+            {% include "queries/query_template.html" with query=object %}
 
+            {% if query.latest_result != null %}
+                <hr class="mt-4">
+                <h3>Latest Result: {{ query.last_run_date|timesince }} ago</h3>
+                {% include "queries/result_template.html" with result=query.latest_result %}
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            {% if results != null %}
 
-    {% if query.latest_result != null %}
-        <hr class="mt-4">
-        <h3>Latest Result: {{ query.last_run_date|timesince }} ago</h3>
-        {% include "queries/result_template.html" with result=query.latest_result %}
-    {% endif %}
+                <div class="card card-override">
+                <h3>Previous Results</h3>
+                    {% for result in results %}
+                        <em><a href="{% url 'result-detail' result.result.id %}">{{ result.result.timestamp }}</a></em>
+                        {% for value in result.values %}
+                            {{ value.parameter_name }}: {{ value.value }}<br>
+                        {% endfor %}
+                        <hr>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
-    <div class="col-md-2"></div>
-    </div>
+
 {% endblock content %}
