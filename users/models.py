@@ -40,7 +40,7 @@ class Profile(models.Model):
         null=True,
         blank=True,
         default=None)
-    display_mode = models.IntegerField(choices=((1, 'light'), (2, 'dark'), (3, 'synthwave')), default=3)
+    display_mode = models.IntegerField(choices=((1, 'light'), (2, 'dark'), (3, 'synthwave')), default=3, blank=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'
