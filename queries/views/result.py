@@ -139,7 +139,7 @@ def execute(request, id):
             result.save()
             # update query with latest result
             query.run_count += 1
-            query.last_run_date = datetime.datetime.now()
+            query.last_run_date = datetime.now()
             query.latest_result = result
             query.save()
             # save parameter values
