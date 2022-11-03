@@ -98,6 +98,8 @@ class Result(models.Model):
     image_encoding = models.CharField(max_length=16, null=True)
     chart = models.TextField(null=True)
     preview = models.TextField(null=True)
+    last_view_timestamp = models.DateTimeField(null=True)
+    view_count = models.IntegerField(default=1)
 
 
 # the specific value for an input field

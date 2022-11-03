@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.views.generic import DetailView
 from pandas.api.types import is_numeric_dtype
 from sqlalchemy import create_engine
+from datetime import datetime
 
 from . import user_can_access_query
 from ..models import Query, Parameter, Result, Value
@@ -33,6 +34,9 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
         user = self.request.user
         result = get_object_or_404(Result, id=self.kwargs.get('pk'))
         user_can_access_query(user, result.query)
+        result.last_view_timestamp = datetime.now()
+        result.view_count = result.view_count + 1
+        result.save()
         return result
 
     def get_context_data(self, **kwargs):
@@ -129,7 +133,8 @@ def execute(request, id):
                                  index=False),
                 single=single,
                 image_encoding=image_encoding,
-                chart=chart
+                chart=chart,
+                last_view_timestamp=datetime.now()
             )
             result.save()
             # update query with latest result

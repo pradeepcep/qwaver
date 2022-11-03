@@ -127,9 +127,11 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(QueryDetailView, self).get_context_data(**kwargs)
-        recent_results = Result.objects.filter(query=self.object, user=self.object.author).order_by('-timestamp')[:10]
+        recent_results = Result.objects.filter(query=self.object, user=self.object.author)\
+            .order_by('-last_view_timestamp', '-timestamp')[:10]
         # TODO: use the above but watch out for None/empty list
-        most_recent_result = Result.objects.filter(query=self.object, user=self.object.author).order_by('-timestamp').first()
+        most_recent_result = Result.objects.filter(query=self.object, user=self.object.author)\
+            .order_by('-timestamp').first()
         params = list(Parameter.objects.filter(query=self.object))
         # pre-populating parameter values
         if most_recent_result is not None:
