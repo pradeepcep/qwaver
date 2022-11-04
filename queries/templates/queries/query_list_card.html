@@ -17,7 +17,7 @@
                 {% endif %}
                 <p class="card-text">
                     {% if query.latest_result != null %}
-                        run {{ query.last_run_date|timesince }} ago<br>
+                        {{ query.last_run_date|timesince }} ago<br>
                     {% endif %}
                     {% if query.description != null %}
                         {{ query.description }}<br>
