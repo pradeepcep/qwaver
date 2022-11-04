@@ -4,22 +4,26 @@
         <div class="col-md-8">
             {% include "queries/query_template.html" with query=object %}
 
-{#            {% if query.latest_result != null %}#}
-{#                <hr class="mt-4">#}
-{#                <h3>Latest Result: {{ query.last_run_date|timesince }} ago</h3>#}
-{#                {% include "queries/result_template.html" with result=query.latest_result %}#}
-{#            {% endif %}#}
+            {#            {% if query.latest_result != null %}#}
+            {#                <hr class="mt-4">#}
+            {#                <h3>Latest Result: {{ query.last_run_date|timesince }} ago</h3>#}
+            {#                {% include "queries/result_template.html" with result=query.latest_result %}#}
+            {#            {% endif %}#}
         </div>
         <div class="col-md-4">
             {% if results != null %}
 
                 <div class="card card-override">
-                <h3>Previous Results</h3>
+                    <h3>Previous Results</h3>
                     {% for result in results %}
-                        <em><a href="{% url 'result-detail' result.result.id %}">{{ result.result.timestamp }}</a></em>
-                        {% for value in result.values %}
-                            {{ value.parameter_name }}: {{ value.value }}<br>
-                        {% endfor %}
+                        <div>
+                            <img class="rounded-circle article-img"
+                                 src="{{ result.result.user.profile.image.url }}">
+                            <em><a href="{% url 'result-detail' result.result.id %}">{{ result.result.timestamp }}</a></em><br>
+                            {% for value in result.values %}
+                                {{ value.parameter_name }}: {{ value.value }}<br>
+                            {% endfor %}
+                        </div>
                         <hr>
                     {% endfor %}
                 </div>
