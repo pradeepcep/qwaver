@@ -90,6 +90,13 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * Query collections -- user-defined lists of queries that all conform to a given topic
 * "Starters": pre-defined sets of queries and collections if a database is for a common CMS
 * "Linked collections".  linked collections are all of queries that take exatly one parameter: the id of a related object.
+* User Stats:
+  * Results are viewed per day
+  * Results viewed per hour
+  * Quarries made per day
+  * Cruise made per hour
+  * Total queries made
+  * Total results are viewed 
 
 #### Small but cool things:
 * login via google, github, linkedin
@@ -113,9 +120,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * list users in an organization
 * automatically add a limit to every query
 * pretty API urls: qwaver.io/api/org-slug/query-name-slug
-
-#### Issues:
-* query parameters no longer recommending last specified
 
 ### General improvements
 If you see any ways that the app could be improved in these ways, let's work on it!
