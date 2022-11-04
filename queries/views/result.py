@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.views.generic import DetailView
 from pandas.api.types import is_numeric_dtype
 from sqlalchemy import create_engine
-from datetime import datetime
+from django.utils import timezone
 
 from . import user_can_access_query
 from ..models import Query, Parameter, Result, Value
@@ -34,7 +34,7 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
         user = self.request.user
         result = get_object_or_404(Result, id=self.kwargs.get('pk'))
         user_can_access_query(user, result.query)
-        result.last_view_timestamp = datetime.now()
+        result.last_view_timestamp = timezone.now()
         result.view_count = result.view_count + 1
         result.save()
         return result
@@ -134,12 +134,12 @@ def execute(request, id):
                 single=single,
                 image_encoding=image_encoding,
                 chart=chart,
-                last_view_timestamp=datetime.now()
+                last_view_timestamp=timezone.now()
             )
             result.save()
             # update query with latest result
             query.run_count += 1
-            query.last_run_date = datetime.now()
+            query.last_run_date = timezone.now()
             query.latest_result = result
             query.save()
             # save parameter values
@@ -189,8 +189,7 @@ def get_chart(dataframe, title):
     columns = list(header.columns.values)
     first_value = dataframe[columns[0]].iat[0]
     # if first_value is number or date, assume this is a bar chart
-    is_bar = first_value is not None and \
-             (isinstance(first_value, datetime.date) or isinstance(first_value, numbers.Number))
+    is_bar = first_value is not None and isinstance(first_value, (datetime.date, numbers.Number))
     if is_bar:
         dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4), legend=False, title=title)
         plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
