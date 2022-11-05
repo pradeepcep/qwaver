@@ -123,6 +123,8 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * version numbers in queries; saved also in results
 * make row limit in returned results changeable in settings
 * save the exact SQL used for each result
+* disable queries; don't delete them
+* user permissions: org edit; DB edit; query edit
 
 ### General improvements
 If you see any ways that the app could be improved in these ways, let's work on it!
