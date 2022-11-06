@@ -134,7 +134,8 @@ def execute(request, id):
                 single=single,
                 image_encoding=image_encoding,
                 chart=chart,
-                last_view_timestamp=timezone.now()
+                last_view_timestamp=timezone.now(),
+                version_number=query.version_number
             )
             result.save()
             # update query with latest result

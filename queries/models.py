@@ -101,6 +101,7 @@ class Result(models.Model):
     preview = models.TextField(null=True)
     last_view_timestamp = models.DateTimeField(null=True)
     view_count = models.IntegerField(default=1)
+    version_number = models.IntegerField(default=1)
 
 
 # the specific value for an input field
