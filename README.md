@@ -125,6 +125,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * save the exact SQL used for each result
 * disable queries; don't delete them
 * user permissions: org edit; DB edit; query edit
+* query version: mark if was successful with query
 
 ### General improvements
 If you see any ways that the app could be improved in these ways, let's work on it!
