@@ -54,6 +54,7 @@ class Query(models.Model):
     # A running count for how many consecutive errors have happened recently.
     # Reset to 0 if the query is successfully executed
     recent_error_count = models.IntegerField(default=0)
+    version_number = models.IntegerField(default=1)
 
     def __str__(self):
         return self.title
@@ -123,9 +124,11 @@ class QueryComment(models.Model):
     comment = models.TextField(null=True)
 
 
-# class QueryRevision(models.Model):
-#     timestamp = models.DateTimeField(auto_now_add=True)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     query = models.ForeignKey(Query, on_delete=models.CASCADE)
-#     query_text = models.TextField()
-#     comment = models.TextField(null=True)
+class QueryVersion(models.Model):
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    version_number = models.IntegerField(default=1)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    query_text = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.TextField(default="")
+    is_valid = models.BooleanField(null=True)

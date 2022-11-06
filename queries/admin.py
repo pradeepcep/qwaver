@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from users.models import Organization
-from .models import Query, Database, Parameter, Result
+from .models import Query, Database, Parameter, Result, QueryVersion
 
 
 class OrganizationAdmin(admin.ModelAdmin):
@@ -14,3 +14,4 @@ admin.site.register(Database)
 # admin.site.register(Parameter)
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(Result)
+admin.site.register(QueryVersion)

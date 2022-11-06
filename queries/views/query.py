@@ -16,7 +16,7 @@ from django.views.generic import (
 )
 
 from queries.common.access import user_can_access_database, get_most_recent_database
-from queries.models import Query, Parameter, Database, UserSearch, QueryComment, Result, Value
+from queries.models import Query, Parameter, Database, UserSearch, QueryComment, Result, Value, QueryVersion
 from queries.views import get_org_databases, user_can_access_query
 
 pagination_count = 12
@@ -176,6 +176,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         user = self.request.user
         database = get_object_or_404(Database, pk=form.instance.database.id)
+        query = form.instance
         user_can_access_database(user, database)
         form.instance.author = user
         response = super().form_valid(form)
@@ -193,6 +194,14 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
                 default=""
             )
             new_parameter.save()
+        # saving this as the first version
+        version = QueryVersion(
+            query=query,
+            version_number=query.version_number,
+            query_text=query.query,
+            user=user
+        )
+        version.save()
         return response
 
     def get_context_data(self, **kwargs):
@@ -213,12 +222,12 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return form
 
     def form_valid(self, form):
-        # self.request.user.profile.most_recent_database = form.instance.database
-        self.request.user.profile.save()
+        user = self.request.user
+        query = form.instance
         # getting all parameter strings between curly braces
         param_strings = set(re.findall(r'\{(.*?)\}', form.instance.query))
         # retrieve currently created params
-        params = Parameter.objects.filter(query=form.instance)
+        params = Parameter.objects.filter(query=query)
         # delete any params not represented by param_strings
         for param in params:
             if param.name not in param_strings:
@@ -228,11 +237,35 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             if not any(param.name == param_string for param in params):
                 new_parameter = Parameter(
                     user=self.request.user,
-                    query=form.instance,
+                    query=query,
                     name=param_string,
                     default=""
                 )
                 new_parameter.save()
+        # retrieve latest version, if the SQL is the different, create new version
+        latest_version = QueryVersion.objects.filter(query=query, version_number=query.version_number).first()
+        # None means this query was made before versioning was a feature
+        # so let's create a version
+        if latest_version is None:
+            latest_version = QueryVersion(
+                query=query,
+                query_text=self.object.query,
+                user=self.object.author
+            )
+            latest_version.save()
+
+        if 'query' in form.changed_data:
+            new_version_number = latest_version.version_number + 1
+            form.instance.version_number = new_version_number
+            form.save()
+            new_version = QueryVersion(
+                query=query,
+                version_number=new_version_number,
+                query_text=query.query,
+                user=user,
+                comment="",  # TODO: add this field to edit view
+            )
+            new_version.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
