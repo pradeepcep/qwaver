@@ -101,7 +101,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 #### Small but cool things:
 * login via google, github, linkedin
 * have parent reference in queries.Query model (if the query was cloned from another)
-* have query text revision history
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
 * test database connection when adding new database
 * webpage preview when sharing results via slack or email (e.g. add open graph social previews to results. This will necessitate making an image url)
@@ -111,11 +110,12 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * track average execution time for queries
 * Add comments, likes
 * create 404 page
-* create exceptions table and log exceptions
+* add exceptions, errors to results
 * creat easy way to leave feedback
 * email verification
-* a country or date selector when param is {country} or {date}
-* For parameters set maximum and minimum and numeric values
+* parameters:
+  * a country or date selector when param is {country} or {date}
+  * For parameters set maximum and minimum and numeric values
 * pre-populate for a new database two queries: list public tables, list columns given a table name
 * list users in an organization
 * automatically add a limit to every query
