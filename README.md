@@ -120,7 +120,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * list users in an organization
 * automatically add a limit to every query
 * pretty API urls: qwaver.io/api/org-slug/query-name-slug
-* version numbers in queries; saved also in results
 * make row limit in returned results changeable in settings
 * save the exact SQL used for each result
 * disable queries; don't delete them
