@@ -16,6 +16,7 @@ from django.views.generic import (
 )
 
 from queries.common.access import user_can_access_database, get_most_recent_database
+from queries.common.components import users_recent_results
 from queries.models import Query, Parameter, Database, UserSearch, QueryComment, Result, Value, QueryVersion
 from queries.views import get_org_databases, user_can_access_query
 
@@ -127,10 +128,7 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(QueryDetailView, self).get_context_data(**kwargs)
-        recent_results = Result.objects.filter(query=self.object, user=self.object.author)\
-            .order_by('-last_view_timestamp', '-timestamp')[:10]
-        # TODO: use the above but watch out for None/empty list
-        most_recent_result = Result.objects.filter(query=self.object, user=self.object.author)\
+        most_recent_result = Result.objects.filter(query=self.object, user=self.request.user)\
             .order_by('-timestamp').first()
         params = list(Parameter.objects.filter(query=self.object))
         # pre-populating parameter values
@@ -142,13 +140,7 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
                         param.default = x.value
         context['params'] = params
         # getting historic results
-        results = []
-        for result in recent_results:
-            line = {'result': result}
-            values = list(Value.objects.filter(result=result).order_by('parameter_name'))
-            line['values'] = values
-            results.append(line)
-        context['results'] = results
+        context['results'] = users_recent_results(query=self.object, user=self.request.user)
         # getting comments on queries
         context['comments'] = QueryComment.objects.filter(query=self.object).order_by('-timestamp')
         return context

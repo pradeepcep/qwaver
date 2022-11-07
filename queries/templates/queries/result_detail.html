@@ -3,55 +3,67 @@
 {% block content %}
     <!-- for downloading tables -->
     <script src="{% static 'queries/tablefunctions.js' %}"></script>
-    <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <div class="float-right">
-                    {% if result.query.author == user %}
-                        <a class="btn btn-secondary btn-sm m-1 float-right"
-                           href="{% url 'query-update' result.query.id %}">
-                            <i class="bi bi-pencil mr-1"></i>
-                            Edit
-                        </a>
-                    {% endif %}
-                    <a class="btn btn-success btn-sm m-1 float-right" href="{% url 'query-clone' result.query.id %}">
-                        <i class="bi bi-files mr-1"></i>
-                        Clone
-                    </a>
-                </div>
-            </div>
-
-            <h2 class="article-title">{{ result.title }}</h2>
-            {% include "queries/result_template.html" with result=result %}
-
-            <hr>
-            <!-- rerun -->
-            {% if has_valid_parameters %}
-                <form method="POST" action="{% url 'query-run' result.query.id %}">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        {% for  param in params %}
-                            <div id="div_id_title" class="form-group"><label for="id_title" class=" requiredField">
-                                {{ param.parameter_name }} </label>
-                                <div><input type="text" name="{{ param.parameter_name }}" value="{{ param.value }}"
-                                            maxlength="100"
-                                            class="textinput textInput form-control" id="{{ param.parameter_name }}">
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </fieldset>
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Rerun</button>
+    <div class="row">
+        <div class="col-md-8">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <div class="float-right">
+                            {% if result.query.author == user %}
+                                <a class="btn btn-secondary btn-sm m-1 float-right"
+                                   href="{% url 'query-update' result.query.id %}">
+                                    <i class="bi bi-pencil mr-1"></i>
+                                    Edit
+                                </a>
+                            {% endif %}
+                            <a class="btn btn-success btn-sm m-1 float-right"
+                               href="{% url 'query-clone' result.query.id %}">
+                                <i class="bi bi-files mr-1"></i>
+                                Clone
+                            </a>
+                        </div>
                     </div>
-                </form>
-            {% else %}
-                <div class="alert alert-warning">
-                    This result is from an old version of the query. The parameters used to produce this result do not
-                    match those currently associated with the query
+
+                    <h2 class="article-title">{{ result.title }}</h2>
+                    {% include "queries/result_template.html" with result=result %}
+
+                    <hr>
+                    <!-- rerun -->
+                    {% if has_valid_parameters %}
+                        <form method="POST" action="{% url 'query-run' result.query.id %}">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                {% for  param in params %}
+                                    <div id="div_id_title" class="form-group"><label for="id_title"
+                                                                                     class=" requiredField">
+                                        {{ param.parameter_name }} </label>
+                                        <div><input type="text" name="{{ param.parameter_name }}"
+                                                    value="{{ param.value }}"
+                                                    maxlength="100"
+                                                    class="textinput textInput form-control"
+                                                    id="{{ param.parameter_name }}">
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </fieldset>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Rerun</button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            This result is from an old version of the query. The parameters used to produce this result
+                            do not
+                            match those currently associated with the query
+                        </div>
+                    {% endif %}
+
+
                 </div>
-            {% endif %}
-
-
+            </article>
         </div>
-    </article>
+        <div class="col-md-4">
+            {% include "queries/template_recent_results.html" with results=results %}
+        </div>
+    </div>
 {% endblock content %}

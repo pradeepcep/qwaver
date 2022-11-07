@@ -1,0 +1,25 @@
+{% if results != null %}
+
+    <div class="card card-override">
+        <h3>Previous Results</h3>
+        {% for result in results %}
+            <div>
+                {% if result.result.version_number != object.version_number %}
+                    <div style="background-color: #331b1b; color: #817878">
+                        Older version<br>
+                    </div>
+                {% endif %}
+                <div>
+                    <img class="rounded-circle article-img"
+                         src="{{ result.result.user.profile.image.url }}">
+                    <em><a href="{% url 'result-detail' result.result.id %}">{{ result.result.timestamp }}</a></em><br>
+
+                    {% for value in result.values %}
+                        {{ value.parameter_name }}: {{ value.value }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+{% endif %}

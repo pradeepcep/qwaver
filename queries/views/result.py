@@ -17,6 +17,7 @@ from sqlalchemy import create_engine
 from django.utils import timezone
 
 from . import user_can_access_query
+from ..common.components import users_recent_results
 from ..models import Query, Parameter, Result, Value
 
 max_table_rows = 500
@@ -54,6 +55,8 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
             if not any(parameter.name == value.parameter_name for value in values):
                 has_valid_parameters = False
         context['params'] = values
+        # getting historic results
+        context['results'] = users_recent_results(query=self.object.query, user=self.request.user)
         context['has_valid_parameters'] = has_valid_parameters
         return context
 
