@@ -12,8 +12,7 @@
                 <div>
                     <img class="rounded-circle article-img"
                          src="{{ result.result.user.profile.image.url }}">
-                    <em><a href="{% url 'result-detail' result.result.id %}">{{ result.result.timestamp }}</a></em><br>
-
+                    <em><a href="{% url 'result-detail' result.result.id %}">{{ result.result.timestamp|timesince }} ago</a></em><br>
                     {% for value in result.values %}
                         {{ value.parameter_name }}: {{ value.value }}<br>
                     {% endfor %}
