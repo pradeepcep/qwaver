@@ -102,6 +102,7 @@ class Result(models.Model):
     last_view_timestamp = models.DateTimeField(null=True)
     view_count = models.IntegerField(default=1)
     version_number = models.IntegerField(default=1)
+    query_text = models.TextField(null=True)
 
 
 # the specific value for an input field
