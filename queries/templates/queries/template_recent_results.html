@@ -4,9 +4,9 @@
         <h3>Previous Results</h3>
         {% for result in results %}
             {% if result.result == selected_result %}
-                <div style="border: 1px solid magenta; background-color: rgba(255,0,255,0.2); padding: 5px">
+                <div class="mb-3" style="border: 1px solid magenta; background-color: rgba(255,0,255,0.2); padding: 5px">
             {% else %}
-                <div>
+                <div class="mb-3" style="padding: 5px">
             {% endif %}
 
 
@@ -24,7 +24,6 @@
                     {% endfor %}
                 </div>
             </div>
-            <hr>
         {% endfor %}
     </div>
 {% endif %}
