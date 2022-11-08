@@ -4,7 +4,7 @@ from queries.models import Result, Value
 
 def users_recent_results(query, user):
     recent_results = Result.objects.filter(query=query, user=user) \
-                         .order_by('-timestamp')[:10]
+                         .order_by('-timestamp')[:15]
     results = []
     for result in recent_results:
         line = {'result': result}
