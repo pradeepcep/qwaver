@@ -57,6 +57,7 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
         context['params'] = values
         # getting historic results
         context['results'] = users_recent_results(query=self.object.query, user=self.request.user)
+        context['selected_result'] = self.object
         context['has_valid_parameters'] = has_valid_parameters
         return context
 
