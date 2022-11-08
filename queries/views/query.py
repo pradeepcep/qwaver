@@ -51,12 +51,12 @@ class QueryListView(ListView):
         # https://stackoverflow.com/questions/9410647/how-to-filter-model-results-for-multiple-values-for-a-many-to-many-field-in-djan
         # queries = Query.objects.filter(database_id__in=get_org_databases(self)).order_by('-run_count', '-date_created')
         queries = Query.objects.filter(database_id__in=get_org_databases(self))\
-            .order_by('-last_run_date', '-date_created')
+            .order_by('-last_viewed', '-last_run_date', '-date_created')
         return queries
 
     def get_context_data(self, **kwargs):
         context = super(QueryListView, self).get_context_data(**kwargs)  # get the default context data
-        days_ago = timezone.now() - datetime.timedelta(days=2)
+        days_ago = timezone.now() - datetime.timedelta(days=2) # searches back for 2 days
         user = self.request.user
         searches = UserSearch.objects\
             .filter(user=user, organization=user.profile.selected_organization, timestamp__gt=days_ago)\
@@ -143,6 +143,10 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
         context['results'] = users_recent_results(query=self.object, user=self.request.user)
         # getting comments on queries
         context['comments'] = QueryComment.objects.filter(query=self.object).order_by('-timestamp')
+        # updating query
+        query = self.object
+        query.last_viewed = timezone.now()
+        query.save()
         return context
 
 
@@ -169,6 +173,7 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         user = self.request.user
         database = get_object_or_404(Database, pk=form.instance.database.id)
         query = form.instance
+        query.last_viewed = timezone.now()
         user_can_access_database(user, database)
         form.instance.author = user
         response = super().form_valid(form)

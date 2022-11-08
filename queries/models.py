@@ -46,6 +46,7 @@ class Query(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     run_count = models.IntegerField(default=0)
+    last_viewed = models.DateTimeField(default=None, null=True)
     last_run_date = models.DateTimeField(default=None, null=True)
     # https://stackoverflow.com/questions/34003865/django-reverse-query-name-clash
     latest_result = models.ForeignKey("queries.Result", related_name='+', on_delete=models.DO_NOTHING, null=True)
