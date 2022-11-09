@@ -1,0 +1,15 @@
+{% extends "queries/base.html" %}
+{% block content %}
+    <h2>Versions</h2>
+    <ul>
+    {% for version in versions %}
+        <li>
+            <img class="rounded-circle article-img" src="{{ version.user.profile.image.url }}">
+            <div style="display: inline">
+                {{ version.timestamp|timesince }} ago.
+            </div>
+            {{ version.query_text }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}

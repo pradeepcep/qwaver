@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from .views.query_version import QueryVersionListView
 from .views.result import ResultDetailView
 
 urlpatterns = [
@@ -25,5 +26,6 @@ urlpatterns = [
 
     path('search/', QuerySearchView.as_view(), name='query-search'),
     path('searches/', UserSearchListView.as_view(), name='query-searches'),
+    path('versions/<int:query_id>/', QueryVersionListView.as_view(), name='query-versions'),
 
 ]
