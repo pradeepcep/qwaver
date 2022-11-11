@@ -99,7 +99,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
   * Total results are viewed 
 
 #### Small but cool things:
-* login via google, github, linkedin
+* track average execution time for queries
 * have parent reference in queries.Query model (if the query was cloned from another)
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
 * test database connection when adding new database
@@ -107,8 +107,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * flag queries -- if their results do not align with their title/description or are wrong in any other way
     * Search results should not include flagged queries
     * The author of a flagged query should be given an alert
-* track average execution time for queries
-* Add comments, likes
+* Add comments, likes, stars
 * create 404 page
 * add exceptions, errors to results
 * creat easy way to leave feedback
@@ -116,7 +115,11 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * parameters:
   * a country or date selector when param is {country} or {date}
   * For parameters set maximum and minimum and numeric values
-* pre-populate for a new database two queries: list public tables, list columns given a table name
+* pre-populate for a new database two queries: 
+  * list public tables
+  * list columns given a table name
+  * list running queries
+  * kill query
 * list users in an organization
 * automatically add a limit to every query
 * pretty API urls: qwaver.io/api/org-slug/query-name-slug
@@ -124,6 +127,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * user permissions: org edit; DB edit; query edit, query create
 * query version: mark if was successful with query
 * issue: buttons on clone page
+* pivot plots
 
 ### Efficiency:
 * in query_version.py, make spans cover contiguous chaged characters, not individual characters
