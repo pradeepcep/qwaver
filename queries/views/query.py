@@ -241,18 +241,13 @@ class QueryEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 new_parameter.save()
         # retrieve latest version, if the SQL is the different, create new version
         latest_version = QueryVersion.objects.filter(query=query, version_number=query.version_number).first()
+        version_number = 0
         # None means this query was made before versioning was a feature
-        # so let's create a version
-        if latest_version is None:
-            latest_version = QueryVersion(
-                query=query,
-                query_text=self.object.query,
-                user=self.object.author
-            )
-            latest_version.save()
+        if latest_version is not None:
+            version_number = latest_version.version_number
 
         if 'query' in form.changed_data:
-            new_version_number = latest_version.version_number + 1
+            new_version_number = version_number + 1
             form.instance.version_number = new_version_number
             form.save()
             new_version = QueryVersion(
