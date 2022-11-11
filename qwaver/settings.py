@@ -35,7 +35,8 @@ config['config'] = {
     'EMAIL_PORT': '0',
     'EMAIL_USE_TLS': 'True',
     'EMAIL_HOST_USER': 'xxxxxxxxxx',
-    'EMAIL_HOST_PASSWORD': 'xxxxxxxxxx'
+    'EMAIL_HOST_PASSWORD': 'xxxxxxxxxx',
+    'MAX_TABLE_ROWS': '500',
 }
 config.read(ini_file)
 
@@ -184,6 +185,8 @@ EMAIL_HOST_PASSWORD = config.get('config', 'EMAIL_HOST_PASSWORD')
 
 ADMINS = [('Brian', 'geneffects@gmail.com')]
 SERVER_EMAIL = 'server@qwaver.io'
+
+MAX_TABLE_ROWS = int(config.get('config', 'MAX_TABLE_ROWS'))
 
 # LOGGING = {
 #     'version': 1,

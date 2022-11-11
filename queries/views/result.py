@@ -12,6 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView
+from django.conf import settings
 from pandas.api.types import is_numeric_dtype
 from sqlalchemy import create_engine
 from django.utils import timezone
@@ -20,7 +21,7 @@ from . import user_can_access_query
 from ..common.components import users_recent_results
 from ..models import Query, Parameter, Result, Value
 
-max_table_rows = 500
+max_table_rows = settings.MAX_TABLE_ROWS
 image_encoding = 'jpg'
 
 # So that server does not create (and then destroy) GUI windows that will never be seen

@@ -120,7 +120,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * list users in an organization
 * automatically add a limit to every query
 * pretty API urls: qwaver.io/api/org-slug/query-name-slug
-* make row limit in returned results changeable in settings
 * disable queries; don't delete them
 * user permissions: org edit; DB edit; query edit, query create
 * query version: mark if was successful with query
