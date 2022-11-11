@@ -32,13 +32,13 @@ class QueryVersionListView(LoginRequiredMixin, ListView):
                 for i, s in enumerate(difflib.ndiff(before, after)):
                     if s[0] == ' ':
                         # continue
-                        diff += f"{s[-1]} "
+                        diff += {s[-1]}
                     elif s[0] == '-':
-                        append = f"<span style='color: #FF0099'>{s[-1]}</span> "
+                        append = f"<span style='color: #FF0099'>{s[-1]}</span>"
                         diff = diff + append
                         only_diff = only_diff + append
                     elif s[0] == '+':
-                        append = f"<span style='color: #00FF99'>{s[-1]}</span> "
+                        append = f"<span style='color: #00FF99'>{s[-1]}</span>"
                         diff = diff + append
                         only_diff = only_diff + append
                 line['diff'] = diff
