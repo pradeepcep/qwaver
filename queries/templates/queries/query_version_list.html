@@ -2,14 +2,16 @@
 {% block content %}
     <h2>Versions</h2>
     <ul>
-    {% for version in versions %}
-        <li>
-            <img class="rounded-circle article-img" src="{{ version.user.profile.image.url }}">
-            <div style="display: inline">
-                {{ version.timestamp|timesince }} ago.
-            </div>
-            {{ version.query_text }}
-        </li>
-    {% endfor %}
+        {% for v in versions %}
+            <li style="margin-bottom: 2em">
+                <img class="rounded-circle article-img" src="{{ v.version.user.profile.image.url }}">
+                <div style="display: inline">
+                    {{ v.version.timestamp|timesince }} ago.
+                </div>
+                <div style="background-color: black; padding: 1em">
+                    {{ v.diff|safe }}
+                </div>
+            </li>
+        {% endfor %}
     </ul>
 {% endblock content %}

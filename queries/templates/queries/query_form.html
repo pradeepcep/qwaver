@@ -31,11 +31,28 @@
         {% endif %}
 
         {% if object != null %}
-            <div class="top-right">
-                <a class="btn btn-success mr-2 float-left" href="{% url 'query-clone' object.id %}">
-                    <i class="bi bi-files mr-1"></i>
-                    Clone
-                </a>
+            <div style="text-align: right">
+                <div style="display: inline-block">
+                    <a class="btn btn-success mr-2" href="{% url 'query-clone' object.id %}">
+                        <i class="bi bi-files mr-1"></i>
+                        Clone
+                    </a>
+                </div>
+                {% if object.version_number > 1 %}
+                    <div style="display: inline-block">
+                        <a class="btn btn-info mr-2" href="{% url 'query-versions' object.id %}">
+                            <i class="bi bi-arrow-counterclockwise mr-1"></i>
+                            Versions
+                        </a>
+                    </div>
+                {% endif %}
+                <div style="display: inline-block">
+                    <a class="btn btn-danger mr-2"
+                       href="{% url 'query-delete' object.id %}">
+                        <i class="bi bi-file-earmark-x"></i>
+                        Delete
+                    </a>
+                </div>
             </div>
         {% endif %}
         <form method="POST" {% if is_clone %}
@@ -55,15 +72,6 @@
                         Save
                     {% endif %}
                 </button>
-                {% if object != null %}
-                    <div class="float-right">
-                        <a class="btn btn-danger mr-2"
-                           href="{% url 'query-delete' object.id %}">
-                            <i class="bi bi-file-earmark-x"></i>
-                            Delete
-                        </a>
-                    </div>
-                {% endif %}
                 <button class="btn btn-outline-success" type="button" onclick="doFormat();">Format</button>
             </div>
         </form>
