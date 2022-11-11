@@ -18,6 +18,7 @@ class QueryVersionListView(LoginRequiredMixin, ListView):
         versions = QueryVersion.objects.filter(query=query).order_by('-timestamp')
         return versions
 
+    # printing difference: https://stackoverflow.com/questions/17904097/python-difference-between-two-strings
     def get_context_data(self, **kwargs):
         context = super(QueryVersionListView, self).get_context_data(**kwargs)  # get the default context data
         # TODO: get this from queryversion so we don't double-query database for user

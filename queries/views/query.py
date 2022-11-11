@@ -290,7 +290,8 @@ class QueryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Query
-    fields = ['title', 'database', 'description', 'query']
+    # fields = ['title', 'database', 'description', 'query']
+    fields = ['title', 'database', 'query']
     template_name = 'queries/query_form.html'
 
     def get_object(self, queryset=None):
