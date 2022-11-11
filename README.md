@@ -124,7 +124,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * disable queries; don't delete them
 * user permissions: org edit; DB edit; query edit, query create
 * query version: mark if was successful with query
-* "history" page for query revisions
+* issue: buttons on clone page
 
 ### General improvements
 If you see any ways that the app could be improved in these ways, let's work on it!

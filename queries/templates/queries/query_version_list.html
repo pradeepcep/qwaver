@@ -1,6 +1,24 @@
 {% extends "queries/base.html" %}
 {% block content %}
+
+    <script>
+        function toggle(id) {
+            var x = document.getElementById(id);
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+
+
+
     <h2>Versions</h2>
+    <a class="btn btn-secondary mb-2 mt-2" href="{% url 'query-update' query.id %}">
+        <i class="bi bi-arrow-left"></i>
+        Back
+    </a>
     <ul>
         {% for v in versions %}
             <li style="margin-bottom: 2em">
@@ -8,8 +26,12 @@
                 <div style="display: inline">
                     {{ v.version.timestamp|timesince }} ago.
                 </div>
-                <div style="background-color: black; padding: 1em">
-                    {{ v.diff|safe }}
+                <div class="content-section mt-2" style="padding: 1em">
+                    {{ v.only_diff|safe }}
+<button class="btn btn-info btn-sm ml-2"onclick="toggle({{ v.version.id }})">Show full</button>
+<pre style="color: gray; display: none; margin-top: 2em" id="{{ v.version.id }}">
+{{ v.diff|safe }}
+</pre>
                 </div>
             </li>
         {% endfor %}

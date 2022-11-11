@@ -22,20 +22,29 @@ class QueryVersionListView(LoginRequiredMixin, ListView):
         for index, version in enumerate(versions):
             line = {'version': version}
             if index == 0:
-                line['diff'] = "original"
+                line['diff'] = version.query_text
+                line['only_diff'] = "original"
             else:
                 before = versions[index - 1].query_text
                 after = versions[index].query_text
                 diff = ""
+                only_diff = ""
                 for i, s in enumerate(difflib.ndiff(before, after)):
                     if s[0] == ' ':
-                        continue
+                        # continue
+                        diff += s[-1]
                     elif s[0] == '-':
-                        diff = diff + f"<span style='color: red'>{s[-1]}</span>"
+                        append = f"<span style='color: #FF0099'>{s[-1]}</span>"
+                        diff = diff + append
+                        only_diff = only_diff + append
                     elif s[0] == '+':
-                        diff = diff + f"<span style='color: green'>{s[-1]}</span>"
+                        append = f"<span style='color: #00FF99'>{s[-1]}</span>"
+                        diff = diff + append
+                        only_diff = only_diff + append
                 line['diff'] = diff
+                line['only_diff'] = only_diff
             queryset.append(line)
+        queryset.reverse()
         return queryset
 
     # printing difference: https://stackoverflow.com/questions/17904097/python-difference-between-two-strings
