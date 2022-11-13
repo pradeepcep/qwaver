@@ -128,6 +128,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * query version: mark if was successful with query
 * issue: buttons on clone page
 * pivot plots
+* revert to previous query versions
 
 ### Efficiency:
 * in query_version.py, make spans cover contiguous chaged characters, not individual characters
