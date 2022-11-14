@@ -68,11 +68,11 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
 # 3. Replacing placeholder parameters with their values
 # 4. Executing the query
 # 5. Saving the result to the DB
-def execute(request, id):
+def execute(request, query_id):
     user = request.user
     if not user.is_authenticated:
         return redirect(reverse('login'))
-    query = get_object_or_404(Query, pk=id)
+    query = get_object_or_404(Query, pk=query_id)
     user_can_access_query(user, query)
     params = Parameter.objects.filter(query=query)
     is_dark = user.is_authenticated and user.profile.display_mode != 1
