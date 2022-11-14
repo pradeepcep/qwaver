@@ -1,7 +1,10 @@
 import difflib
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views.generic import ListView
 
 from queries.common.access import user_can_access_query
@@ -54,3 +57,28 @@ class QueryVersionListView(LoginRequiredMixin, ListView):
         context['query'] = get_object_or_404(Query, id=self.kwargs.get('query_id'))
         context['result_count'] = len(self.object_list)
         return context
+
+
+class QueryVersionRevertView(QueryVersionListView):
+
+    def get_queryset(self):
+        user = self.request.user
+        query = get_object_or_404(Query, id=self.kwargs.get('query_id'))
+        user_can_access_query(user, query)
+        # query_version = get_object_or_404(QueryVersion, query=query, version_number=self.kwargs.get('v'))
+        query_version = QueryVersion.objects.filter(query=query, version_number=self.kwargs.get('v')).first()
+        if query_version is None:
+            raise Http404("Given query version not found....")
+        new_version = query.update_query_text(query_version.query_text, user=user)
+        if new_version is not None:
+            messages.success(self.request, f"Query reverted to version {query_version.version_number}")
+        else:
+            messages.warning(self.request, f"Current query text not different from selected version. No reversion made.")
+        return super().get_queryset()
+
+    def get_success_url(self):
+        return reverse('query-versions', args=[self.kwargs.get('pk')])
+
+    def test_func(self):
+        return True
+

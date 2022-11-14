@@ -66,6 +66,34 @@ class Query(models.Model):
     def get_params(self):
         return Parameter.objects.filter(query=self)
 
+    def update_query_text(self, new_text, user, comment=""):
+        if self.query != new_text:
+            self.query = new_text
+            self.version_number = self.version_number + 1
+            self.save()
+            new_version = QueryVersion(
+                query=self,
+                version_number=self.version_number,
+                query_text=new_text,
+                user=user,
+                comment=comment,
+            )
+            new_version.save()
+            return new_version
+        else:
+            return None
+
+
+class QueryVersion(models.Model):
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    version_number = models.IntegerField(default=1)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    query_text = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.TextField(default="")
+    success_count = models.IntegerField(default=0)
+    failure_count = models.IntegerField(default=0)
+
 
 class Parameter(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -125,13 +153,3 @@ class QueryComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
     comment = models.TextField(null=True)
-
-
-class QueryVersion(models.Model):
-    query = models.ForeignKey(Query, on_delete=models.CASCADE)
-    version_number = models.IntegerField(default=1)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    query_text = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.TextField(default="")
-    is_valid = models.BooleanField(null=True)

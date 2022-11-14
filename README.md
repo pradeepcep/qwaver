@@ -130,6 +130,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * pivot plots
 * revert to previous query versions
 
+### Issues:
+* error produced when query returns nothing (like table create; drop, etc.)
+
 ### Efficiency:
 * in query_version.py, make spans cover contiguous chaged characters, not individual characters
 

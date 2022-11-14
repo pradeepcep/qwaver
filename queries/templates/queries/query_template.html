@@ -9,7 +9,10 @@
         <div>
             {% if query.author == user %}
                 <a class="btn btn-secondary btn-sm m-1 float-right"
-                   href="{% url 'query-update' query.id %}">Edit</a>
+                   href="{% url 'query-update' query.id %}">
+                <i class="bi bi-pencil"></i>
+                    Edit
+                </a>
             {% endif %}
             <a class="btn btn-success btn-sm m-1 float-right" href="{% url 'query-clone' object.id %}">
                 <i class="bi bi-files mr-1"></i>

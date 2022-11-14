@@ -15,20 +15,30 @@
 
 
     <h2>Versions</h2>
-    <a class="btn btn-secondary mb-2 mt-2" href="{% url 'query-update' query.id %}">
-        <i class="bi bi-arrow-left"></i>
-        Back
+    <a class="btn btn-secondary m-2" href="{% url 'query-update' query.id %}">
+        <i class="bi bi-pencil"></i>
+        Edit
+    </a>
+    <a class="btn btn-secondary m-2" href="{% url 'query-detail' query.id %}">
+        <i class="bi bi-box-arrow-right"></i>
+        Run
     </a>
     <ul>
         {% for v in versions %}
             <li style="margin-bottom: 2em">
                 <img class="rounded-circle article-img" src="{{ v.version.user.profile.image.url }}">
-                <div style="display: inline">
+                v{{ v.version.version_number }}.
+                <div style="display: inline; color: #999999">
                     {{ v.version.timestamp|timesince }} ago.
                 </div>
+                {{ v.version.comment }}
                 <div class="content-section mt-2" style="padding: 1em">
                     {{ v.only_diff|safe }}
 <button class="btn btn-info btn-sm ml-2"onclick="toggle({{ v.version.id }})">Show full</button>
+                    <a class="btn btn-secondary btn-sm ml-2" href="{% url 'query-version-revert' query_id=query.id v=v.version.version_number %}">
+                        <i class="bi bi-arrow-counterclockwise mr-1"></i>
+                        Revert to v{{ v.version.version_number }}
+                    </a>
 <pre style="color: gray; display: none; margin-top: 2em" id="{{ v.version.id }}">
 {{ v.diff|safe }}
 </pre>
