@@ -8,7 +8,7 @@ def users_recent_results(query, user):
     results = []
     for result in recent_results:
         line = {'result': result}
-        line['is_current'] = result.version_number == query.version_number
+        line['is_current'] = result.version_number == query.get_version_number()
         values = list(Value.objects.filter(result=result).order_by('parameter_name'))
         line['values'] = values
         results.append(line)

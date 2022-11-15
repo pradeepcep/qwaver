@@ -38,7 +38,7 @@
                         Clone
                     </a>
                 </div>
-                {% if object.version_number > 1 %}
+                {% if object.get_version_number > 1 %}
                     <div style="display: inline-block">
                         <a class="btn btn-info mr-2" href="{% url 'query-versions' object.id %}">
                             <i class="bi bi-arrow-counterclockwise mr-1"></i>

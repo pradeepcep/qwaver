@@ -55,10 +55,10 @@ class Query(models.Model):
     # A running count for how many consecutive errors have happened recently.
     # Reset to 0 if the query is successfully executed
     recent_error_count = models.IntegerField(default=0)
-    version_number = models.IntegerField(default=1)
+    version = models.ForeignKey("queries.QueryVersion", related_name='+', on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
-        return self.title
+        return f"{self.title}"
 
     def get_absolute_url(self):
         return reverse('query-detail', kwargs={'pk': self.pk})
@@ -69,19 +69,26 @@ class Query(models.Model):
     def update_query_text(self, new_text, user, comment=""):
         if self.query != new_text:
             self.query = new_text
-            self.version_number = self.version_number + 1
-            self.save()
+            version_number = self.get_version_number() + 1
             new_version = QueryVersion(
                 query=self,
-                version_number=self.version_number,
+                version_number=version_number,
                 query_text=new_text,
                 user=user,
                 comment=comment,
             )
+            self.version = new_version
             new_version.save()
+            self.save()
             return new_version
         else:
             return None
+
+    def get_version_number(self):
+        if self.version is None:
+            return 1
+        else:
+            return self.version.version_number
 
 
 class QueryVersion(models.Model):
