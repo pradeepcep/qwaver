@@ -1,6 +1,7 @@
 <div class="result mt-4 text-center">
     {% if result.single != null %}
-        <h1 class="display-1">{{ result.single|safe }}</h1>
+{#        <h1 class="display-1">{{ result.single|safe }}</h1>#}
+        <div>{{ result.single|safe }}</div>
     {% elif result.chart != null %}
         <div class="mb-4">
             <img src="data:image/{{ result.image_encoding }};base64,{{ result.chart|safe }}" class="contain"

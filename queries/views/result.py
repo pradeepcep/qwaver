@@ -76,9 +76,6 @@ def execute(request, query_id):
     user_can_access_query(user, query)
     params = Parameter.objects.filter(query=query)
     is_dark = user.is_authenticated and user.profile.display_mode != 1
-    table_style = ""
-    if is_dark:
-        table_style = "table-dark"
     if is_dark:
         plt.style.use('dark_background')
     else:
@@ -127,15 +124,13 @@ def execute(request, query_id):
                 if is_chart:
                     chart = get_chart(df, title)
             else:
-                single = "no results"
+                single = str(list(df.columns.values))
             result = Result(
                 user=user,
                 query=query,
                 title=title,
                 dataframe=df.to_json(),
-                table=df.to_html(classes=[f"table {table_style} table-sm table-responsive"],
-                                 table_id="results",
-                                 index=False),
+                table=get_table(df),
                 single=single,
                 image_encoding=image_encoding,
                 chart=chart,
@@ -222,6 +217,23 @@ def get_chart(dataframe, title):
     plt.tight_layout()
     chart = get_graph()
     return chart
+
+
+def get_table(df):
+    css_classes = "table table_dark table-sm table-responsive"
+    table_id = "results"
+    row_count = len(df.index)
+    if row_count == 0:
+        columns = list(df.columns.values)
+        table = f"<table id={table_id} class='{css_classes}'"
+        for column in columns:
+            table += f"<tr><td>{column}</td></tr>"
+        table += "</table>"
+        return table
+    else:
+        return df.to_html(classes=[css_classes],
+                          table_id=table_id,
+                          index=False)
 
 
 # https://stackoverflow.com/questions/25341945/check-if-string-has-date-any-format
