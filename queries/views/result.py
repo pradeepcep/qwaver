@@ -109,22 +109,19 @@ def execute(request, query_id):
         return render(request, 'queries/easter.html', {})
         # return redirect("http://synthblast.com")
     else:
-        try:
+        # try:
             df_full = pd.read_sql(sql, connection)
             df = df_full.head(max_table_rows)
             row_count = len(df.index)
             column_count = df.columns.size
-            chart = None
-            single = None
-            if row_count > 0:
-                is_chart = column_count == 2 and row_count > 1 and is_numeric_dtype(df.iloc[:, 1])
-                is_single = column_count == 1 and row_count == 1
-                if is_single:
-                    single = df.iat[0, 0]
-                if is_chart:
-                    chart = get_chart(df, title)
+            chart = get_chart(df, title)
+            if chart is None:
+                print("noooooooooooooooo")
+            if row_count == 1 and column_count == 1:
+                single = df.iat[0, 0]
             else:
-                single = str(list(df.columns.values))
+                # single = str(list(df.columns.values))
+                single = None
             result = Result(
                 user=user,
                 query=query,
@@ -153,14 +150,14 @@ def execute(request, query_id):
                 )
                 value.save()
             return redirect(reverse('result-detail', args=[result.pk]))
-        except Exception as err:
-            context = {
-                'title': title,
-                'query': query,
-                'error': err,
-                'params': params
-            }
-            return render(request, 'queries/result_error.html', context)
+        # except Exception as err:
+        #     context = {
+        #         'title': title,
+        #         'query': query,
+        #         'error': err,
+        #         'params': params
+        #     }
+        #     return render(request, 'queries/result_error.html', context)
 
 
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/
@@ -186,20 +183,50 @@ def get_svg_graph():
     return image_data
 
 
-def get_chart(dataframe, title):
-    header = dataframe.head()
+def get_chart(df, title):
+    header = df.head()
     columns = list(header.columns.values)
-    first_value = dataframe[columns[0]].iat[0]
+    row_count = len(df.index)
+    col_count = len(columns)
+    if row_count < 2 or col_count < 2:
+        return None
+    first_value = df[columns[0]].iat[0]
+    second_value = df[columns[1]].iat[0]
+    third_value = None
+    if col_count >= 3:
+        third_value = df[columns[2]].iat[0]
+    is_bar_or_pie = len(columns) == 2 and row_count > 1 and is_numeric_dtype(df.iloc[:, 1])
+    is_pivot = (len(columns) == 3
+                and row_count > 1
+                and first_value is not None
+                and second_value is not None
+                and third_value is not None
+                and isinstance(first_value, datetime.date)
+                and isinstance(second_value, str)
+                and isinstance(third_value, numbers.Number))
+    if not is_bar_or_pie and not is_pivot:
+        return None
     # if first_value is number or date, assume this is a bar chart
-    is_bar = first_value is not None and isinstance(first_value, (datetime.date, numbers.Number))
-    if is_bar:
-        dataframe.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4), legend=False, title=title)
+    is_bar = (first_value is not None
+              and isinstance(first_value, (datetime.date, numbers.Number)))
+
+    if is_pivot:
+        # https://stackoverflow.com/a/48799804/2595659
+        df.groupby([columns[0], columns[1]])[columns[2]] \
+            .sum() \
+            .unstack(level=1) \
+            .plot.area()
+            # .plot.bar(stacked=True)
+
+
+    elif is_bar:
+        df.plot(x=columns[0], y=columns[1], kind='bar', figsize=(7, 4), legend=False, title=title)
         plt.locator_params(axis='x', nbins=10)  # reduce the number of ticks
     # Else, pie chart
     else:
         # converting first column to a string
-        dataframe[columns[0]] = dataframe[columns[0]].astype(str)
-        grouped = dataframe.groupby([columns[0]]).sum().sort_values([columns[1]], ascending=False)
+        df[columns[0]] = df[columns[0]].astype(str)
+        grouped = df.groupby([columns[0]]).sum().sort_values([columns[1]], ascending=False)
 
         # row count:
         row_count = len(grouped.index)
