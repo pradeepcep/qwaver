@@ -128,6 +128,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * query version: mark if was successful with query
 * issue: buttons on clone page
 * update success and error counts in results
+* save exact query run with result; view that shows this
 
 ### Issues:
 * error produced when query returns nothing (like table create; drop, etc.)
