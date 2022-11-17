@@ -127,7 +127,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * user permissions: org edit; DB edit; query edit, query create
 * query version: mark if was successful with query
 * issue: buttons on clone page
-* pivot plots
 * update success and error counts in results
 
 ### Issues:
