@@ -108,6 +108,7 @@ def execute(request, query_id):
         connection = create_engine(f"sqlite://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     else:
         connection = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+    connection.execution_options(isolation_level="AUTOCOMMIT")
     try:
         df_full = pd.read_sql(sql, connection)
         df = df_full.head(max_table_rows)
