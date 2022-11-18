@@ -33,6 +33,12 @@
         {% if object != null %}
             <div style="text-align: right">
                 <div style="display: inline-block">
+                    <a class="btn btn-secondary mr-2" href="{% url 'query-detail' object.id %}">
+{#                        <i class="bi bi-files mr-1"></i>#}
+                        Run
+                    </a>
+                </div>
+                <div style="display: inline-block">
                     <a class="btn btn-success mr-2" href="{% url 'query-clone' object.id %}">
                         <i class="bi bi-files mr-1"></i>
                         Clone
