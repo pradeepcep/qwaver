@@ -65,7 +65,7 @@ class QueryVersionRevertView(QueryVersionListView):
         user = self.request.user
         query = get_object_or_404(Query, id=self.kwargs.get('query_id'))
         user_can_access_query(user, query)
-        query_version = query.version
+        query_version = QueryVersion.objects.get(query=query, version_number=self.kwargs.get('v'))
         if query_version is None:
             raise Http404("Given query version not found....")
         new_version = query.update_query_text(query_version.query_text, user=user)
