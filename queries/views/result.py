@@ -86,13 +86,10 @@ def execute(request, query_id):
     sql = query.query
     title = query.title
     param_values = {}
-    is_easter = False
     for param in params:
         param_value = request.POST.get(param.name)
         if param_value is None:
             param_value = param.default
-        elif param_value == 'dml':
-            is_easter = True
         param_values[param.name] = param_value
         # if there are results, save the param value as default
         sql = sql.replace(f"{{{param.name}}}", param_value)
@@ -103,61 +100,63 @@ def execute(request, query_id):
     db = query.database
     if db.platform == db.MYSQL:
         connection = create_engine(f"mysql+pymysql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+    elif db.platform == db.ORACLE:
+        connection = create_engine(f"oracle://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+    elif db.platform == db.MICROSOFT_SQL_SERVER:
+        connection = create_engine(f"mssql+pymssql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+    elif db.platform == db.SQLITE:
+        connection = create_engine(f"sqlite://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     else:
         connection = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
-    if is_easter:
-        return render(request, 'queries/easter.html', {})
-        # return redirect("http://synthblast.com")
-    else:
-        # try:
-            df_full = pd.read_sql(sql, connection)
-            df = df_full.head(max_table_rows)
-            row_count = len(df.index)
-            column_count = df.columns.size
-            chart = get_chart(df, title)
-            if chart is None:
-                print("noooooooooooooooo")
-            if row_count == 1 and column_count == 1:
-                single = df.iat[0, 0]
-            else:
-                # single = str(list(df.columns.values))
-                single = None
-            result = Result(
-                user=user,
-                query=query,
-                title=title,
-                dataframe=df.to_json(),
-                table=get_table(df),
-                single=single,
-                image_encoding=image_encoding,
-                chart=chart,
-                last_view_timestamp=timezone.now(),
-                version_number=query.get_version_number(),
-                query_text=sql
+    try:
+        df_full = pd.read_sql(sql, connection)
+        df = df_full.head(max_table_rows)
+        row_count = len(df.index)
+        column_count = df.columns.size
+        chart = get_chart(df, title)
+        if chart is None:
+            print("noooooooooooooooo")
+        if row_count == 1 and column_count == 1:
+            single = df.iat[0, 0]
+        else:
+            # single = str(list(df.columns.values))
+            single = None
+        result = Result(
+            user=user,
+            query=query,
+            title=title,
+            dataframe=df.to_json(),
+            table=get_table(df),
+            single=single,
+            image_encoding=image_encoding,
+            chart=chart,
+            last_view_timestamp=timezone.now(),
+            version_number=query.get_version_number(),
+            query_text=sql
+        )
+        result.save()
+        # update query with latest result
+        query.run_count += 1
+        query.last_run_date = timezone.now()
+        query.latest_result = result
+        query.save()
+        # save parameter values
+        for param_name, param_value in param_values.items():
+            value = Value(
+                parameter_name=param_name,
+                value=param_value,
+                result=result
             )
-            result.save()
-            # update query with latest result
-            query.run_count += 1
-            query.last_run_date = timezone.now()
-            query.latest_result = result
-            query.save()
-            # save parameter values
-            for param_name, param_value in param_values.items():
-                value = Value(
-                    parameter_name=param_name,
-                    value=param_value,
-                    result=result
-                )
-                value.save()
-            return redirect(reverse('result-detail', args=[result.pk]))
-        # except Exception as err:
-        #     context = {
-        #         'title': title,
-        #         'query': query,
-        #         'error': err,
-        #         'params': params
-        #     }
-        #     return render(request, 'queries/result_error.html', context)
+            value.save()
+        return redirect(reverse('result-detail', args=[result.pk]))
+    except Exception as err:
+        context = {
+            'title': title,
+            'query': query,
+            'error': err,
+            'params': params
+        }
+        return render(request, 'queries/result_error.html', context)
 
 
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/
@@ -216,7 +215,7 @@ def get_chart(df, title):
             .sum() \
             .unstack(level=1) \
             .plot.area()
-            # .plot.bar(stacked=True)
+        # .plot.bar(stacked=True)
 
 
     elif is_bar:

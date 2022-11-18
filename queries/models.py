@@ -14,12 +14,16 @@ class Database(models.Model):
     REDSHIFT = 'Redshift'
     MARIADB = 'MariaDB'
     ORACLE = 'Oracle'
+    MICROSOFT_SQL_SERVER = 'Microsoft SQL Server'
+    SQLITE = 'SQLite'
     CHOICES = (
         (MYSQL, MYSQL),
         (POSTGRES, POSTGRES),
         (REDSHIFT, REDSHIFT),
         (MARIADB, MARIADB),
-        (ORACLE, ORACLE)
+        (ORACLE, ORACLE),
+        (MICROSOFT_SQL_SERVER, MICROSOFT_SQL_SERVER),
+        (SQLITE, SQLITE)
     )
     organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=1)
     title = models.CharField(max_length=256, default="", help_text='Can be any name you want such as "Transaction events"')

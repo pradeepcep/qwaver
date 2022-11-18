@@ -78,6 +78,14 @@ class QuerySearchView(LoginRequiredMixin, ListView):
     context_object_name = 'queries'
     paginate_by = pagination_count
 
+    def get(self, *args, **kwargs):
+        s = self.request.GET.get('s')
+        if s == 'dml':
+            return render(self.request, 'queries/easter.html', {})
+        if s == 'synthblast':
+            return redirect("http://synthblast.com")
+        return super(QuerySearchView, self).get(*args, **kwargs)
+
     def get_queryset(self):
         s = self.request.GET.get('s')
         databases = get_org_databases(self)
