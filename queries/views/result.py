@@ -99,17 +99,19 @@ def execute(request, query_id):
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
     db = query.database
     if db.platform == db.MYSQL:
-        connection = create_engine(f"mysql+pymysql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+        engine = create_engine(f"mysql+pymysql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     elif db.platform == db.ORACLE:
-        connection = create_engine(f"oracle://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+        engine = create_engine(f"oracle://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     elif db.platform == db.MICROSOFT_SQL_SERVER:
-        connection = create_engine(f"mssql+pymssql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+        engine = create_engine(f"mssql+pymssql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     elif db.platform == db.SQLITE:
-        connection = create_engine(f"sqlite://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+        engine = create_engine(f"sqlite://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
     else:
-        connection = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
-    connection.execution_options(isolation_level="AUTOCOMMIT")
-    try:
+        engine = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+
+    # try:
+    with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as connection:
+        print(connection.default_isolation_level)
         df_full = pd.read_sql(sql, connection)
         df = df_full.head(max_table_rows)
         row_count = len(df.index)
@@ -150,14 +152,16 @@ def execute(request, query_id):
             )
             value.save()
         return redirect(reverse('result-detail', args=[result.pk]))
-    except Exception as err:
-        context = {
-            'title': title,
-            'query': query,
-            'error': err,
-            'params': params
-        }
-        return render(request, 'queries/result_error.html', context)
+
+
+# except Exception as err:
+#     context = {
+#         'title': title,
+#         'query': query,
+#         'error': err,
+#         'params': params
+#     }
+#     return render(request, 'queries/result_error.html', context)
 
 
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/
