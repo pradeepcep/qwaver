@@ -63,16 +63,30 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+def execute(request, query_id):
+    query = get_object_or_404(Query, pk=query_id)
+    if settings.DEBUG:
+        return run_query(request, query)
+    else:
+        try:
+            return run_query(request, query)
+        except Exception as err:
+            context = {
+                'query': query,
+                'error': err,
+            }
+            return render(request, 'queries/result_error.html', context)
+
+
 # 1. Getting the user, query and parameters
 # 2. Creating a connection to the db
 # 3. Replacing placeholder parameters with their values
 # 4. Executing the query
 # 5. Saving the result to the DB
-def execute(request, query_id):
+def run_query(request, query):
     user = request.user
     if not user.is_authenticated:
         return redirect(reverse('login'))
-    query = get_object_or_404(Query, pk=query_id)
     user_can_access_query(user, query)
     params = Parameter.objects.filter(query=query)
     is_dark = user.is_authenticated and user.profile.display_mode != 1
@@ -109,10 +123,9 @@ def execute(request, query_id):
     else:
         engine = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
 
-    # try:
     with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as connection:
-        print(connection.default_isolation_level)
         df_full = pd.read_sql(sql, connection)
+        engine.dispose()
         df = df_full.head(max_table_rows)
         row_count = len(df.index)
         column_count = df.columns.size
@@ -152,17 +165,6 @@ def execute(request, query_id):
             )
             value.save()
         return redirect(reverse('result-detail', args=[result.pk]))
-
-
-# except Exception as err:
-#     context = {
-#         'title': title,
-#         'query': query,
-#         'error': err,
-#         'params': params
-#     }
-#     return render(request, 'queries/result_error.html', context)
-
 
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/
 # possible idea for returning only image from endpoint: https://groups.google.com/g/pydata/c/yxKcJI4Y7e8
