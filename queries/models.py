@@ -164,3 +164,10 @@ class QueryComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
     comment = models.TextField(null=True)
+
+
+class QueryError(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    query = models.ForeignKey(Query, on_delete=models.CASCADE)
+    error = models.TextField(null=True)

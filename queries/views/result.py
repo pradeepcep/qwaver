@@ -19,7 +19,7 @@ from django.utils import timezone
 
 from . import user_can_access_query
 from ..common.components import users_recent_results
-from ..models import Query, Parameter, Result, Value
+from ..models import Query, Parameter, Result, Value, QueryError
 
 max_table_rows = settings.MAX_TABLE_ROWS
 image_encoding = 'jpg'
@@ -71,6 +71,14 @@ def execute(request, query_id):
         try:
             return run_query(request, query)
         except Exception as err:
+            # log the error
+            query_error = QueryError(
+                user=request.user,
+                query=query,
+                error=err
+            )
+            query_error.save()
+            # report to user
             context = {
                 'query': query,
                 'error': err,

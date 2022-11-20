@@ -16,7 +16,12 @@ Including another URLconf
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import handler400, handler403, handler404, handler500
 
+# handler400 = 'qwaver.views.bad_request'
+# handler403 = 'qwaver.views.permission_denied'
+# handler404 = 'qwaver.views.page_not_found'
+handler500 = 'queries.views.handler500'
 
 urlpatterns = [
     path('', include('queries.urls')),
