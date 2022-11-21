@@ -90,6 +90,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * Query collections -- user-defined lists of queries that all conform to a given topic
 * "Starters": pre-defined sets of queries and collections if a database is for a common CMS
 * "Linked collections".  linked collections are all of queries that take exatly one parameter: the id of a related object.
+* Badges for accomplishments -- eg. "creator", "pivoter", "chart master"
+* EZ API
+  * pretty API urls: qwaver.io/api/org-slug/query-name-slug
 * User Stats:
   * Results are viewed per day
   * Results viewed per hour
@@ -99,6 +102,10 @@ Helping with this project will make you one of the cooler people that I know. Ho
   * Total results are viewed 
 
 #### Small but cool things:
+* query version: mark if was successful with query
+* issue: buttons on clone page
+* update success and error counts in results
+* save exact query run with result; view that shows this
 * track average execution time for queries
 * have parent reference in queries.Query model (if the query was cloned from another)
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
@@ -109,7 +116,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
     * The author of a flagged query should be given an alert
 * Add comments, likes, stars
 * create 404 page
-* add exceptions, errors to results
 * creat easy way to leave feedback
 * email verification
 * parameters:
@@ -122,13 +128,8 @@ Helping with this project will make you one of the cooler people that I know. Ho
   * kill query
 * list users in an organization
 * automatically add a limit to every query
-* pretty API urls: qwaver.io/api/org-slug/query-name-slug
 * disable queries; don't delete them
 * user permissions: org edit; DB edit; query edit, query create
-* query version: mark if was successful with query
-* issue: buttons on clone page
-* update success and error counts in results
-* save exact query run with result; view that shows this
 
 ### Issues:
 * error produced when query returns nothing (like table create; drop, etc.)
