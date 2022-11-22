@@ -11,6 +11,13 @@
             textarea.textContent = format(content);
             myCodeMirror.setValue(format(content));
         }
+
+        // submitting the form with ctrl-enter
+        $(document).on("keypress", function (e) {
+            if (e.ctrlKey && (e.which === 13)) {
+                $('#query-form').submit();
+            }
+        });
     </script>
     <script>
         function copyContent() {
@@ -33,10 +40,6 @@
         {% if object != null %}
             <div style="text-align: right">
                 <div style="display: inline-block">
-                    <a class="btn btn-secondary mr-2" href="{% url 'query-detail' object.id %}">
-{#                        <i class="bi bi-files mr-1"></i>#}
-                        Run
-                    </a>
                 </div>
                 <div style="display: inline-block">
                     <a class="btn btn-success mr-2" href="{% url 'query-clone' object.id %}">
@@ -64,6 +67,7 @@
         <form method="POST" {% if is_clone %}
               action="{% url 'query-update' object.id %}"
         {% endif %}
+        id="query-form"
         >
             {% csrf_token %}
             <fieldset class="form-group">

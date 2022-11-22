@@ -3,6 +3,13 @@
 {% block content %}
     <!-- for downloading tables -->
     <script src="{% static 'queries/tablefunctions.js' %}"></script>
+    <script>
+        $(document).on("keypress", function (e) {
+            if (e.ctrlKey && e.key.toLowerCase() === 'e') {
+                document.getElementById("edit-btn").click();
+            }
+        });
+    </script>
     <div class="row">
         <div class="col-md-8">
             <article class="content-section">
@@ -11,7 +18,7 @@
                         <div class="float-right">
                             {% if result.query.author == user %}
                                 <a class="btn btn-secondary btn-sm m-1 float-right"
-                                   href="{% url 'query-update' result.query.id %}">
+                                   href="{% url 'query-update' result.query.id %}" id="edit-btn">
                                     <i class="bi bi-pencil mr-1"></i>
                                     Edit
                                 </a>

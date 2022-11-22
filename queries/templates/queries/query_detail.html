@@ -1,5 +1,16 @@
 {% extends "queries/base.html" %}
 {% block content %}
+    <script>
+        // submitting the form with ctrl-enter
+        $(document).on("keypress", function (e) {
+            if (e.ctrlKey && (e.which === 13)) {
+                $('#query-form').submit();
+            }
+            if (e.ctrlKey && e.key.toLowerCase() === 'e') {
+                document.getElementById("edit-btn").click();
+            }
+        });
+    </script>
     <div class="row">
         <div class="col-md-8">
             {% include "queries/query_template.html" with query=object %}

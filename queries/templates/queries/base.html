@@ -58,6 +58,15 @@
     <link rel="stylesheet" href="{% static 'queries/codemirror/dracula.css' %}">
     <script src="{% static 'queries/codemirror/sql/sql.js' %}"></script>
 
+    <!-- jQuery first, then Bootstrap JS -->
+    <!-- not using Popper.js as we aren't using tooltips -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
     {% if title %}
         <title>{{ title }}</title>
     {% else %}
@@ -74,7 +83,7 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand mr-4" href="{% url 'queries-home' %}">
-                <img src="/static/queries/images/qwaver-logo.png" height="30" style="margin: 10px;" alt="QWAVER">
+                <img src="{% static 'queries/images/qwaver-logo.png' %}" height="30" style="margin: 10px;" alt="QWAVER">
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
@@ -118,8 +127,8 @@
                                 </form>
                             </div>
                         </li>
-                    <li class="nav-item">
-                    </li>
+                        <li class="nav-item">
+                        </li>
 
                     </ul>
                 </div>
@@ -169,16 +178,5 @@
         </div>
     </div>
 </main>
-
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
 </body>
 </html>
