@@ -29,6 +29,13 @@
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
+    <style>
+        body {
+            background: #111111;
+            color: #f8f8f2;
+        }
+    </style>
+
     <link rel="stylesheet" type="text/css" href="{% static 'queries/main.css' %}">
     {% if user.is_authenticated %}
         {% if user.profile.display_mode == 3 %}
@@ -68,9 +75,6 @@
         <div class="container">
             <a class="navbar-brand mr-4" href="{% url 'queries-home' %}">
                 <img src="/static/queries/images/qwaver-logo.png" height="30" style="margin: 10px;" alt="QWAVER">
-{#                {% if user.is_authenticated and user.profile.selected_organization != Null %}#}
-{#                    : {{ user.profile.selected_organization }}#}
-{#                {% endif %}#}
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
@@ -96,25 +100,28 @@
                                 <a class="dropdown-item" href="{% url 'invitation-list' %}">Invitations</a>
                             </div>
                         </li>
-                    </ul>
-                </div>
-            {% endif %}
+                        <li class="nav-item">
+                            <div class="mr-5">
+                                <form action="{% url 'query-search' %}">
+                                    <input type="text" class="form-control-sm search-field" name="s"
+                                           value="{{ request.GET.s }}"
+                                           list="recent_searches">
+                                    <!-- recent searches -->
+                                    {% if recent_searches|length > 0 %}
+                                        <datalist id="recent_searches">
+                                            {% for recent_search in recent_searches %}
+                                                <option value="{{ recent_search }}">
+                                            {% endfor %}
+                                        </datalist>
+                                    {% endif %}
+                                    <button type="submit" class="btn btn-dark">Search</button>
+                                </form>
+                            </div>
+                        </li>
+                    <li class="nav-item">
+                    </li>
 
-            {% if user.is_authenticated %}
-                <div class="mr-5">
-                    <form action="{% url 'query-search' %}">
-                        <input type="text" class="form-control-sm search-field" name="s" value="{{ request.GET.s }}"
-                               list="recent_searches">
-                        <!-- recent searches -->
-                        {% if recent_searches|length > 0 %}
-                            <datalist id="recent_searches">
-                                {% for recent_search in recent_searches %}
-                                    <option value="{{ recent_search }}">
-                                {% endfor %}
-                            </datalist>
-                        {% endif %}
-                        <button type="submit" class="btn btn-dark">Search</button>
-                    </form>
+                    </ul>
                 </div>
             {% endif %}
 
@@ -160,20 +167,6 @@
             {% endif %}
             {% block content %}{% endblock %}
         </div>
-        {#        <div class="col-md-4">#}
-        {#            <div class="content-section">#}
-        {#                <h3>Actions</h3>#}
-        {#            <p class='text-muted'>You can put any information here you'd like.#}
-        {#                <ul class="list-group">#}
-        {#                    <li class="list-group-item"><a href="{% url 'query-create' %}">New Query</a></li>#}
-        {#                    <li class="list-group-item"><a href="{% url 'database-list' %}">Databases</a></li>#}
-        {#                    <li class="list-group-item">Search</li>#}
-        {#                    <li class="list-group-item">Topics</li>#}
-        {#                    <li class="list-group-item">Alerts</li>#}
-        {#                </ul>#}
-        {#                </p>#}
-        {#            </div>#}
-        {#        </div>#}
     </div>
 </main>
 
