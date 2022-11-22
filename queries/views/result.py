@@ -138,8 +138,8 @@ def run_query(request, query):
         row_count = len(df.index)
         column_count = df.columns.size
         chart = get_chart(df, title)
-        if chart is None:
-            print("noooooooooooooooo")
+        # if chart is None:
+            
         if row_count == 1 and column_count == 1:
             single = df.iat[0, 0]
         else:
