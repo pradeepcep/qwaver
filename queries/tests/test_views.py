@@ -202,7 +202,7 @@ class ViewTests(TestCase):
             }
         )
         assert response.status_code == 302
-        # TODO: this is returning the update url as the database connection test is failing
+        # TODO: this is returning the update url because the database connection test is failing
         # TODO: This test should at least fake a successful connection and We should have a separate test
         #   for when the DB doesn't connect
         self.assertRedirects(response, reverse('database-update', kwargs={'pk': self.database.pk}))
