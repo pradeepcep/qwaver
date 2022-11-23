@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import sqlalchemy
 from dateutil.parser import parse
+from django.contrib.auth import authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView
@@ -63,12 +65,15 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
 
 
 def execute(request, query_id):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect(reverse('login'))
     query = get_object_or_404(Query, pk=query_id)
     if settings.DEBUG:
-        return run_query(request, query)
+        return get_result(request, query)
     else:
         try:
-            return run_query(request, query)
+            return get_result(request, query)
         except Exception as err:
             # log the error
             query_error = QueryError(
@@ -85,21 +90,48 @@ def execute(request, query_id):
             return render(request, 'queries/result_error.html', context)
 
 
+def execute_api(request, query_id):
+    username = request.GET.get('user')
+    password = request.GET.get('pass')
+    user = authenticate(username=username, password=password)
+    if user is None or not user.is_authenticated:
+        return JsonResponse({'error': 'User not authenticated'})
+    query = get_object_or_404(Query, pk=query_id)
+    try:
+        data = get_data(request, query)
+        dict = data.df.to_dict(orient='split')
+        del dict['index']
+        return JsonResponse(dict)
+    except Exception as err:
+        # log the error
+        query_error = QueryError(
+            user=request.user,
+            query=query,
+            error=err
+        )
+        query_error.save()
+        return JsonResponse({'error': str(err)})
+
+
+class ResultData:
+    def __init__(self, df, title, sql, param_values):
+        self.df = df
+        self.title = title
+        self.sql = sql
+        self.param_values = param_values
+
+
 # 1. Getting the user, query and parameters
 # 2. Creating a connection to the db
 # 3. Replacing placeholder parameters with their values
 # 4. Executing the query
-# 5. Saving the result to the DB
-def run_query(request, query):
+def get_data(request, query):
     user = request.user
-    if not user.is_authenticated:
-        return redirect(reverse('login'))
     user_can_access_query(user, query)
     params = Parameter.objects.filter(query=query)
-
     # creating context for params data
     sql = query.query
-    title = query.title
+    result_title = query.title
     param_values = {}
     for param in params:
         param_value = request.POST.get(param.name)
@@ -108,10 +140,10 @@ def run_query(request, query):
         param_values[param.name] = param_value
         # if there are results, save the param value as default
         sql = sql.replace(f"{{{param.name}}}", param_value)
-        title = f"{title};\n {param.name}: {param_value}"
+        # adding param values to the result title
+        result_title = f"{result_title};\n {param.name}: {param_value}"
     # formatting the text to avoid problems with the % character in queries
     sql = sqlalchemy.text(sql)
-    # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
     db = query.database
     engine = db.get_engine()
 
@@ -119,44 +151,59 @@ def run_query(request, query):
         df_full = pd.read_sql(sql, connection)
         engine.dispose()
         df = df_full.head(max_table_rows)
-        row_count = len(df.index)
-        column_count = df.columns.size
-        chart = get_chart(df, title)
-        # if chart is None:
-
-        if row_count == 1 and column_count == 1:
-            single = df.iat[0, 0]
-        else:
-            # single = str(list(df.columns.values))
-            single = None
-        result = Result(
-            user=user,
-            query=query,
-            title=title,
-            dataframe=df.to_json(),
-            table=get_table(df),
-            single=single,
-            image_encoding=image_encoding,
-            chart=chart,
-            last_view_timestamp=timezone.now(),
-            version_number=query.get_version_number(),
-            query_text=sql
+        return ResultData(
+            df=df,
+            title=result_title,
+            sql=sql,
+            param_values=param_values
         )
-        result.save()
-        # update query with latest result
-        query.run_count += 1
-        query.last_run_date = timezone.now()
-        query.latest_result = result
-        query.save()
-        # save parameter values
-        for param_name, param_value in param_values.items():
-            value = Value(
-                parameter_name=param_name,
-                value=param_value,
-                result=result
-            )
-            value.save()
-        return redirect(reverse('result-detail', args=[result.pk]))
+
+
+# with the result data, creating charts and tables
+def get_result(request, query):
+    data = get_data(request, query)
+    df = data.df
+    result_title = data.title
+    sql = data.sql
+    param_values = data.param_values
+    row_count = len(df.index)
+    column_count = df.columns.size
+    chart = get_chart(df, result_title)
+    # if chart is None:
+
+    if row_count == 1 and column_count == 1:
+        single = df.iat[0, 0]
+    else:
+        # single = str(list(df.columns.values))
+        single = None
+    result = Result(
+        user=request.user,
+        query=query,
+        title=result_title,
+        dataframe=df.to_json(),
+        table=get_table(df),
+        single=single,
+        image_encoding=image_encoding,
+        chart=chart,
+        last_view_timestamp=timezone.now(),
+        version_number=query.get_version_number(),
+        query_text=sql
+    )
+    result.save()
+    # update query with latest result
+    query.run_count += 1
+    query.last_run_date = timezone.now()
+    query.latest_result = result
+    query.save()
+    # save parameter values
+    for param_name, param_value in param_values.items():
+        value = Value(
+            parameter_name=param_name,
+            value=param_value,
+            result=result
+        )
+        value.save()
+    return redirect(reverse('result-detail', args=[result.pk]))
 
 
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/

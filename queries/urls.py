@@ -15,6 +15,7 @@ urlpatterns = [
     path('query/<int:query_id>/run/', result.execute, name='query-run'),
     path('query/<int:pk>/delete/', QueryDeleteView.as_view(), name='query-delete'),
     path('query/<int:pk>/clone/', QueryCloneView.as_view(), name='query-clone'),
+    path('query/<int:query_id>/api/', result.execute_api, name='query-api'),
 
     # results
     path('result/<int:pk>/', ResultDetailView.as_view(), name='result-detail'),
