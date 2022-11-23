@@ -69,6 +69,7 @@ def execute(request, query_id):
     if not user.is_authenticated:
         return redirect(reverse('login'))
     query = get_object_or_404(Query, pk=query_id)
+    user_can_access_query(user, query)
     if settings.DEBUG:
         return get_result(request, query)
     else:
@@ -97,11 +98,14 @@ def execute_api(request, query_id):
     if user is None or not user.is_authenticated:
         return JsonResponse({'error': 'User not authenticated'})
     query = get_object_or_404(Query, pk=query_id)
+    user_can_access_query(user, query)
     try:
         data = get_data(request, query)
-        dict = data.df.to_dict(orient='split')
-        del dict['index']
-        return JsonResponse(dict)
+        json = {'title': data.title}
+        table = data.df.to_dict(orient='split')
+        del table['index']
+        json.update(table)
+        return JsonResponse(json)
     except Exception as err:
         # log the error
         query_error = QueryError(
