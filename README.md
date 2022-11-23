@@ -109,7 +109,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * track average execution time for queries
 * have parent reference in queries.Query model (if the query was cloned from another)
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
-* test database connection when adding new database
 * webpage preview when sharing results via slack or email (e.g. add open graph social previews to results. This will necessitate making an image url)
 * flag queries -- if their results do not align with their title/description or are wrong in any other way
     * Search results should not include flagged queries

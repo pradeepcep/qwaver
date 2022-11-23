@@ -35,9 +35,6 @@ class DatabaseCreateView(LoginRequiredMixin, CreateView):
             context['is_setup'] = True
         return context
 
-    def get_success_url(self):
-        return reverse('database-list')
-
     def form_valid(self, form):
         user = self.request.user
         if user.profile.selected_organization is None:
@@ -45,9 +42,10 @@ class DatabaseCreateView(LoginRequiredMixin, CreateView):
             return redirect('profile')
         else:
             form.instance.organization = user.profile.selected_organization
-        # TODO: run "SELECT 1;" on database and set is_valid accordingly.
-        #  Maybe only creating a connection is necessary?
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return get_connection_success_url(self)
 
 
 class DatabaseEditView(LoginRequiredMixin, UpdateView):
@@ -59,7 +57,17 @@ class DatabaseEditView(LoginRequiredMixin, UpdateView):
         return True
 
     def get_success_url(self):
-        return reverse('database-detail', args=[self.object.id])
+        return get_connection_success_url(self)
+
+
+def get_connection_success_url(self):
+    if not self.object.test_connection():
+        messages.warning(self.request, f'A problem was encountered trying to establish a connection.'
+                                       f'Please check the credentials and try again.')
+        return reverse('database-update', args=[self.object.id])
+    else:
+        messages.success(self.request, f'Database connection for {self.object.title} successfully established')
+        return reverse('database-list')
 
 
 class DatabaseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

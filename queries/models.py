@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from users.models import Organization
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
 
 
 # Database connection information
@@ -40,6 +42,27 @@ class Database(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_engine(self):
+        if self.platform == self.MYSQL:
+            engine = create_engine(f"mysql+pymysql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
+        elif self.platform == self.ORACLE:
+            engine = create_engine(f"oracle://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
+        elif self.platform == self.MICROSOFT_SQL_SERVER:
+            engine = create_engine(f"mssql+pymssql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
+        elif self.platform == self.SQLITE:
+            engine = create_engine(f"sqlite://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
+        else:
+            engine = create_engine(f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
+        return engine
+
+    def test_connection(self):
+        engine = self.get_engine()
+        try:
+            engine.connect()
+        except SQLAlchemyError as err:
+            return False
+        return True
 
 
 class Query(models.Model):

@@ -14,7 +14,6 @@ from django.urls import reverse
 from django.views.generic import DetailView
 from django.conf import settings
 from pandas.api.types import is_numeric_dtype
-from sqlalchemy import create_engine
 from django.utils import timezone
 
 from . import user_can_access_query
@@ -120,16 +119,7 @@ def run_query(request, query):
     sql = sqlalchemy.text(sql)
     # https://www.rudderstack.com/guides/access-and-query-your-amazon-redshift-data-using-python-and-r/
     db = query.database
-    if db.platform == db.MYSQL:
-        engine = create_engine(f"mysql+pymysql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
-    elif db.platform == db.ORACLE:
-        engine = create_engine(f"oracle://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
-    elif db.platform == db.MICROSOFT_SQL_SERVER:
-        engine = create_engine(f"mssql+pymssql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
-    elif db.platform == db.SQLITE:
-        engine = create_engine(f"sqlite://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
-    else:
-        engine = create_engine(f"postgresql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}")
+    engine = db.get_engine()
 
     with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as connection:
         df_full = pd.read_sql(sql, connection)
@@ -139,7 +129,7 @@ def run_query(request, query):
         column_count = df.columns.size
         chart = get_chart(df, title)
         # if chart is None:
-            
+
         if row_count == 1 and column_count == 1:
             single = df.iat[0, 0]
         else:
