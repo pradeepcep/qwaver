@@ -96,12 +96,6 @@ def run_query(request, query):
         return redirect(reverse('login'))
     user_can_access_query(user, query)
     params = Parameter.objects.filter(query=query)
-    is_dark = user.is_authenticated and user.profile.display_mode != 1
-    if is_dark:
-        plt.style.use('dark_background')
-    else:
-        # https://www.geeksforgeeks.org/style-plots-using-matplotlib/
-        plt.style.use('fast')
 
     # creating context for params data
     sql = query.query
@@ -164,6 +158,7 @@ def run_query(request, query):
             value.save()
         return redirect(reverse('result-detail', args=[result.pk]))
 
+
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/
 # possible idea for returning only image from endpoint: https://groups.google.com/g/pydata/c/yxKcJI4Y7e8
 def get_graph():
@@ -188,6 +183,7 @@ def get_svg_graph():
 
 
 def get_chart(df, title):
+    plt.style.use('dark_background')
     header = df.head()
     columns = list(header.columns.values)
     row_count = len(df.index)
