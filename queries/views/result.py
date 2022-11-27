@@ -190,6 +190,8 @@ def get_result(request, query):
 
     if row_count == 1 and column_count == 1:
         single = df.iat[0, 0]
+    elif df.empty:
+        single = "Query successful."
     else:
         # single = str(list(df.columns.values))
         single = None
