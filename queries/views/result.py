@@ -26,7 +26,7 @@ from ..models import Query, Parameter, Result, Value, QueryError
 
 max_table_rows = settings.MAX_TABLE_ROWS
 image_encoding = 'jpg'
-no_df_message = 'Query successful, but returns no results.'
+empty_df_message = 'Query successful.'
 
 # So that server does not create (and then destroy) GUI windows that will never be seen
 matplotlib.pyplot.switch_backend('Agg')
@@ -111,7 +111,7 @@ def execute_api(request, query_id):
             json.update(table)
             return JsonResponse(json)
         else:
-            return JsonResponse([no_df_message])
+            return JsonResponse([empty_df_message])
     except Exception as err:
         # log the error
         query_error = QueryError(
@@ -191,7 +191,7 @@ def get_result(request, query):
     if row_count == 1 and column_count == 1:
         single = df.iat[0, 0]
     elif df.empty:
-        single = "Query successful."
+        single = empty_df_message
     else:
         # single = str(list(df.columns.values))
         single = None
