@@ -5,6 +5,7 @@ from io import BytesIO
 
 import matplotlib.pyplot
 import matplotlib.pyplot as plt
+import pandas
 import pandas as pd
 import sqlalchemy
 from dateutil.parser import parse
@@ -15,6 +16,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView
 from django.conf import settings
+from pandas import DataFrame
 from pandas.api.types import is_numeric_dtype
 from django.utils import timezone
 
@@ -24,6 +26,7 @@ from ..models import Query, Parameter, Result, Value, QueryError
 
 max_table_rows = settings.MAX_TABLE_ROWS
 image_encoding = 'jpg'
+no_df_message = 'Query successful, but returns no results.'
 
 # So that server does not create (and then destroy) GUI windows that will never be seen
 matplotlib.pyplot.switch_backend('Agg')
@@ -101,11 +104,14 @@ def execute_api(request, query_id):
     user_can_access_query(user, query)
     try:
         data = get_data(request, query)
-        json = {'title': data.title}
-        table = data.df.to_dict(orient='split')
-        del table['index']
-        json.update(table)
-        return JsonResponse(json)
+        if not data.df.empty:
+            json = {'title': data.title}
+            table = data.df.to_dict(orient='split')
+            del table['index']
+            json.update(table)
+            return JsonResponse(json)
+        else:
+            return JsonResponse([no_df_message])
     except Exception as err:
         # log the error
         query_error = QueryError(
@@ -152,9 +158,16 @@ def get_data(request, query):
     engine = db.get_engine()
 
     with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as connection:
-        df_full = pd.read_sql(sql, connection)
-        engine.dispose()
-        df = df_full.head(max_table_rows)
+        resolver = connection.execute(sql)
+        print(resolver.rowcount)
+        # -1 rowcount when it's not a SELECT.
+        if resolver.rowcount == -1:
+            df = pandas.DataFrame()
+        else:
+            df_full = DataFrame(resolver.fetchall())
+            df_full.columns = resolver.keys()
+            engine.dispose()
+            df = df_full.head(max_table_rows)
         return ResultData(
             df=df,
             title=result_title,
