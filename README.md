@@ -129,6 +129,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * automatically add a limit to every query
 * disable queries; don't delete them
 * user permissions: org edit; DB edit; query edit, query create
+* referrer tag in url to append to a user profile to see which users came in via which channel
+* https
+* csv import
 
 ### Issues:
 * error produced when query returns nothing (like table create; drop, etc.)
