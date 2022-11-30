@@ -163,11 +163,13 @@ def get_data(request, query):
         # -1 rowcount when it's not a SELECT.
         if resolver.rowcount == -1:
             df = pandas.DataFrame()
+        if resolver.rowcount == 0:
+            df = DataFrame(columns=resolver.keys())
         else:
             df_full = DataFrame(resolver.fetchall())
             df_full.columns = resolver.keys()
-            engine.dispose()
             df = df_full.head(max_table_rows)
+        engine.dispose()
         return ResultData(
             df=df,
             title=result_title,
@@ -190,6 +192,8 @@ def get_result(request, query):
 
     if row_count == 1 and column_count == 1:
         single = df.iat[0, 0]
+    elif row_count == 0:
+        single = str(list(df.columns.values))
     elif df.empty:
         single = empty_df_message
     else:
