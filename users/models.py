@@ -41,6 +41,7 @@ class Profile(models.Model):
         blank=True,
         default=None)
     display_mode = models.IntegerField(choices=((1, 'light'), (2, 'dark'), (3, 'synthwave')), default=3, blank=True)
+    referral = models.CharField(max_length=128, null=True, default=None)
 
     def __str__(self):
         return f'{self.user.username} Profile'

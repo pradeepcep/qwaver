@@ -6,6 +6,7 @@ from .views.result import ResultDetailView
 urlpatterns = [
     # query lists
     path('', QueryListView.as_view(), name='queries-home'),
+    path('ref/<str:ref_code>', QueryListView.as_view(), name='queries-home'),
     path('user/<str:username>', UserQueryListView.as_view(), name='user-queries'),
 
     # queries

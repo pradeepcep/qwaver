@@ -57,7 +57,7 @@ class QueryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(QueryListView, self).get_context_data(**kwargs)  # get the default context data
-        days_ago = timezone.now() - datetime.timedelta(days=2) # searches back for 2 days
+        days_ago = timezone.now() - datetime.timedelta(days=2)  # searches back for 2 days
         user = self.request.user
         searches = UserSearch.objects\
             .filter(user=user, organization=user.profile.selected_organization, timestamp__gt=days_ago)\

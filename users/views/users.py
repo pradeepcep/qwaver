@@ -7,11 +7,16 @@ from users.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from users.models import UserOrganization, Invitation
 
 
-def register(request):
+def register(request, ref_code=None):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            # saving referrer
+            user.profile.referral = ref_code
+            print(f"ref code is: {ref_code}")
+            user.profile.save()
+            # logging in the user
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             messages.success(request, f'Your account has been created!')

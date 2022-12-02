@@ -58,7 +58,11 @@
                             No
                             subscriptions or licensing fees
                         </div>
-                        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Get It</a>
+                        {% if request.resolver_match.kwargs.ref_code != None %}
+                            <a href="{% url 'register' request.resolver_match.kwargs.ref_code %}" class="btn btn-primary btn-lg">Get It</a>
+                        {% else %}
+                            <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Get It</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
