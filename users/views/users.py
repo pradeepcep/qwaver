@@ -14,7 +14,6 @@ def register(request, ref_code=None):
             user = form.save()
             # saving referrer
             user.profile.referral = ref_code
-            print(f"ref code is: {ref_code}")
             user.profile.save()
             # logging in the user
             username = form.cleaned_data.get('username')

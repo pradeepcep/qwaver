@@ -108,3 +108,8 @@ pre {
 .result {
     box-shadow: -10px 10px 20px rgba(0,0,0,.5);
 }
+
+.result-label {
+    color: rgba(255,255,255,0.5);
+    display: inline;
+}
