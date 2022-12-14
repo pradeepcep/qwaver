@@ -117,6 +117,11 @@ class Query(models.Model):
         else:
             return self.version.version_number
 
+    def get_latest_version(self):
+        version_number = self.get_version_number()
+        query_version = QueryVersion.objects.get(query=self, version_number=version_number)
+        return query_version
+
 
 class QueryVersion(models.Model):
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
