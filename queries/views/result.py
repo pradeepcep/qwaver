@@ -73,22 +73,16 @@ def execute(request, query_id):
         return redirect(reverse('login'))
     query = get_object_or_404(Query, pk=query_id)
     user_can_access_query(user, query)
-    query_version = query.get_latest_version()
     if settings.DEBUG:
         result = get_result(request, query)
         # record this is a success
-        if query_version is not None:
-            query_version.success_count += 1
-            print("here ok ok ok")
-            query_version.save()
+        query.increment_success()
         return result
     else:
         try:
             result = get_result(request, query)
             # record this is a success
-            if query_version is not None:
-                query_version.success_count += 1
-                query_version.save()
+            query.increment_success()
             return result
         except Exception as err:
             # log the error
@@ -99,9 +93,7 @@ def execute(request, query_id):
             )
             query_error.save()
             # record error with query version
-            if query_version is not None:
-                query_version.failure_count += 1
-                query_version.save()
+            query.increment_failure()
             # report to user
             context = {
                 'query': query,
