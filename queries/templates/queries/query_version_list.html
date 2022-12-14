@@ -28,6 +28,13 @@
             <li style="margin-bottom: 2em">
                 <img class="rounded-circle article-img" src="{{ v.version.user.profile.image.url }}">
                 v{{ v.version.version_number }}.
+                {% if v.version.success_count > 0 %}
+                   successful
+                {% elif v.version.failure_count > 0 %}
+                   failed
+                {% else %}
+                   never tested
+                {% endif %}
                 <div style="display: inline; color: #999999">
                     {{ v.version.timestamp|timesince }} ago.
                 </div>
