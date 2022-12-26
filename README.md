@@ -17,7 +17,11 @@ Parameterize! Visualize! Collaboratize?!
 [Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help!](#help) • [Installation](#installation)
 • [Thanks](#thank-yous)
 
-[![Qwaver Intro](http://img.youtube.com/vi/0jPneT1IkNI/0.jpg)](http://www.youtube.com/watch?v=0jPneT1IkNI "Qwaver Intro")
+<a href="http://qwaver.io">
+    <img src="http://qwaver.io/static/queries/images/screen-record-2.gif" alt="qwaver logo">
+</a>
+
+
 </div>
 
 ## Latest Build
@@ -82,6 +86,9 @@ re-inventing the wheel left and right.
     * **A:** Yeah, but they all require you (shudder) learn a new platform. Be it a "simple" markup language (lookin' at
       you, Looker) or some sort of intricate UI designed more for dashboards than actually getting insights. You already
       know your query language, let's leverage that strength!
+
+## Intro video:
+[![Qwaver Intro](http://img.youtube.com/vi/0jPneT1IkNI/0.jpg)](http://www.youtube.com/watch?v=0jPneT1IkNI "Qwaver Intro")
 
 ## Help!
 
