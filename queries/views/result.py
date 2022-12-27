@@ -170,7 +170,7 @@ def get_data(request, query):
         # -1 rowcount when it's not a SELECT.
         if resolver.rowcount == -1:
             df = pandas.DataFrame()
-        if resolver.rowcount == 0:
+        elif resolver.rowcount == 0:
             df = DataFrame(columns=resolver.keys())
         else:
             df_full = DataFrame(resolver.fetchall())
@@ -200,7 +200,11 @@ def get_result(request, query):
     if row_count == 1 and column_count == 1:
         single = df.iat[0, 0]
     elif row_count == 0:
-        single = str(list(df.columns.values))
+        if len(df.columns.values) == 0:
+            single = "Success. (no rows returned)"
+        else:
+            column_titles = str(list(df.columns.values))
+            single = f"columns: {column_titles}"
     elif df.empty:
         single = empty_df_message
     else:
