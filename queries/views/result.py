@@ -6,9 +6,7 @@ from io import BytesIO
 import matplotlib.pyplot
 import matplotlib.pyplot as plt
 import pandas
-import pandas as pd
 import sqlalchemy
-from dateutil.parser import parse
 from django.contrib.auth import authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
@@ -19,8 +17,9 @@ from django.conf import settings
 from pandas import DataFrame
 from pandas.api.types import is_numeric_dtype
 from django.utils import timezone
+from sqlalchemy.exc import ResourceClosedError
 
-from . import user_can_access_query
+from ..common.access import user_can_access_query
 from ..common.components import users_recent_results
 from ..models import Query, Parameter, Result, Value, QueryError
 
@@ -77,13 +76,13 @@ def execute(request, query_id):
         result = get_result(request, query)
         # record this is a success
         query.increment_success()
-        return result
+        return redirect(reverse('result-detail', args=[result.pk]))
     else:
         try:
             result = get_result(request, query)
             # record this is a success
             query.increment_success()
-            return result
+            return redirect(reverse('result-detail', args=[result.pk]))
         except Exception as err:
             # log the error
             query_error = QueryError(
@@ -139,6 +138,61 @@ class ResultData:
         self.param_values = param_values
 
 
+# with the result data, creating charts and tables
+def get_result(request, query):
+    data = get_data(request, query)
+    df = data.df
+    result_title = data.title
+    sql = data.sql
+    param_values = data.param_values
+    row_count = len(df.index)
+    column_count = df.columns.size
+    chart = get_chart(df, result_title)
+    # if chart is None:
+
+    if row_count == 1 and column_count == 1:
+        single = df.iat[0, 0]
+    elif row_count == 0:
+        if len(df.columns.values) == 0:
+            single = "Success. (no rows returned)"
+        else:
+            column_titles = str(list(df.columns.values))
+            single = f"columns: {column_titles}"
+    elif df.empty:
+        single = empty_df_message
+    else:
+        single = None
+    result = Result(
+        user=request.user,
+        query=query,
+        title=result_title,
+        dataframe=df.to_json(),
+        table=get_table(df),
+        single=single,
+        image_encoding=image_encoding,
+        chart=chart,
+        last_view_timestamp=timezone.now(),
+        version_number=query.get_version_number(),
+        query_text=sql
+    )
+    result.save()
+    # update query with latest result
+    query.run_count += 1
+    query.last_run_date = timezone.now()
+    query.last_viewed = timezone.now()
+    query.latest_result = result
+    query.save()
+    # save parameter values
+    for param_name, param_value in param_values.items():
+        value = Value(
+            parameter_name=param_name,
+            value=param_value,
+            result=result
+        )
+        value.save()
+    return result
+
+
 # 1. Getting the user, query and parameters
 # 2. Creating a connection to the db
 # 3. Replacing placeholder parameters with their values
@@ -166,16 +220,17 @@ def get_data(request, query):
     engine = db.get_engine()
 
     with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as connection:
-        resolver = connection.execute(sql)
-        # -1 rowcount when it's not a SELECT.
-        if resolver.rowcount == -1:
+        try:
+            df = pandas.read_sql(sql, connection)
+            if len(df.index > max_table_rows):
+                df = df.head(max_table_rows)
+        # Error happens if now rows are returned (e.g. a drop or create statement)
+        # original solution used https://stackoverflow.com/a/12060886/2595659 and first
+        # made sure there were rows, but the solution did not always create a dataframe
+        # with the correct data types (they were being interpreted as object).
+        # Though I do not love this solution as there may be other reasons the connection is closed
+        except ResourceClosedError:
             df = pandas.DataFrame()
-        elif resolver.rowcount == 0:
-            df = DataFrame(columns=resolver.keys())
-        else:
-            df_full = DataFrame(resolver.fetchall())
-            df_full.columns = resolver.keys()
-            df = df_full.head(max_table_rows)
         engine.dispose()
         return ResultData(
             df=df,
@@ -183,61 +238,6 @@ def get_data(request, query):
             sql=sql,
             param_values=param_values
         )
-
-
-# with the result data, creating charts and tables
-def get_result(request, query):
-    data = get_data(request, query)
-    df = data.df
-    result_title = data.title
-    sql = data.sql
-    param_values = data.param_values
-    row_count = len(df.index)
-    column_count = df.columns.size
-    chart = get_chart(df, result_title)
-    # if chart is None:
-
-    if row_count == 1 and column_count == 1:
-        single = df.iat[0, 0]
-    elif row_count == 0:
-        if len(df.columns.values) == 0:
-            single = "Success. (no rows returned)"
-        else:
-            column_titles = str(list(df.columns.values))
-            single = f"columns: {column_titles}"
-    elif df.empty:
-        single = empty_df_message
-    else:
-        # single = str(list(df.columns.values))
-        single = None
-    result = Result(
-        user=request.user,
-        query=query,
-        title=result_title,
-        dataframe=df.to_json(),
-        table=get_table(df),
-        single=single,
-        image_encoding=image_encoding,
-        chart=chart,
-        last_view_timestamp=timezone.now(),
-        version_number=query.get_version_number(),
-        query_text=sql
-    )
-    result.save()
-    # update query with latest result
-    query.run_count += 1
-    query.last_run_date = timezone.now()
-    query.latest_result = result
-    query.save()
-    # save parameter values
-    for param_name, param_value in param_values.items():
-        value = Value(
-            parameter_name=param_name,
-            value=param_value,
-            result=result
-        )
-        value.save()
-    return redirect(reverse('result-detail', args=[result.pk]))
 
 
 # https://www.section.io/engineering-education/representing-data-in-django-using-matplotlib/
@@ -282,7 +282,7 @@ def get_chart(df, title):
                 and first_value is not None
                 and second_value is not None
                 and third_value is not None
-                and isinstance(first_value, datetime.date)
+                and (isinstance(first_value, datetime.date) or isinstance(first_value, numbers.Number))
                 and isinstance(second_value, str)
                 and isinstance(third_value, numbers.Number))
     if not is_bar_or_pie and not is_pivot:
@@ -342,21 +342,3 @@ def get_table(df):
         return df.to_html(classes=[css_classes],
                           table_id=table_id,
                           index=False)
-
-
-# https://stackoverflow.com/questions/25341945/check-if-string-has-date-any-format
-def is_date(string):
-    try:
-        parse(string, fuzzy=False)
-        return True
-    except ValueError:
-        return False
-
-
-# https://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-float?page=1&tab=scoredesc#tab-top
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except Exception:
-        return False

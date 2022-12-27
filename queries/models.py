@@ -1,3 +1,5 @@
+import csv
+
 from django.db import models
 from django.db.models import ManyToManyField
 from django.utils import timezone
@@ -85,7 +87,7 @@ class Query(models.Model):
     version = models.ForeignKey("queries.QueryVersion", related_name='+', on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.title} ({self.pk})"
 
     def get_absolute_url(self):
         return reverse('query-detail', kwargs={'pk': self.pk})
@@ -128,6 +130,7 @@ class Query(models.Model):
                 query_text=self.query,
                 user=self.author
             )
+            query_version.save()
         return query_version
 
     def increment_success(self):
@@ -219,3 +222,20 @@ class QueryError(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     query = models.ForeignKey(Query, on_delete=models.CASCADE)
     error = models.TextField(null=True)
+
+
+class LoadFile(models.Model):
+    table_name = models.CharField(null=False, max_length=100,
+                                  help_text='Only letters, numbers and underscore.')
+    # https://www.geeksforgeeks.org/filefield-django-models/
+    source_file = models.FileField(upload_to='uploaded_files',
+                                   help_text='CSV file containing data for your table. CSV must contain header row.')
+    source_url = models.CharField(max_length=256, null=True, blank=True,
+                                  help_text='(Optional) If there is a web url where this data is hosted')
+    database = models.ForeignKey(Database, on_delete=models.CASCADE, null=False, blank=False)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField(blank=True,
+                                   help_text='(Optional) A description of the table contents')
+    date_created = models.DateTimeField(default=timezone.now)
+    date_updated = models.DateTimeField(default=timezone.now)
+
