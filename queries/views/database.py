@@ -61,9 +61,10 @@ class DatabaseEditView(LoginRequiredMixin, UpdateView):
 
 
 def get_connection_success_url(self):
-    if not self.object.test_connection():
+    test_result = self.object.test_connection()
+    if self.object.test_connection() is not None:
         messages.warning(self.request, f'A problem was encountered trying to establish a connection.'
-                                       f'Please check the credentials and try again.')
+                                       f'Please check the credentials and try again. Issue: {test_result}')
         return reverse('database-update', args=[self.object.id])
     else:
         messages.success(self.request, f'Database connection for {self.object.title} successfully established')

@@ -1,7 +1,6 @@
 import csv
 
 from django.db import models
-from django.db.models import ManyToManyField
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -62,9 +61,9 @@ class Database(models.Model):
         engine = self.get_engine()
         try:
             engine.connect()
+            return None
         except SQLAlchemyError as err:
-            return False
-        return True
+            return str(err)
 
 
 class Query(models.Model):
