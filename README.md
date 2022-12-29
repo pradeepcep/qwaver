@@ -53,16 +53,33 @@ When the server is running, go to [localhost](http://localhost:8000)
 </a>
 </div>
 
-## Use Cases
-**Turning queries into parameterized tools**: The ability to turn queries into parameterized tools can be very useful, as it allows you to reuse queries with different input parameters without having to rewrite the underlying SQL. This can make it easier to use your queries in different contexts, and can help you to avoid making mistakes when modifying complex queries.
+## Features
 
-**Automatically creating charts**: allows you to quickly visualize and understand your data. This can be particularly useful if you are working with large or complex datasets, as it can help you to identify trends and patterns that may not be immediately apparent from the raw data.
+**Turning queries into parameterized tools**: The ability to turn queries into parameterized tools can be very useful,
+as it allows you to reuse queries with different input parameters without having to rewrite the underlying SQL. This can
+make it easier to use your queries in different contexts, and can help you to avoid making mistakes when modifying
+complex queries.
 
-**Saving a history of query edits**: Being able to save a history of query edits can be very useful, as it allows you to review and revert to previous versions of your queries if necessary. This can be especially helpful if you make a mistake while editing a query, or if you need to compare different versions of a query to understand how it has evolved over time.
+**Automatically creating charts**: allows you to quickly visualize and understand your data. This can be particularly
+useful if you are working with large or complex datasets, as it can help you to identify trends and patterns that may
+not be immediately apparent from the raw data.
 
-**Saving a history of query results**: allows you to review and compare the results of different queries over time. This can be particularly useful if you are tracking changes in data over time, or if you are working with data that is updated on a regular basis.
+**Saving a history of query edits**: Being able to save a history of query edits can be very useful, as it allows you to
+review and revert to previous versions of your queries if necessary. This can be especially helpful if you make a
+mistake while editing a query, or if you need to compare different versions of a query to understand how it has evolved
+over time.
 
-**Searchable queries**: 
+**Saving a history of query results**: allows you to review and compare the results of different queries over time. This
+can be particularly useful if you are tracking changes in data over time, or if you are working with data that is
+updated on a regular basis.
+
+**Searchable queries**:
+
+**Instant Pivot Charts**:
+
+**CSV Table Loading**:
+
+**API**:
 
 ### Configurations
 
@@ -74,6 +91,7 @@ directory (the same directory that contains `settings.py`) and rename to
 `settings.ini`. Update the settings for your particular environment..
 
 ## Intro video:
+
 [![Qwaver Intro](http://img.youtube.com/vi/0jPneT1IkNI/0.jpg)](http://www.youtube.com/watch?v=0jPneT1IkNI "Qwaver Intro")
 
 ## Help!
@@ -82,11 +100,13 @@ Helping with this project will make you one of the cooler people that I know. Ho
 
 * Easy:  Give this project a ⭐️!
 * Easy:  Kick the tires.  [qwaver.io](http://qwaver.io) has the latest version running.
-* Easy:  Edit this file and make a PR to add any feature requests.
+* Easy:  Fork the repo, edit this file (README.md) and make a PR to add any feature requests.
 * Easy:  If you're in the code and see where something could be improved, but can't make the improvement right then,
   add  `# TODO` comment with a helpful description of what needs to be done and submit a PR.
 
 ### Feature requests
+
+* add something!
 
 #### Big, important things:
 
@@ -106,10 +126,15 @@ Helping with this project will make you one of the cooler people that I know. Ho
     * Cruise made per hour
     * Total queries made
     * Total results are viewed
+* permissions
+    * Be able to add different db users to a given database: one that can alter on that can not
+    * user permissions: org edit; DB edit; query edit, query create
+    * user database permissions assigns to them the appropriate db user
+* Database explorer:
+    * list tables, list columns, list running queries, kill query
 
 #### Small but cool things:
 
-* issue: buttons on clone page
 * update success and error counts in results
 * save exact query run with result; view that shows this
 * track average execution time for queries
@@ -135,13 +160,12 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * list users in an organization
 * automatically add a limit to every query
 * disable queries; don't delete them
-* user permissions: org edit; DB edit; query edit, query create
-* referrer tag in url to append to a user profile to see which users came in via which channel
-* https
-* csv import
+* https (helping set that on the DigitalOcean server)
 
 ### Issues:
+
 * uploading files or profile images may overwrite each other with name collision
+* buttons on clone page
 
 ### Efficiency:
 
