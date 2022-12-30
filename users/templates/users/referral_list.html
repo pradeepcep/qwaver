@@ -5,7 +5,7 @@
     {% for object in object_list %}
         <article class="media content-section">
             <div class="media-body">
-                {{ object.site }}: <a class="article-title" href="{% url 'referral-update' object.id %}">{{ object.pk }}: {{ object.title }}</a>
+                {{ object.site }}: <a class="article-title" href="{% url 'referral-update' object.id %}">{{ object.title }}</a>
                 {% if object.url is not None %}
                     <a href="{{ object.url }}">link</a>
                 {% endif %}
