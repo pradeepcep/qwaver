@@ -135,6 +135,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 
 #### Small but cool things:
 
+* after the user signs up, the next screen is they accept a Terms of Service (apache 2.0)
 * update success and error counts in results
 * save exact query run with result; view that shows this
 * track average execution time for queries
