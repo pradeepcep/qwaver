@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="http://qwaver.io">
+  <a href="http://qwaver.io/ref/github">
     <img src="http://qwaver.io/static/queries/images/qwaver-header.jpg" alt="qwaver logo">
   </a>
 
@@ -17,7 +17,7 @@ Parameterize! Visualize! Collaboratize?!
 [Latest Build](#latest-build) •[Use Cases](#use-cases) • [Help!](#help) • [Installation](#installation)
 • [Thanks](#thank-yous)
 
-<a href="http://qwaver.io">
+<a href="http://qwaver.io/ref/github">
     <img src="http://qwaver.io/static/queries/images/screen-record-2.gif" alt="qwaver logo">
 </a>
 
@@ -26,11 +26,11 @@ Parameterize! Visualize! Collaboratize?!
 
 ## Latest Build
 
-The latest code is running at [QWAVER.io](http://qwaver.io)
+The latest code is running at [QWAVER.io](http://qwaver.io/ref/github)
 
 ## Installation
 
-Qwaver is already up and running on [qwaver.io](http://qwaver.io).  (It's free)
+Qwaver is already up and running on [qwaver.io](http://qwaver.io/ref/github).  (It's free)
 
 If you want to run locally, copy the following and run it in your terminal:
 
@@ -48,7 +48,7 @@ python3 manage.py runserver
 When the server is running, go to [localhost](http://localhost:8000)
 
 <div align="center">
-<a href="http://qwaver.io">
+<a href="http://qwaver.io/ref/github">
     <img src="http://qwaver.io/static/queries/images/three-screen-shots.jpg" alt="qwaver logo">
 </a>
 </div>
@@ -99,7 +99,7 @@ directory (the same directory that contains `settings.py`) and rename to
 Helping with this project will make you one of the cooler people that I know. How can I (meaning you) do that?
 
 * Easy:  Give this project a ⭐️!
-* Easy:  Kick the tires.  [qwaver.io](http://qwaver.io) has the latest version running.
+* Easy:  Kick the tires.  [qwaver.io](http://qwaver.io/ref/github) has the latest version running.
 * Easy:  Fork the repo, edit this file (README.md) and make a PR to add any feature requests.
 * Easy:  If you're in the code and see where something could be improved, but can't make the improvement right then,
   add  `# TODO` comment with a helpful description of what needs to be done and submit a PR.
