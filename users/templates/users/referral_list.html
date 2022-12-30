@@ -8,7 +8,7 @@
                 {{ object.site }}: <a class="article-title" href="{% url 'referral-update' object.id %}">{{ object.pk }}: {{ object.title }}</a>
                 <br>
                 {% if object.ref_code is None %}
-                    <input type="text" size=40 value="http://qwaver.io/ref/{{ object.pk }}">
+                    <input type="text" size=40 value="http://qwaver.io/ref/{{ object.id }}">
                 {% else %}
                     <input type="text" size=40 value="http://qwaver.io/ref/{{ object.ref_code }}">
                 {% endif %}

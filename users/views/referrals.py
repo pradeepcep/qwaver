@@ -16,6 +16,13 @@ class ReferralListView(LoginRequiredMixin, ListView):
     def test_func(self):
         return self.request.user.is_superuser
 
+    def get_queryset(self):
+        # https://stackoverflow.com/questions/9410647/how-to-filter-model-results-for-multiple-values-for-a-many-to-many-field-in-djan
+        # queries = Query.objects.filter(database_id__in=get_org_databases(self)).order_by('-run_count', '-date_created')
+        queries = Referral.objects.filter()\
+            .order_by('-pk')
+        return queries
+
 
 class ReferralAbstract(LoginRequiredMixin):
     model = Referral
