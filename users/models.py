@@ -45,7 +45,12 @@ class Referral(models.Model):
                                    default=None, )
     site = models.CharField(
         max_length=128,
-        choices=(('youtube', 'youtube'), ('google ads', 'google ads'), ('other', 'other')),
+        choices=(
+            ('youtube', 'youtube'),
+            ('google ads', 'google ads'),
+            ('linkedin', 'linkedin'),
+            ('other', 'other'),
+        ),
         default='other',
         blank=True)
 
