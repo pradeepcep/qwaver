@@ -34,6 +34,7 @@ class Referral(models.Model):
     ref_code = models.CharField(max_length=128,
                                 blank=True,
                                 default=None,
+                                unique=True,
                                 help_text="a url slug like 'youtube_parameterized_queries'")
     title = models.CharField(max_length=128)
     url = models.CharField(max_length=128,
