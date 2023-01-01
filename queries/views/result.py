@@ -73,7 +73,7 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
         else:
             for param in params:
                 api_params += f"&{param.name}=[{param.name} value]"
-        context['api_url'] = f"http://qwaver.io/api/{self.object.id}/{api_params}"
+        context['api_url'] = f"http://qwaver.io/api/{self.object.query.id}/{api_params}"
         return context
 
 

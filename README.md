@@ -132,6 +132,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
     * user database permissions assigns to them the appropriate db user
 * Database explorer:
     * list tables, list columns, list running queries, kill query
+* Result differences
+    * a user can can take the tables produced by two results and subtract them from each other. 
+    * The above table difference works when the table has the same number of rows, when they have two columns, and when the second column is numeric.
 
 #### Small but cool things:
 
