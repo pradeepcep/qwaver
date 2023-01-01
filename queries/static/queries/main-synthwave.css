@@ -113,3 +113,8 @@ pre {
     color: rgba(255,255,255,0.5);
     display: inline;
 }
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #000000;
+    opacity: 1;
+}

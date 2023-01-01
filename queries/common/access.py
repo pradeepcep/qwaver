@@ -1,3 +1,5 @@
+import secrets
+
 from django.core.exceptions import PermissionDenied
 
 from queries.models import Database, Query
@@ -45,3 +47,8 @@ def user_can_access_org(user, org):
         raise PermissionDenied(
             "user not member of organization: " + str(org.id)
         )
+
+
+# https://stackoverflow.com/questions/34897740/whats-the-simplest-and-safest-method-to-generate-a-api-key-and-secret-in-python
+def create_api_key():
+    return secrets.token_urlsafe(16)

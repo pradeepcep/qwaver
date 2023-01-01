@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from queries.common.access import create_api_key
 from users.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from users.models import UserOrganization, Invitation, Referral
 
@@ -55,6 +56,12 @@ def resolve_invitations(user, request):
 
 @login_required
 def profile(request):
+    profile = request.user.profile
+    # this could possibly be removed.
+    # It is here as some profiles were created before there was an api_key
+    if profile.api_key is None:
+        profile.api_key = create_api_key()
+        profile.save()
     user_orgs = UserOrganization.objects.filter(user=request.user)
     # https://stackoverflow.com/questions/39702538/python-converting-a-queryset-in-a-list-of-tuples
     # converting the queryset to list of tuples
@@ -63,8 +70,10 @@ def profile(request):
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,
                                    request.FILES,
-                                   instance=request.user.profile)
-        p_form.fields['selected_organization'].choices = orgs
+                                   instance=profile)
+        # api_key field is readonly
+        p_form.fields['api_key'].disabled = True
+        # p_form.fields['selected_organization'].choices = orgs
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
@@ -73,10 +82,9 @@ def profile(request):
 
     else:
         u_form = UserUpdateForm(instance=request.user)
-        p_form = ProfileUpdateForm(instance=request.user.profile)
+        p_form = ProfileUpdateForm(instance=profile)
         p_form.fields['selected_organization'].choices = orgs
-        # removing the display mode feature until it is more mature
-        del p_form.fields['display_mode']
+        p_form.fields['api_key'].disabled = True
 
     context = {
         'u_form': u_form,

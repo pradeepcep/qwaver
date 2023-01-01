@@ -71,7 +71,6 @@ class Profile(models.Model):
         default=False,
         help_text="This software is released under the <a href='https://www.apache.org/licenses/LICENSE-2.0'>Apache 2.0 license</a>.  By checking this, you agree to those terms."
     )
-    # https://stackoverflow.com/questions/34897740/whats-the-simplest-and-safest-method-to-generate-a-api-key-and-secret-in-python
     api_key = models.CharField(max_length=32, null=True, default=None)
 
     def __str__(self):

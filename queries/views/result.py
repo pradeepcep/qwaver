@@ -19,6 +19,7 @@ from pandas.api.types import is_numeric_dtype
 from django.utils import timezone
 from sqlalchemy.exc import ResourceClosedError
 
+from users.models import Profile
 from ..common.access import user_can_access_query
 from ..common.components import users_recent_results
 from ..models import Query, Parameter, Result, Value, QueryError
@@ -102,9 +103,12 @@ def execute(request, query_id):
 
 
 def execute_api(request, query_id):
-    username = request.GET.get('user')
-    password = request.GET.get('pass')
-    user = authenticate(username=username, password=password)
+    api_key = request.GET.get('api_key')
+    try:
+        profile = Profile.objects.get(api_key=api_key)
+        user = profile.user
+    except Profile.DoesNotExist:
+        user = None
     if user is None or not user.is_authenticated:
         return JsonResponse({'error': 'User not authenticated'})
     query = get_object_or_404(Query, pk=query_id)
