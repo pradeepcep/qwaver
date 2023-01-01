@@ -22,10 +22,6 @@ h2, h3, h4, h5, h6 {
     box-shadow: 0 0 10px darkcyan;
 }
 
-.bg-steel {
-
-}
-
 .list-group-item {
     background-color: #282a36;
     border-color: magenta;

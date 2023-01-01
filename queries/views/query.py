@@ -146,10 +146,14 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
                     if x.parameter_name == param.name:
                         param.default = x.value
         context['params'] = params
-        # getting historic results
+        # historic results
         context['results'] = users_recent_results(query=self.object, user=self.request.user)
-        # getting comments on queries
         context['comments'] = QueryComment.objects.filter(query=self.object).order_by('-timestamp')
+        # constructing API URL
+        api_params = f"?api_key={self.request.user.profile.api_key}"
+        for param in params:
+            api_params += f"&{param.name}=[{param.name} value]"
+        context['api_url'] = f"http://qwaver.io/api/{self.object.id}/{api_params}"
         # updating query
         query = self.object
         query.last_viewed = timezone.now()

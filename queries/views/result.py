@@ -48,22 +48,32 @@ class ResultDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(ResultDetailView, self).get_context_data(**kwargs)
         values = Value.objects.filter(result=self.object)
-        current_parameters = Parameter.objects.filter(query=self.object.query)
+        params = Parameter.objects.filter(query=self.object.query)
 
         has_valid_parameters = True
         for value in values:
             # if the value of this result does not match any of the current parameters of the query
-            if not any(parameter.name == value.parameter_name for parameter in current_parameters):
+            if not any(parameter.name == value.parameter_name for parameter in params):
                 has_valid_parameters = False
-        for parameter in current_parameters:
+        for param in params:
             # if a current parameter for the query doesn't match any of the saved values
-            if not any(parameter.name == value.parameter_name for value in values):
+            if not any(param.name == value.parameter_name for value in values):
                 has_valid_parameters = False
         context['params'] = values
         # getting historic results
         context['results'] = users_recent_results(query=self.object.query, user=self.request.user)
         context['selected_result'] = self.object
         context['has_valid_parameters'] = has_valid_parameters
+        # TODO constructing API URL
+        api_params = f"?api_key={self.request.user.profile.api_key}"
+
+        if has_valid_parameters:
+            for value in values:
+                api_params += f"&{value.parameter_name}={value.value}"
+        else:
+            for param in params:
+                api_params += f"&{param.name}=[{param.name} value]"
+        context['api_url'] = f"http://qwaver.io/api/{self.object.id}/{api_params}"
         return context
 
 
@@ -114,7 +124,7 @@ def execute_api(request, query_id):
     query = get_object_or_404(Query, pk=query_id)
     user_can_access_query(user, query)
     try:
-        data = get_data(request, query)
+        data = get_data(request, query, request_type="GET")
         if not data.df.empty:
             json = {'title': data.title}
             table = data.df.to_dict(orient='split')
@@ -201,7 +211,7 @@ def get_result(request, query):
 # 2. Creating a connection to the db
 # 3. Replacing placeholder parameters with their values
 # 4. Executing the query
-def get_data(request, query):
+def get_data(request, query, request_type=None):
     user = request.user
     user_can_access_query(user, query)
     params = Parameter.objects.filter(query=query)
@@ -210,7 +220,11 @@ def get_data(request, query):
     result_title = query.title
     param_values = {}
     for param in params:
-        param_value = request.POST.get(param.name)
+        if request_type == "GET":
+            param_value = request.GET.get(param.name)
+        else:
+            param_value = request.POST.get(param.name)
+
         if param_value is None:
             param_value = param.default
         param_values[param.name] = param_value

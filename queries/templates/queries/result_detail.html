@@ -68,6 +68,9 @@
 
                 </div>
             </article>
+
+            {% include "queries/api_template.html" with api_url=api_url %}
+
         </div>
         <div class="col-md-4">
             {% include "queries/template_recent_results.html" with results=results %}
