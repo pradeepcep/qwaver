@@ -174,6 +174,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * On the query error page link to the GitHub issues page. Set up a default 500 error page during the same.
 * For the database configuration, have both users be optional, but if there is not a loser who can alter tables, then certain functionality like load CSV will be off
 * ability to make queries public (where the world can use them)
+* deactivate queries, don't delete them
 
 ### Issues:
 
