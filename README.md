@@ -181,6 +181,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * For the database configuration, have both users be optional, but if there is not a loser who can alter tables, then certain functionality like load CSV will be off
 * ability to make queries public (where the world can use them)
 * deactivate queries, don't delete them
+* limit CSV upload to MB and give warning if more than 1000 lines
 
 ### Issues:
 
