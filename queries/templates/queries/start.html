@@ -1,0 +1,24 @@
+{% extends "queries/base.html" %}
+{% block content %}
+        <article class="content-section" style="width: 50%; margin: auto">
+    <h1 class="text-center">
+        Starting out...
+    </h1>
+    <p style="font-size: 1.5em; margin-top: 1em">
+        You are hooked in to your database! Create a query that accesses the data that is already in it. (For example, "product
+        revenue per day")
+
+    <p>
+        <a class="btn btn-primary" href="{% url 'query-create' %}" role="button">New Query</a>
+    </p>
+    </p>
+    <p style="font-size: 1.5em; margin-top: 1em">
+        If you don't have data yet or want to add some. Loading in a CSV is a great way to start.
+        This automatically creates a new table in your database with the data in the CSV.
+
+    <p>
+        <a class="btn btn-primary" href="{% url 'load' %}" role="button">Load CSV</a>
+    </p>
+    </p>
+    </article>
+{% endblock content %}

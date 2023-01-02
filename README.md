@@ -181,6 +181,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * uploading files or profile images may overwrite each other with name collision
 * buttons on clone page
 
+### Video ideas:
+* setting up a database with https://elephantsql.com/
+
 ### Efficiency:
 
 * in query_version.py, make spans cover contiguous chaged characters, not individual characters

@@ -43,7 +43,7 @@ class QueryListView(ListView):
             return redirect('database-create')
         # no query
         elif not Query.objects.filter(database_id__in=get_org_databases(self)).exists():
-            return redirect('query-create')
+            return render(self.request, 'queries/start.html')
         return super(QueryListView, self).get(*args, **kwargs)
 
     def get_queryset(self):
