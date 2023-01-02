@@ -73,13 +73,19 @@ over time.
 can be particularly useful if you are tracking changes in data over time, or if you are working with data that is
 updated on a regular basis.
 
-**Searchable queries**:
-
 **Instant Pivot Charts**:
 
 **CSV Table Loading**:
+Save time and frustration by using Qwaver to load your CSV files into your database with ease.
+Simply upload your CSV file and our tool will handle the rest, automatically creating a new table and importing all of the data from the file.
+No need to worry about complex database schemas or manual data entry - Qwaver does all the heavy lifting for you.
 
-**API**:
+**API**:  Qwaver makes it easy to turn your SQL queries into an API with no programming required.
+When you save an SQL query you've made, Qwaver automatically creates an API endpoint.
+If you added parameters to your query, those become the endpoint variables.
+
+**Searchable queries**:  As a data scientist or analyst, you write hundreds of queries.
+Qwaver's search tool makes finding the queries you need easy.
 
 ### Configurations
 
