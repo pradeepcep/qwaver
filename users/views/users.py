@@ -1,7 +1,11 @@
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from queries.common.access import create_api_key
 from users.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
@@ -30,6 +34,7 @@ def register(request, ref_code=None):
             password = form.cleaned_data.get('password')
             messages.success(request, f'Your account has been created!')
             resolve_invitations(user, request)
+            send_verification_email(user, request)
             login(request, user)
             # login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('queries-home')
@@ -52,6 +57,25 @@ def resolve_invitations(user, request):
             # we don't need the invitation anymore
             invitation.delete()
             messages.success(request, f'You have been added to the organization {invitation.organization.name}')
+
+
+class EmailVerificationTokenGenerator(PasswordResetTokenGenerator):
+
+    def _make_hash_value(self, user, timestamp):
+        return str(user.pk) + str(timestamp) + str(user.is_active)
+
+email_verification_token = EmailVerificationTokenGenerator()
+
+
+def send_verification_email(user, request):
+    mail_subject = 'Confirm your Account'
+    message = render_to_string('users/verify_email_content.html', {
+                'user': user,
+                'domain': request.get_host(),
+                'uid': urlsafe_base64_encode(bytes(str(user.pk), encoding='utf-8')),
+                'token': email_verification_token.make_token(user),
+            })
+    send_mail(mail_subject, message, None, [user.email], fail_silently=False)
 
 
 @login_required
@@ -92,3 +116,30 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+
+def verify_email(request):
+    encoded_uid = request.GET.get('uid')
+    token = request.GET.get('token')
+    if not encoded_uid or not token:
+        return render(request, 'users/verify_email.html')
+
+    User = get_user_model()
+    try:
+        uid = int(str(urlsafe_base64_decode(encoded_uid), encoding='utf-8'))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and email_verification_token.check_token(user, token):
+        profile = user.profile
+        profile.email_verified = True
+        profile.save()
+
+        messages.success(request, f'Your email has been verified!')
+        if request.user.is_authenticated:
+            return redirect('queries-home')
+        return redirect('login')
+
+    return render(request, 'users/verify_email.html', context={
+        'error': 'There was a problem verifying your email address.'
+    })

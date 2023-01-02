@@ -34,6 +34,9 @@ urlpatterns = [
              template_name='users/password_reset_complete.html'
          ),
          name='password_reset_complete'),
+    path('verify-email',
+         user_views.verify_email,
+         name='verify-email'),
     path('organization/new/', OrganizationCreateView.as_view(), name='organization-create'),
     path('organization/<int:pk>/', OrganizationEditView.as_view(), name='organization-detail'),
     path('organization/<int:pk>/edit/', OrganizationEditView.as_view(), name='organization-update'),
