@@ -189,6 +189,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 
 * uploading files or profile images may overwrite each other with name collision
 * buttons on clone page
+* have form checks for load csv table name
 
 ### Video ideas:
 * setting up a database with https://elephantsql.com/
