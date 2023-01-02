@@ -171,6 +171,8 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * A way to be able to combine search results from one database into the quarry of another. For example, one day the base returns IDs and the other query on a different database uses those IDs.
 * Make hard-coded instances of "http://qwaver.io" from an environment variable
 * as a person changes parameters, the API url updates
+* On the query error page link to the GitHub issues page. Set up a default 500 error page during the same.
+* For the database configuration, have both users be optional, but if there is not a loser who can alter tables, then certain functionality like load CSV will be off
 
 ### Issues:
 
