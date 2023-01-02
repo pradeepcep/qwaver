@@ -36,19 +36,29 @@
                     margin: 1em;
                 }
             </style>
+            <div style="height: 2em">
+                <!--
+                This div is simply to give the bottom button box some space.
+                Maybe there's a better way to do this?
+                -->
+            </div>
             <div class="button-box">
-                <a class="btn btn-primary btn-sm" href="{% url 'query-detail' query.id %}" role="button">
+                <a class="btn btn-primary btn-sm" href="{% url 'query-detail' query.id %}" role="button"
+                   title="Use query">
                     <i class="bi bi-search"></i>
                 </a>
-                <a class="btn btn-secondary btn-sm" href="{% url 'query-update' query.id %}" role="button">
+                <a class="btn btn-secondary btn-sm" href="{% url 'query-update' query.id %}" role="button"
+                   title="Edit query">
                     <i class="bi bi-pencil"></i>
                 </a>
                 {% if query.latest_result != null %}
-                    <a class="btn btn-success btn-sm" href="{% url 'result-detail' query.latest_result.id %}" role="button">
+                    <a class="btn btn-success btn-sm" href="{% url 'result-detail' query.latest_result.id %}"
+                       role="button" title="See latest result">
                         <i class="bi bi-bar-chart"></i>
                     </a>
                 {% endif %}
-                <a class="btn btn-danger btn-sm" href="{% url 'query-delete' query.id %}" role="button">
+                <a class="btn btn-danger btn-sm" href="{% url 'query-delete' query.id %}" role="button"
+                   title="Delete query">
                     <i class="bi bi-trash"></i>
                 </a>
             </div>
