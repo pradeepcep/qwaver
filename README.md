@@ -69,8 +69,10 @@ review and revert to previous versions of your queries if necessary. This can be
 mistake while editing a query, or if you need to compare different versions of a query to understand how it has evolved
 over time.
 
-**Saving a history of query results**: allows you to review and compare the results of different queries over time. This
-can be particularly useful if you are tracking changes in data over time, or if you are working with data that is
+**Saving a history of query results**: 
+Some queries take hours or minutes to run.
+Qwaver saves query results allowing you to easily see previous output.
+This can be particularly useful if you are tracking changes in data over time, or if you are working with data that is
 updated on a regular basis.
 
 **Instant Pivot Charts**:
