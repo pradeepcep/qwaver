@@ -13,7 +13,10 @@
                              class="contain card-image" width="100%"/>
                     {% elif query.latest_result.single != null %}
                         {% if query.description != null %}
-                            {{ query.description }}<br>
+                            <div class="dark-text">
+                                {{ query.description }}
+                            </div>
+                            <br>
                         {% endif %}
                         <div>{{ query.latest_result.single }}</div>
                     {% endif %}
@@ -24,6 +27,30 @@
                         {{ query.last_run_date|timesince }} ago<br>
                     </p>
                 {% endif %}
+            </div>
+            <style>
+                .button-box {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    margin: 1em;
+                }
+            </style>
+            <div class="button-box">
+                <a class="btn btn-primary btn-sm" href="{% url 'query-detail' query.id %}" role="button">
+                    <i class="bi bi-search"></i>
+                </a>
+                <a class="btn btn-secondary btn-sm" href="{% url 'query-update' query.id %}" role="button">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                {% if query.latest_result != null %}
+                    <a class="btn btn-success btn-sm" href="{% url 'result-detail' query.latest_result.id %}" role="button">
+                        <i class="bi bi-bar-chart"></i>
+                    </a>
+                {% endif %}
+                <a class="btn btn-danger btn-sm" href="{% url 'query-delete' query.id %}" role="button">
+                    <i class="bi bi-trash"></i>
+                </a>
             </div>
         </div>
     {% endfor %}

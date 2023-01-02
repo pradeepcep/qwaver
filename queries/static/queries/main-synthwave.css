@@ -114,3 +114,7 @@ pre {
     background-color: #000000;
     opacity: 1;
 }
+
+.dark-text {
+    color: #365b5d;
+}
