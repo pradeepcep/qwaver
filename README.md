@@ -147,7 +147,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 #### Small but cool things:
 
 * after the user signs up, the next screen is they accept a Terms of Service (apache 2.0)
-* Add “read only“ user fuels to database set up.
+* Add “read only“ user fields to database set up.
 * update success and error counts in results
 * save exact query run with result; view that shows this
 * track average execution time for queries
@@ -184,6 +184,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * ability to make queries public (where the world can use them)
 * deactivate queries, don't delete them
 * limit CSV upload to MB and give warning if more than 1000 lines
+* count field for Referral
 
 ### Issues:
 

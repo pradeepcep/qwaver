@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from queries.common.access import create_api_key
+from queries.common.common import get_referral
 from users.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from users.models import UserOrganization, Invitation, Referral
+from users.models import UserOrganization, Invitation
 
 
 def register(request, ref_code=None):
@@ -14,17 +15,10 @@ def register(request, ref_code=None):
         if form.is_valid():
             user = form.save()
             # saving referrer
-            if ref_code is not None:
-                try:
-                    if ref_code.isdigit():
-                        referral = Referral.objects.get(pk=int(ref_code))
-                    else:
-                        referral = Referral.objects.get(ref_code=ref_code)
-                except Referral.DoesNotExist:
-                    referral = None
-                if referral is not None:
-                    user.profile.referral_id = referral
-                    user.profile.save()
+            referral = get_referral(ref_code)
+            if referral is not None:
+                user.profile.referral = referral
+                user.profile.save()
             # logging in the user
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')

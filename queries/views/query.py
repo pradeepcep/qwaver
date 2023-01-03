@@ -15,6 +15,7 @@ from django.views.generic import (
 )
 
 from queries.common.access import user_can_access_database, get_most_recent_database
+from queries.common.common import get_referral
 from queries.common.components import users_recent_results
 from queries.models import Query, Parameter, Database, UserSearch, QueryComment, Result, Value, QueryVersion
 from queries.views import get_org_databases, user_can_access_query
@@ -32,6 +33,11 @@ class QueryListView(ListView):
     paginate_by = pagination_count
 
     def get(self, *args, **kwargs):
+        # tracking referral visits
+        referral = get_referral(self.kwargs.get('ref'))
+        if referral is not None:
+            referral.visit_count += 1
+            referral.save()
         # not registered
         if not self.request.user.is_authenticated:
             return render(self.request, 'queries/about.html')
