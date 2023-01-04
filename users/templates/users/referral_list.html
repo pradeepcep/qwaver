@@ -9,6 +9,7 @@
                 {% if object.url is not None %}
                     <a href="{{ object.url }}">link</a>
                 {% endif %}
+                visits: {{ object.visit_count }}
                 <br>
                 {% if object.ref_code is None %}
                     <input type="text" size=40 value="http://qwaver.io/ref/{{ object.id }}">

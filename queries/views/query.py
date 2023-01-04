@@ -32,25 +32,26 @@ class QueryListView(ListView):
     ordering = ['-date_created']
     paginate_by = pagination_count
 
-    def get(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         # tracking referral visits
-        referral = get_referral(self.kwargs.get('ref'))
+        referral = get_referral(self.kwargs.get('ref_code'))
         if referral is not None:
             referral.visit_count += 1
             referral.save()
         # not registered
-        if not self.request.user.is_authenticated:
-            return render(self.request, 'queries/about.html')
+        if not request.user.is_authenticated:
+            return render(request, 'queries/about.html')
         # no org
-        elif self.request.user.profile.selected_organization is None:
+        elif request.user.profile.selected_organization is None:
             return redirect('organization-create')
         # no database
         elif len(get_org_databases(self)) == 0:
             return redirect('database-create')
         # no query
         elif not Query.objects.filter(database_id__in=get_org_databases(self)).exists():
-            return render(self.request, 'queries/start.html')
-        return super(QueryListView, self).get(*args, **kwargs)
+            return render(request, 'queries/start.html')
+        return super().dispatch(request, *args, **kwargs)
+
 
     def get_queryset(self):
         # https://stackoverflow.com/questions/9410647/how-to-filter-model-results-for-multiple-values-for-a-many-to-many-field-in-djan

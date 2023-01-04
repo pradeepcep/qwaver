@@ -16,6 +16,7 @@ def register(request, ref_code=None):
             user = form.save()
             # saving referrer
             referral = get_referral(ref_code)
+            print(f"referrall: {referral}")
             if referral is not None:
                 user.profile.referral = referral
                 user.profile.save()

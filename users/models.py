@@ -54,7 +54,7 @@ class Referral(models.Model):
         ),
         default='other',
         blank=True)
-    visit_count = display_mode = models.IntegerField(default=0)
+    visit_count = models.IntegerField(default=0)
 
 
 class Profile(models.Model):

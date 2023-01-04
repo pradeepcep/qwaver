@@ -119,14 +119,11 @@ Helping with this project will make you one of the cooler people that I know. Ho
 #### Big, important things:
 
 * JS charts on pages
-* qwavers (esp. those with parameters) can be APIs as well
 * Query collections -- user-defined lists of queries that all conform to a given topic
 * "Starters": pre-defined sets of queries and collections if a database is for a common CMS
 * "Linked collections". linked collections are all of queries that take exatly one parameter: the id of a related
   object.
 * Badges for accomplishments -- eg. "creator", "pivoter", "chart master"
-* EZ API
-    * pretty API urls: qwaver.io/api/org-slug/query-name-slug
 * User Stats:
     * Results are viewed per day
     * Results viewed per hour
@@ -143,6 +140,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * Result differences
     * a user can can take the tables produced by two results and subtract them from each other. 
     * The above table difference works when the table has the same number of rows, when they have two columns, and when the second column is numeric.
+    * an "order by column" that takes a string for a column name or, if integer, col index
 
 #### Small but cool things:
 
@@ -185,10 +183,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * deactivate queries, don't delete them
 * limit CSV upload to MB and give warning if more than 1000 lines
 * count field for Referral
+* pretty API urls: qwaver.io/api/org-slug/query-name-slug
 
 ### Issues:
-
-* uploading files or profile images may overwrite each other with name collision
 * buttons on clone page
 * have form checks for load csv table name
 
