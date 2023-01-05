@@ -21,6 +21,19 @@
             {% endif %}
         </div>
 
+{#        <div>#}
+{#            Sort by:#}
+{#            <a class="btn btn-outline-secondary btn-sm m-1 "#}
+{#               href="{% url 'queries-home' %}?sort_by=run"#}
+{#               role="button">recently run</a>#}
+{#            <a class="btn btn-outline-secondary btn-sm m-1 "#}
+{#               href="{% url 'queries-home' %}?sort_by=run_count"#}
+{#               role="button">run count</a>#}
+{#            <a class="btn btn-outline-secondary btn-sm m-2 "#}
+{#               href="{% url 'queries-home' %}?sort_by=created"#}
+{#               role="button">recently created</a>#}
+{#        </div>#}
+
         <!-- Queries -->
         {% include "queries/query_list_card.html" with quereies=queries %}
 
@@ -28,7 +41,8 @@
 
             {% if page_obj.has_previous %}
                 <a class="btn btn-outline-info mb-4" href="?page=1&s={{ request.GET.s }}">First</a>
-                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}&s={{ request.GET.s }}">Previous</a>
+                <a class="btn btn-outline-info mb-4"
+                   href="?page={{ page_obj.previous_page_number }}&s={{ request.GET.s }}">Previous</a>
             {% endif %}
 
             {% for num in page_obj.paginator.page_range %}
@@ -41,7 +55,8 @@
 
             {% if page_obj.has_next %}
                 <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}&s={{ request.GET.s }}">Next</a>
-                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}&s={{ request.GET.s }}">Last</a>
+                <a class="btn btn-outline-info mb-4"
+                   href="?page={{ page_obj.paginator.num_pages }}&s={{ request.GET.s }}">Last</a>
             {% endif %}
 
         {% endif %}
