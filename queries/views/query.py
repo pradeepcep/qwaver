@@ -160,7 +160,7 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
         api_params = f"?api_key={self.request.user.profile.api_key}"
         for param in params:
             api_params += f"&{param.name}=[{param.name} value]"
-        context['api_url'] = f"http://qwaver.io/api/{self.object.id}/{api_params}"
+        context['api_url'] = f"http://{self.request.get_host()}/api/{self.object.id}/{api_params}"
         # updating query
         query = self.object
         query.last_viewed = timezone.now()
