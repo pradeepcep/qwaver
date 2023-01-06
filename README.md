@@ -141,11 +141,19 @@ Helping with this project will make you one of the cooler people that I know. Ho
     * a user can can take the tables produced by two results and subtract them from each other. 
     * The above table difference works when the table has the same number of rows, when they have two columns, and when the second column is numeric.
     * an "order by column" that takes a string for a column name or, if integer, col index
+* A way to be able to combine search results from one database into the query of another. For example, one day the base returns IDs and the other query on a different database uses those IDs. 
 
 #### Small but cool things:
-
+* email verification
+* https (helping set that on the DigitalOcean server)
 * after the user signs up, the next screen is they accept a Terms of Service (apache 2.0)
 * Add “read only“ user fields to database set up.
+* For the database configuration, have both users be optional, but if there is not a loser who can alter tables, then certain functionality like load CSV will be off
+* On the query error page link to the GitHub issues page. Set up a default 500 error page during the same.
+* drop-down menu to select organization if there is more than one org for the user
+* pretty API urls: qwaver.io/api/org-slug/query-name-slug (unique field, similar to in Referral)
+* disable queries; don't delete them
+* ability to make queries public (where the world can use them)
 * update success and error counts in results
 * save exact query run with result; view that shows this
 * track average execution time for queries
@@ -153,13 +161,12 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * set query type to: automatic, table, bar chart, line chart, pie or pivot
 * webpage preview when sharing results via slack or email (e.g. add open graph social previews to results. This will
   necessitate making an image url)
-* flag queries -- if their results do not align with their title/description or are wrong in any other way
+* flag queries -- if a user determines their results do not align with their title/description or are wrong in any other way
     * Search results should not include flagged queries
     * The author of a flagged query should be given an alert
 * Add comments, likes, stars
 * create 404 page
 * creat easy way to leave feedback
-* email verification
 * parameters:
     * a country or date selector when param is {country} or {date}
     * For parameters set maximum and minimum and numeric values
@@ -170,20 +177,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
     * kill query
 * list users in an organization
 * automatically add a limit to every query
-* disable queries; don't delete them
-* https (helping set that on the DigitalOcean server)
-* drop-down menu to select organization if there is more than one org for the user
 * Have a result search where are the searches are the input fields for a given query. No search option if there are no input fields.
-* A way to be able to combine search results from one database into the quarry of another. For example, one day the base returns IDs and the other query on a different database uses those IDs.
-* Make hard-coded instances of "http://qwaver.io" from an environment variable
 * as a person changes parameters, the API url updates
-* On the query error page link to the GitHub issues page. Set up a default 500 error page during the same.
-* For the database configuration, have both users be optional, but if there is not a loser who can alter tables, then certain functionality like load CSV will be off
-* ability to make queries public (where the world can use them)
-* deactivate queries, don't delete them
 * limit CSV upload to MB and give warning if more than 1000 lines
-* count field for Referral
-* pretty API urls: qwaver.io/api/org-slug/query-name-slug
 
 ### Issues:
 * buttons on clone page
