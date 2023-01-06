@@ -1,0 +1,20 @@
+{% extends "queries/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <h1>
+        Verify Email
+        </h1>
+        {% if error %}
+        <p>
+           {{ error }}
+        </p>
+        <p>
+           Please try again.
+        </p>
+        {% else %}
+        <p>
+            Please verify your email address by clicking the link sent to your registered email address.
+        </p>
+        {% endif %}
+    </div>
+{% endblock content %}

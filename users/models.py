@@ -73,6 +73,7 @@ class Profile(models.Model):
         help_text="This software is released under the <a href='https://www.apache.org/licenses/LICENSE-2.0'>Apache 2.0 license</a>.  By checking this, you agree to those terms."
     )
     api_key = models.CharField(max_length=32, null=True, default=None)
+    email_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.username} Profile'

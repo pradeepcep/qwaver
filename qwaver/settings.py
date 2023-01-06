@@ -78,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'qwaver.middleware.EmailVerificationMiddleware',
 ]
 
 ROOT_URLCONF = 'qwaver.urls'
@@ -185,6 +186,7 @@ EMAIL_HOST_PASSWORD = config.get('config', 'EMAIL_HOST_PASSWORD')
 
 ADMINS = [('Brian', 'geneffects@gmail.com')]
 SERVER_EMAIL = 'server@qwaver.io'
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
 MAX_TABLE_ROWS = int(config.get('config', 'MAX_TABLE_ROWS'))
 
