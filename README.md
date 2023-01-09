@@ -117,7 +117,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * add something!
 
 #### Big, important things:
-
 * JS charts on pages
 * Query collections -- user-defined lists of queries that all conform to a given topic
 * "Starters": pre-defined sets of queries and collections if a database is for a common CMS
@@ -144,7 +143,6 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * A way to be able to combine search results from one database into the query of another. For example, one day the base returns IDs and the other query on a different database uses those IDs. 
 
 #### Small but cool things:
-* email verification
 * https (helping set that on the DigitalOcean server)
 * after the user signs up, the next screen is they accept a Terms of Service (apache 2.0)
 * Add “read only“ user fields to database set up.
@@ -153,6 +151,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * drop-down menu to select organization if there is more than one org for the user
 * pretty API urls: qwaver.io/api/org-slug/query-name-slug (unique field, similar to in Referral)
 * disable queries; don't delete them
+* scatter plot chart
 * ability to make queries public (where the world can use them)
 * update success and error counts in results
 * save exact query run with result; view that shows this
@@ -184,6 +183,9 @@ Helping with this project will make you one of the cooler people that I know. Ho
 ### Issues:
 * buttons on clone page
 * have form checks for load csv table name
+
+### TODO:
+* configure email server, re-enable email verification code in register.py and middleware.py
 
 ### Video ideas:
 * setting up a database with https://elephantsql.com/
