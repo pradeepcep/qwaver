@@ -140,9 +140,17 @@ Helping with this project will make you one of the cooler people that I know. Ho
     * a user can can take the tables produced by two results and subtract them from each other. 
     * The above table difference works when the table has the same number of rows, when they have two columns, and when the second column is numeric.
     * an "order by column" that takes a string for a column name or, if integer, col index
-* A way to be able to combine search results from one database into the query of another. For example, one day the base returns IDs and the other query on a different database uses those IDs. 
+* A way to be able to combine search results from one database into the query of another. For example, one day the base returns IDs and the other query on a different database uses those IDs.
+* permissions
+  * only org admins
+    * can see DB menu, edit or add DB
+    * can make invitations
+  * only query creators and org admins
+    * can edit, can see the edit buttons
+    * can delete
 
 #### Small but cool things:
+* returned row count added to result model; show this in results sidebar on query page
 * https (helping set that on the DigitalOcean server)
 * after the user signs up, the next screen is they accept a Terms of Service (apache 2.0)
 * Add “read only“ user fields to database set up.
@@ -210,4 +218,5 @@ If you see any ways that the app could be improved in these ways, let's work on 
   an [excellent tutorial on learning Django](https://www.youtube.com/playlist?list=PL-osiE80TeTtoQCKZ03TU5fNfx2UY6U4p)
   by walking through how to make a blog with many users. qwaver is basically a blog but for queries so it was a nice
   starting point!  
+* Styling on the main page from the free templates at [Html5Up](https://html5up.net/)
 

@@ -1,9 +1,14 @@
 from django.urls import path
+from django.views.generic import TemplateView
 from .views import *
 from .views.query_version import QueryVersionListView, QueryVersionRevertView
 from .views.result import ResultDetailView
 
 urlpatterns = [
+
+    path('test/', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
+    path('test/ref/<str:ref_code>', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
+
     # query lists
     path('', QueryListView.as_view(), name='queries-home'),
     path('ref/<str:ref_code>', QueryListView.as_view(), name='queries-home'),

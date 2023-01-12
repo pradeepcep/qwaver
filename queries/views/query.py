@@ -40,7 +40,7 @@ class QueryListView(ListView):
             referral.save()
         # not registered
         if not request.user.is_authenticated:
-            return render(request, 'queries/about.html')
+            return render(request, 'queries/index.html')
         # no org
         elif request.user.profile.selected_organization is None:
             return redirect('organization-create')

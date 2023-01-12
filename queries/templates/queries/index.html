@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Spectral by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>Spectral by HTML5 UP</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="{% static 'queries/assets/css/main.css' %}"/>
+    <noscript>
+        <link rel="stylesheet" href="{% static 'queries/assets/css/noscript.css' %}"/>
+    </noscript>
+</head>
+<body class="landing">
+
+<!-- Page Wrapper -->
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <header id="header" class="alt">
+        {#        <h1><a href="index.html">QWAVER</a></h1>#}
+        {#        <nav id="nav">#}
+        {#            <ul>#}
+        {#                <li class="special">#}
+        {#                    <a href="#menu" class="menuToggle"><span>Menu</span></a>#}
+        {#                    <div id="menu">#}
+        {#                        <ul>#}
+        {#                            <li><a href="index.html">Home</a></li>#}
+        {#                            <li><a href="generic.html">Generic</a></li>#}
+        {#                            <li><a href="elements.html">Elements</a></li>#}
+        {#                            <li><a href="#">Sign Up</a></li>#}
+        {#                            <li><a href="#">Log In</a></li>#}
+        {#                        </ul>#}
+        {#                    </div>#}
+        {#                </li>#}
+        {#            </ul>#}
+        </nav>
+        {#        <div style="text-align: right">#}
+        {#            <a class="button" href="{% url 'login' %}"#}
+        {#               style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em; font-size: 0.8em">Login</a>#}
+        {#            {% if request.resolver_match.kwargs.ref_code != None %}#}
+        {#                <a class="button primary" href="{% url 'register' request.resolver_match.kwargs.ref_code %}"#}
+        {#                   style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Register</a>#}
+        {#            {% else %}#}
+        {#                <a class="button primary" href="{% url 'register' %}"#}
+        {#                   style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Register</a>#}
+        {#            {% endif %}#}
+        {#        </div>#}
+        <div style="text-align: right">
+            <a class="button" href="{% url 'login' %}"
+               style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Login</a>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <section id="banner">
+        <div class="inner">
+            <img src="{% static 'queries/images/qwaver-logo.png' %}" style="" width="70%">
+            <p>Online database tool for Data Scientists.<br/>
+                Instant charts.<br/>
+                Share results.</p>
+            <ul class="actions special">
+                <li> {% if request.resolver_match.kwargs.ref_code != None %}
+                    <a class="button primary" href="{% url 'register' request.resolver_match.kwargs.ref_code %}"
+                       style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
+                {% else %}
+                    <a class="button primary" href="{% url 'register' %}"
+                       style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
+                {% endif %}
+                </li>
+            </ul>
+        </div>
+        <a href="#two" class="more scrolly">Learn More</a>
+    </section>
+
+
+    <!-- Two -->
+    <section id="two" class="wrapper alt style2">
+        <section class="spotlight">
+            <div class="image"><img src="{% static 'queries/images/screen-record-2.gif' %}" alt=""/></div>
+            <div class="content">
+                <h2>Turn queries into sharable tools.<br/>
+                    (even your CEO can use)</h2>
+                <p>Your queries become useful, shareable tools. Easily add parameters to queries and make them powerful,
+                    shareable tools even your boss can use.</p>
+            </div>
+        </section>
+        <section class="spotlight">
+            <div class="image">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/ReTtuoL2d2A"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="content">
+                <h2>Instant stacked charts.<br/>
+                    No pivots required.</h2>
+                <p>Automatically creating charts allows you to quickly visualize and understand your data. This can be
+                    particularly useful if you are working with large or complex datasets, as it can help you to
+                    identify trends and patterns that may not be immediately apparent from the raw data.</p>
+            </div>
+        </section>
+        <section class="spotlight">
+            <div class="image">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/OPdQxMWNRUE"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="content">
+                <h2>Query Version History Saved.<br/>
+                    Revert at any time.</h2>
+                <p> Being able to save a history of query edits can be very useful, as it allows you to review and
+                    revert to previous versions of your queries if necessary. This can be especially helpful if you make
+                    a mistake while editing a query, or if you need to compare different versions of a query to
+                    understand how it has evolved over time.</p>
+            </div>
+        </section>
+    </section>
+
+    <!-- Three -->
+    <section id="three" class="wrapper style3 special">
+        <div class="inner">
+            <header class="major">
+                <h2>Developed by Data Scientists, for data Scientists</h2>
+                <p>Features you always wanted with a database tool</p>
+            </header>
+            <ul class="features">
+                <li class="icon solid fa-code">
+                    <h3>Saved history of query results</h3>
+                    <p>Some queries take hours or minutes to run. Qwaver saves query results allowing you to easily see
+                        previous output. This can be particularly useful if you are tracking changes in data over time,
+                        or if you are working with data that is updated on a regular basis.</p>
+                </li>
+                <li class="icon solid fa-headphones-alt">
+                    <h3>CSV Importing</h3>
+                    <p>Save time and frustration by using Qwaver to load your CSV files into your database with ease.
+                        Simply upload your CSV file and our tool will handle the rest, automatically creating a new
+                        table and
+                        importing all of the data from the file.
+                        No need to worry about complex database schemas or manual data entry - Qwaver does all the heavy
+                        lifting for
+                        you.</p>
+                </li>
+                <li class="icon fa-heart">
+                    <h3>Instant API</h3>
+                    <p>Qwaver makes it easy to turn your SQL queries into an API with no programming required.
+                        When you save an SQL query you've made, Qwaver automatically creates an API endpoint.
+                        If you added parameters to your query, those become the endpoint variables.</p>
+                </li>
+                <li class="icon fa-flag">
+                    <h3>Searchable queries</h3>
+                    <p>As a data scientist or analyst, you write hundreds of queries.
+                        Qwaver's query search results are ranked by the queries you use most frequently making finding
+                        the queries you need easy.</p>
+                </li>
+                <li class="icon fa-paper-plane">
+                    <h3>Leverage what you know</h3>
+                    <p>You already know how to query your database. Other database insight tools make you learn some
+                        "easy" new markup language or UI. Nothing new to learn with Qwaver</p>
+                </li>
+                <li class="icon solid fa-laptop">
+                    <h3>Access your database from anywhere</h3>
+                    <p>From the airport, at the playground with your kids or dangling in a ski lift — your database,
+                        and all your beautiful, saved queries — are available on your phone.</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- One -->
+    <section id="one" class="wrapper style1 special">
+        <div class="inner">
+            <header class="major">
+                <h2>Free <br> Open Source</h2>
+                <p>Qwaver is free, open source software with source code available under the Apache 2.0 license.<br>
+                    No subscriptions or licensing fees</p>
+            </header>
+            <ul class="icons major">
+                <li><span class="icon fa-gem major style1"><span class="label">Query.</span></span></li>
+                <li><span class="icon fa-heart major style2"><span class="label">Chart.</span></span></li>
+                <li><span class="icon solid fa-code major style3"><span class="label">Delight.</span></span></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta" class="wrapper style4">
+        <div class="inner">
+            <header>
+                <h2>Querying has never been more enjoyable</h2>
+                <p>Treat yourself. </p>
+            </header>
+            <ul class="actions stacked">
+                <li>
+                    {% if request.resolver_match.kwargs.ref_code != None %}
+                        <a class="button primary fit" href="{% url 'register' request.resolver_match.kwargs.ref_code %}"
+                           style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
+                    {% else %}
+                        <a class="button primary fit" href="{% url 'register' %}"
+                           style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
+                    {% endif %}
+                </li>
+                {#                <li><a href="https://github.com/brianrisk/qwaver" class="button fit">Source Code</a></li>#}
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.youtube.com/@qwaver_io" class="icon brands fa-youtube"><span
+                    class="label">YouTube</span></a></li>
+            <li><a href="https://github.com/brianrisk/qwaver" class="icon brands fa-github"><span
+                    class="label">GitHub</span></a></li>
+            <li><a href="mailto:geneffects@gmail.com" class="icon solid fa-envelope"><span
+                    class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; Geneffects</li>
+            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </footer>
+
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'queries/assets/js/jquery.min.js' %}></script>
+			<script src="{% static 'queries/assets/js/jquery.scrollex.min.js' %}></script>
+<script src="{% static 'queries/assets/js/jquery.scrolly.min.js' %}></script>
+			<script src="{% static 'queries/assets/js/browser.min.js' %}></script>
+<script src="{% static 'queries/assets/js/breakpoints.min.js' %}></script>
+			<script src="{% static 'queries/assets/js/util.js' %}></script>
+<script src="{% static 'queries/assets/js/main.js' %}></script>
+
+	</body>
+</html>
