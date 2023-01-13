@@ -3985,6 +3985,7 @@ body.is-mobile.landing #page-wrapper {
 body.is-mobile.landing #banner,
 body.is-mobile.landing .wrapper.style4 {
     background-image:  url("../../images/bkgnd.jpg");
+    background-attachment: fixed;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
