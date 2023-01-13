@@ -1,3 +1,5 @@
+import secrets
+
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
@@ -87,3 +89,7 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+    def reset_api_key(self):
+        self.api_key = secrets.token_urlsafe(16)
+        self.save()
