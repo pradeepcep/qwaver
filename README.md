@@ -186,6 +186,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * Have a result search where are the searches are the input fields for a given query. No search option if there are no input fields.
 * as a person changes parameters, the API url updates
 * limit CSV upload to MB and give warning if more than 1000 lines
+* reset API key
 
 ### Issues:
 * buttons on clone page

@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-from users.models import Organization
+from users.models import Organization, UserOrganization
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -29,12 +29,23 @@ class Database(models.Model):
         (SQLITE, SQLITE)
     )
     organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING, default=1)
-    title = models.CharField(max_length=256, default="", help_text='Can be any name you want such as "Transaction events"')
+    title = models.CharField(max_length=256, default="",
+                             help_text='Can be any name you want such as "Transaction events"')
     host = models.CharField(max_length=256)
     port = models.IntegerField()
     database = models.CharField(max_length=256, default="", help_text="The name of the database on your server")
-    user = models.CharField(max_length=256, help_text="Ideally with read-only permissions")
+    user = models.CharField(max_length=256, help_text="User with all permissions")
     password = models.CharField(max_length=256)
+    read_only_user = models.CharField(max_length=256,
+                                      help_text="OPTIONAL: User with permissions only for SELECT",
+                                      default=None,
+                                      blank=True,
+                                      null=True)
+    read_only_password = models.CharField(max_length=256,
+                                          help_text="OPTIONAL: password for read-only user",
+                                          default=None,
+                                          blank=True,
+                                          null=True)
     platform = models.CharField(
         max_length=64,
         choices=CHOICES, default=MYSQL
@@ -44,21 +55,33 @@ class Database(models.Model):
     def __str__(self):
         return self.title
 
-    def get_engine(self):
-        if self.platform == self.MYSQL:
-            engine = create_engine(f"mysql+pymysql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
-        elif self.platform == self.ORACLE:
-            engine = create_engine(f"oracle://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
-        elif self.platform == self.MICROSOFT_SQL_SERVER:
-            engine = create_engine(f"mssql+pymssql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
-        elif self.platform == self.SQLITE:
-            engine = create_engine(f"sqlite://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
+    def get_engine(self, user):
+        user_org = UserOrganization.objects.get(user=user, organization=self.organization)
+        if user_org is None:
+            return False
+        return user_org.can_alter_db()
+
+    def get_engine(self, can_alter_db):
+        if can_alter_db:
+            user_name = self.user
+            user_pass = self.password
         else:
-            engine = create_engine(f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
+            user_name = self.read_only_user
+            user_pass = self.read_only_password
+        if self.platform == self.MYSQL:
+            engine = create_engine(f"mysql+pymysql://{user_name}:{user_pass}@{self.host}:{self.port}/{self.database}")
+        elif self.platform == self.ORACLE:
+            engine = create_engine(f"oracle://{user_name}:{user_pass}@{self.host}:{self.port}/{self.database}")
+        elif self.platform == self.MICROSOFT_SQL_SERVER:
+            engine = create_engine(f"mssql+pymssql://{user_name}:{user_pass}@{self.host}:{self.port}/{self.database}")
+        elif self.platform == self.SQLITE:
+            engine = create_engine(f"sqlite://{user_name}:{user_pass}@{self.host}:{self.port}/{self.database}")
+        else:
+            engine = create_engine(f"postgresql://{user_name}:{user_pass}@{self.host}:{self.port}/{self.database}")
         return engine
 
     def test_connection(self):
-        engine = self.get_engine()
+        engine = self.get_engine(can_alter_db=True)
         try:
             engine.connect()
             return None
@@ -237,4 +260,3 @@ class LoadFile(models.Model):
                                    help_text='(Optional) A description of the table contents')
     date_created = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
-

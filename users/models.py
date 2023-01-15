@@ -14,8 +14,47 @@ class Organization(models.Model):
 
 
 class UserOrganization(models.Model):
+    ADMIN = 1
+    EDITOR = 2
+    CREATOR = 3
+    RUNNER = 4
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+    perm_admin = models.BooleanField(default=True)
+    perm_database_edit = models.BooleanField(default=True)
+    perm_query_edit = models.BooleanField(default=True)
+    perm_query_create = models.BooleanField(default=True)
+
+    user_type = models.IntegerField(
+        choices=(
+            (ADMIN, 'admin'),      # add / edit databases, send invitations, edit user permissions
+                                   # admin queries are executed with the admin db user
+            (EDITOR, 'editor'),    # edit / delete other's queries, alter DBs
+            (CREATOR, 'creator'),  # create queries, edit / delete their own queries
+            (RUNNER, 'runner'),    # run queries
+
+        ),
+        default=ADMIN,
+        blank=False)
+
+    def is_admin(self):
+        return self.user_type == self.ADMIN
+
+    def is_editor(self):
+        return self.user_type == self.EDITOR
+
+    def is_creator(self):
+        return self.user_type == self.CREATOR
+
+    def can_alter_db(self):
+        return self.is_editor() or self.is_admin()
+
+    def can_create_query(self):
+        return self.is_creator() or self.is_editor() or self.is_admin()
+
+    def can_edit_query(self, query):
+        return (self.is_creator() and query.author == self.user) or self.is_editor() or self.is_admin()
+
 
     def __str__(self):
         return self.user.username + " <> " + self.organization.name

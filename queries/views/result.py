@@ -235,7 +235,7 @@ def get_data(request, query, request_type=None):
     # formatting the text to avoid problems with the % character in queries
     sql = sqlalchemy.text(sql)
     db = query.database
-    engine = db.get_engine()
+    engine = db.get_engine(user=user)
 
     with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as connection:
         try:
