@@ -10,7 +10,7 @@ class Organization(models.Model):
     readonly_fields = ('id',)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.id})"
 
 
 class UserOrganization(models.Model):

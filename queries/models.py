@@ -53,13 +53,13 @@ class Database(models.Model):
     is_valid = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.organization})"
 
-    def get_engine(self, user):
+    def get_engine_with_user(self, user):
         user_org = UserOrganization.objects.get(user=user, organization=self.organization)
         if user_org is None:
             return False
-        return user_org.can_alter_db()
+        return self.get_engine(user_org.can_alter_db())
 
     def get_engine(self, can_alter_db):
         if can_alter_db:
