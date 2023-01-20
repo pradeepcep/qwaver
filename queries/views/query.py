@@ -145,21 +145,25 @@ class QueryDetailView(LoginRequiredMixin, DetailView):
         most_recent_result = Result.objects.filter(query=self.object, user=self.request.user)\
             .order_by('-timestamp').first()
         params = list(Parameter.objects.filter(query=self.object))
-        # pre-populating parameter values
+        # pre-populating parameter values and constructing API URL
+        api_params = f"?api_key={self.request.user.profile.api_key}"
         if most_recent_result is not None:
             values = list(Value.objects.filter(result=most_recent_result))
             for param in params:
                 for x in values:
                     if x.parameter_name == param.name:
                         param.default = x.value
+                        api_params += f"&{param.name}={x.value}"
+        else:
+            for param in params:
+                api_params += f"&{param.name}=[{param.name} value]"
         context['params'] = params
         # historic results
         context['results'] = users_recent_results(query=self.object, user=self.request.user)
         context['comments'] = QueryComment.objects.filter(query=self.object).order_by('-timestamp')
         # constructing API URL
-        api_params = f"?api_key={self.request.user.profile.api_key}"
-        for param in params:
-            api_params += f"&{param.name}=[{param.name} value]"
+
+
         context['api_url'] = f"http://{self.request.get_host()}/api/{self.object.id}/{api_params}"
         # updating query
         query = self.object

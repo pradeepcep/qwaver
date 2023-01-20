@@ -1,6 +1,10 @@
 <article class="media content-section">
     <h3>API</h3>
     <div class="result-label" style="margin-left: 2em">
-        <a href="{{ api_url }}">{{ api_url }}</a>
+        {% if results %}
+            <a href="{{ api_url }}">{{ api_url }}</a>
+        {% else %}
+            {{ api_url }}
+        {% endif %}
     </div>
 </article>

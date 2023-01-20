@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-8">
             {% include "queries/query_template.html" with query=object %}
-            {% include "queries/api_template.html" with api_url=api_url %}
+            {% include "queries/api_template.html" with api_url=api_url results=results%}
 
             {#            {% if query.latest_result != null %}#}
             {#                <hr class="mt-4">#}
