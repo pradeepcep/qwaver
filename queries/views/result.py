@@ -242,11 +242,12 @@ def get_data(request, query, request_type=None):
             df = pandas.read_sql(sql, connection)
             if len(df.index > max_table_rows):
                 df = df.head(max_table_rows)
-        # Error happens if now rows are returned (e.g. a drop or create statement)
+        # Error happens if no rows are returned (e.g. a drop or create statement)
         # original solution used https://stackoverflow.com/a/12060886/2595659 and first
         # made sure there were rows, but the solution did not always create a dataframe
         # with the correct data types (they were being interpreted as object).
-        # Though I do not love this solution as there may be other reasons the connection is closed
+        # Though I do not love this ResourceClosedError solution because
+        # there may be other reasons the connection can be closed
         except ResourceClosedError:
             df = pandas.DataFrame()
         engine.dispose()

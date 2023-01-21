@@ -53,7 +53,7 @@ class Database(models.Model):
     is_valid = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.title} ({self.organization})"
+        return self.title
 
     def get_engine_with_user(self, user):
         user_org = UserOrganization.objects.get(user=user, organization=self.organization)
