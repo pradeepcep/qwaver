@@ -125,14 +125,22 @@ def execute_api(request, query_id):
     user_can_access_query(user, query)
     try:
         data = get_data(request, query, request_type="GET")
-        if not data.df.empty:
-            json = {'title': data.title}
+        json = {'title': data.title}
+        row_count = len(data.df.index)
+        if row_count == 0:
+            if len(data.df.columns.values) == 0:
+                print("no results")
+                json.update({"message": "Success. (no rows returned)"})
+            else:
+                print("no data")
+                json.update({"columns": list(data.df.columns.values)})
+                json.update({"data": []})
+        else:
+            print("data to dict")
             table = data.df.to_dict(orient='split')
             del table['index']
             json.update(table)
-            return JsonResponse(json)
-        else:
-            return JsonResponse([empty_df_message])
+        return JsonResponse(json)
     except Exception as err:
         # log the error
         query_error = QueryError(
