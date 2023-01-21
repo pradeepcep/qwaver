@@ -176,17 +176,18 @@ Helping with this project will make you one of the cooler people that I know. Ho
 * parameters:
     * a country or date selector when param is {country} or {date}
     * For parameters set maximum and minimum and numeric values
-* pre-populate for a new database two queries:
-    * list public tables
-    * list columns given a table name
-    * list running queries
-    * kill query
 * list users in an organization
 * automatically add a limit to every query
-* Have a result search where are the searches are the input fields for a given query. No search option if there are no input fields.
+* Have a result search where are the searches are the input fields for a given query. 
+  No search option if there are no input fields.
 * as a person changes parameters, the API url updates
 * limit CSV upload to MB and give warning if more than 1000 lines
 * reset API key
+* settings and properties:
+  * is_public:  all queries and results are accessible by non-members
+  * query result update frequency -- saved results are returned if a query is performed within the time limit.
+    e.g. a query is performed with the parameter value "cat".  Then, 10 seconds later, someone else also
+    searches with "cat".  If the update frequency is 1 minute, then the results of the first query are returned.
 
 ### Issues:
 * buttons on clone page
