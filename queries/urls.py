@@ -13,6 +13,7 @@ urlpatterns = [
     path('', QueryListView.as_view(), name='queries-home'),
     path('ref/<str:ref_code>', QueryListView.as_view(), name='queries-home'),
     path('user/<str:username>', UserQueryListView.as_view(), name='user-queries'),
+    path('export/', query.query_export, name='query-export'),
 
     # queries
     path('query/new/', QueryCreateView.as_view(), name='query-create'),
@@ -22,6 +23,7 @@ urlpatterns = [
     path('query/<int:pk>/delete/', QueryDeleteView.as_view(), name='query-delete'),
     path('query/<int:pk>/clone/', QueryCloneView.as_view(), name='query-clone'),
     path('api/<int:query_id>/', result.execute_api, name='query-api'),
+
 
     # results
     path('result/<int:pk>/', ResultDetailView.as_view(), name='result-detail'),

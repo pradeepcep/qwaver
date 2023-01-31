@@ -10,3 +10,4 @@ env
 qwaver/settings.ini
 */migrations
 notes.md
+export
