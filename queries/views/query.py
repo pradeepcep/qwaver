@@ -352,7 +352,7 @@ def query_export(request):
                 pattern = "(?P<char>[" + re.escape("_") + "])(?P=char)+"
                 re.sub(pattern, r"\1", query_title)
                 title += query_title
-                title = title[0:32]
+                title = title[0:50]
                 title += ".sql"
                 print(title)
                 with open(f"{export_path}{title}", 'w') as f:
@@ -361,4 +361,3 @@ def query_export(request):
                     f.write("\n")
                     f.write(query.query)
         return redirect(reverse('queries-home'))
-    
