@@ -354,7 +354,6 @@ def query_export(request):
                 title += query_title
                 title = title[0:50]
                 title += ".sql"
-                print(title)
                 with open(f"{export_path}{title}", 'w') as f:
                     f.write(f"-- title:    {query.title}\n")
                     f.write(f"-- version:  {query.get_version_number()}\n")
