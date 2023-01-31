@@ -344,7 +344,7 @@ def query_export(request):
         databases = Database.objects.filter(organization=profile.selected_organization)
         queries = Query.objects.filter(author=user, database_id__in=databases)
         for query in queries:
-            if query.is_valid:
+            if query.latest_result:
                 title = str(query.id).zfill(4)
                 title += "-"
                 query_title = re.sub('[^0-9a-zA-Z]+', '_', query.title.lower())
