@@ -344,23 +344,21 @@ def query_export(request):
         databases = Database.objects.filter(organization=profile.selected_organization)
         queries = Query.objects.filter(author=user, database_id__in=databases)
         for query in queries:
-            title = str(query.id).zfill(4)
-            title += "-"
-            query_title = re.sub('[^0-9a-zA-Z]+', '_', query.title.lower())
-            # removing any repeated underscores
-            pattern = "(?P<char>[" + re.escape("_") + "])(?P=char)+"
-            re.sub(pattern, r"\1", query_title)
-            title += query_title
-            title = title[0:32]
-            title += ".sql"
-            print(title)
-            with open(f"{export_path}{title}", 'w') as f:
-                f.write(f"-- title:    {query.title}\n")
-                f.write(f"-- version:  {query.get_version_number()}\n")
-                f.write("\n")
-                f.write(query.query)
-            # file_data = "some text"
-            # response = HttpResponse(file_data, content_type='application/text charset=utf-8')
-            # response['Content-Disposition'] = 'attachment; filename="foo.txt"'
-            # return response
+            if query.is_valid:
+                title = str(query.id).zfill(4)
+                title += "-"
+                query_title = re.sub('[^0-9a-zA-Z]+', '_', query.title.lower())
+                # removing any repeated underscores
+                pattern = "(?P<char>[" + re.escape("_") + "])(?P=char)+"
+                re.sub(pattern, r"\1", query_title)
+                title += query_title
+                title = title[0:32]
+                title += ".sql"
+                print(title)
+                with open(f"{export_path}{title}", 'w') as f:
+                    f.write(f"-- title:    {query.title}\n")
+                    f.write(f"-- version:  {query.get_version_number()}\n")
+                    f.write("\n")
+                    f.write(query.query)
         return redirect(reverse('queries-home'))
+    
