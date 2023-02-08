@@ -301,7 +301,7 @@ class QueryCloneView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         query = get_object_or_404(Query, id=self.kwargs.get('pk'))
         user_can_access_query(user, query)
         clone = Query.objects.create(
-            title=query.title,
+            title=f"{query.title} COPY",
             database=query.database,
             description=query.description,
             query=query.query,
