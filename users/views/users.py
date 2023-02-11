@@ -13,14 +13,14 @@ from users.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from users.models import UserOrganization, Invitation
 
 
-def register(request, ref_code=None):
+def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             # saving referrer
+            ref_code = request.session.get('ref_code')
             referral = get_referral(ref_code)
-            print(f"referrall: {referral}")
             if referral is not None:
                 user.profile.referral = referral
                 user.profile.save()

@@ -37,10 +37,13 @@ class QueryListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         # tracking referral visits
-        referral = get_referral(self.kwargs.get('ref_code'))
+        # getting if the ref code was previously set or if defined in URL
+        ref_code = self.kwargs.get('ref_code') or request.session.get('ref_code')
+        referral = get_referral(ref_code)
         if referral is not None:
             referral.visit_count += 1
             referral.save()
+            request.session['ref_code'] = ref_code
         # not registered
         if not request.user.is_authenticated:
             return render(request, 'queries/index.html')

@@ -6,9 +6,6 @@ from .views.result import ResultDetailView
 
 urlpatterns = [
 
-    path('test/', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
-    path('test/ref/<str:ref_code>', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
-
     # query lists
     path('', QueryListView.as_view(), name='queries-home'),
     path('ref/<str:ref_code>', QueryListView.as_view(), name='queries-home'),
@@ -48,5 +45,9 @@ urlpatterns = [
 
     # loading data
     path('load/', LoadFileCreateView.as_view(), name='load'),
+
+    # testing the front end
+    path('test/', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
+    path('test/ref/<str:ref_code>', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
 
 ]

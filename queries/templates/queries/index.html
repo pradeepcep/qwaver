@@ -75,13 +75,8 @@
                 Instant charts.<br/>
                 Share results.</p>
             <ul class="actions special">
-                <li> {% if request.resolver_match.kwargs.ref_code != None %}
-                    <a class="button primary" href="{% url 'register' request.resolver_match.kwargs.ref_code %}"
-                       style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
-                {% else %}
                     <a class="button primary" href="{% url 'register' %}"
                        style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
-                {% endif %}
                 </li>
             </ul>
         </div>
@@ -210,13 +205,8 @@
             </header>
             <ul class="actions stacked">
                 <li>
-                    {% if request.resolver_match.kwargs.ref_code != None %}
-                        <a class="button primary fit" href="{% url 'register' request.resolver_match.kwargs.ref_code %}"
-                           style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
-                    {% else %}
                         <a class="button primary fit" href="{% url 'register' %}"
                            style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
-                    {% endif %}
                 </li>
                 {#                <li><a href="https://github.com/brianrisk/qwaver" class="button fit">Source Code</a></li>#}
             </ul>
