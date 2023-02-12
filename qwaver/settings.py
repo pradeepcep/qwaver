@@ -37,6 +37,7 @@ config['config'] = {
     'EMAIL_HOST_USER': 'xxxxxxxxxx',
     'EMAIL_HOST_PASSWORD': 'xxxxxxxxxx',
     'MAX_TABLE_ROWS': '500',
+    'OPENAI_API_KEY': 'xxxxxxxxxx',
 }
 config.read(ini_file)
 

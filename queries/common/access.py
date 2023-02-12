@@ -7,7 +7,10 @@ from users.models import UserOrganization
 
 
 def get_org_databases(self):
-    user = self.request.user
+    return get_user_org_databases(self.request.user)
+
+
+def get_user_org_databases(user):
     org = user.profile.selected_organization
     if org is None:
         raise PermissionDenied("Need a defined organization for profile of user " + user.username)
@@ -17,7 +20,11 @@ def get_org_databases(self):
 
 def get_most_recent_database(self):
     user = self.request.user
-    databases = get_org_databases(self)
+    return get_users_most_recent_database(user)
+
+
+def get_users_most_recent_database(user):
+    databases = get_user_org_databases(user)
     if databases is not None:
         most_recent_query = Query.objects.filter(database__in=databases, author=user) \
             .order_by('-last_run_date', '-date_created').first()

@@ -195,6 +195,7 @@ Helping with this project will make you one of the cooler people that I know. Ho
 
 ### TODO:
 * configure email server, re-enable email verification code in register.py and middleware.py
+* do not allow query creation (ai or otherwise) or show those menu items if a database has not been set up
 
 ### Video ideas:
 * setting up a database with https://elephantsql.com/

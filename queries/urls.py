@@ -1,6 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 from .views import *
+from .views.ai import query_ai_create
 from .views.query_version import QueryVersionListView, QueryVersionRevertView
 from .views.result import ResultDetailView
 
@@ -14,6 +15,7 @@ urlpatterns = [
 
     # queries
     path('query/new/', QueryCreateView.as_view(), name='query-create'),
+    path('query/ai-create/', query_ai_create, name='query-ai-create'),
     path('query/<int:pk>/', QueryDetailView.as_view(), name='query-detail'),
     path('query/<int:pk>/edit/', QueryEditView.as_view(), name='query-update'),
     path('query/<int:query_id>/run/', result.execute, name='query-run'),
