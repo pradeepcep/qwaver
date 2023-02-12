@@ -1,11 +1,11 @@
 import re
 
 import openai
+import sqlparse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils.safestring import mark_safe
 
 from queries.common.access import get_users_most_recent_database
 from queries.common.database import get_column_list
@@ -47,10 +47,13 @@ def query_ai_create(request):
                 stop="```"
             )
             # TODO inspect response for errors and handle
+            query_text = response.choices[0].text
+            # pretty formatting of the returned query
+            pretty_query_text = sqlparse.format(query_text, reindent=True).strip()
             query = Query(
                 title=description,
                 database=database,
-                query=response.choices[0].text,
+                query=pretty_query_text,
                 author=user
             )
             query.save()
