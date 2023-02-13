@@ -51,7 +51,12 @@ def query_ai_create(request):
             if query_text.strip() == '':
                 messages.warning(
                     request, "No query returned for the given description.  Try modifying it and try again.")
-                return redirect('query-ai-create')
+                context = {
+                    'form': QueryAiCreateForm(request.POST),
+                    'title': 'Create Query with AI',
+                    'submit_text': '🤖 Create'
+                }
+                return render(request, "queries/generic_form.html", context)
             # pretty formatting of the returned query
             pretty_query_text = sqlparse.format(query_text, reindent=True).strip()
             query = Query(
