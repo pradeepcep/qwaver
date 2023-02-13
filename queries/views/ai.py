@@ -48,6 +48,10 @@ def query_ai_create(request):
             )
             # TODO inspect response for errors and handle
             query_text = response.choices[0].text
+            if query_text.strip() == '':
+                messages.warning(
+                    request, "No query returned for the given description.  Try modifying it and try again.")
+                redirect('query-ai-create')
             # pretty formatting of the returned query
             pretty_query_text = sqlparse.format(query_text, reindent=True).strip()
             query = Query(
