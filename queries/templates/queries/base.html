@@ -95,27 +95,25 @@
             {% if user.is_authenticated and not is_setup %}
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-item nav-link" href="{% url 'query-create' %}">New Query</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-item nav-link" href="{% url 'query-ai-create' %}">🤖</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Actions
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'database-list' %}">Databases</a>
-                                <a class="dropdown-item" href="{% url 'organization-list' %}">Organizations</a>
-                                <a class="dropdown-item" href="{% url 'invitation-list' %}">Invitations</a>
-                                <a class="dropdown-item" href="{% url 'load' %}">Load CSV</a>
-                                {% if user.is_superuser %}
-                                    <a class="dropdown-item" href="{% url 'referral-list' %}">Referrals</a>
-                                {% endif %}
-                            </div>
-                        </li>
+                        {% if user_level >= 2 %}
+                            <li class="nav-item dropdown mr-4">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{% url 'query-create' %}">New Query</a>
+                                    <a class="dropdown-item" href="{% url 'query-ai-create' %}">🤖 AI Create</a>
+                                    <a class="dropdown-item" href="{% url 'load' %}">Load CSV</a>
+                                    {% if user_level >= 4 %}
+                                        <a class="dropdown-item" href="{% url 'database-list' %}">Databases</a>
+                                        <a class="dropdown-item" href="{% url 'invitation-list' %}">Invitations</a>
+                                        <a class="dropdown-item" href="{% url 'organization-list' %}">Organizations</a>
+                                        <a class="dropdown-item" href="{% url 'referral-list' %}">Referrals</a>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <div class="mr-5">
                                 <form action="{% url 'query-search' %}">

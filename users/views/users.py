@@ -10,7 +10,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from queries.common.access import create_api_key
 from queries.common.common import get_referral
 from users.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from users.models import UserOrganization, Invitation
+from users.models import UserOrganization, Invitation, Organization
 
 
 def register(request):
@@ -28,6 +28,7 @@ def register(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             messages.success(request, f'Your account has been created!')
+            auto_add_user(user, request)
             resolve_invitations(user, request)
             # TODO: configure email server, re-enable code
             # send_verification_email(user, request)
@@ -48,17 +49,47 @@ def resolve_invitations(user, request):
         user.profile.save()
         # add for each invitation
         for invitation in invitations:
-            user_org = UserOrganization.objects.create(user=user, organization=invitation.organization)
+            user_org = UserOrganization.objects.create(
+                user=user,
+                organization=invitation.organization,
+                user_type=UserOrganization.CREATOR
+            )
+
             user_org.save()
             # we don't need the invitation anymore
             invitation.delete()
-            messages.success(request, f'You have been added to the organization {invitation.organization.name}')
+            set_user_org_success_message(request, invitation.organization)
+
+
+def auto_add_user(user, request):
+    auto_add_organizations = Organization.objects.filter(auto_add_user=True)
+
+    if len(auto_add_organizations) > 0:
+        # set one of these as the selected organization on the user profile
+        user.profile.selected_organization = auto_add_organizations.first()
+        user.profile.save()
+        # add for each invitation
+        for organization in auto_add_organizations:
+            user_org = UserOrganization.objects.create(
+                user=user,
+                organization=organization,
+                user_type=UserOrganization.CREATOR
+            )
+            user_org.save()
+            set_user_org_success_message(request, organization)
+
+
+def set_user_org_success_message(request, organization):
+    message = f'You have been added to the organization {organization.name} ' \
+              f'and can create queries for all of its databases.'
+    messages.success(request, message)
 
 
 class EmailVerificationTokenGenerator(PasswordResetTokenGenerator):
 
     def _make_hash_value(self, user, timestamp):
         return str(user.pk) + str(timestamp) + str(user.is_active)
+
 
 email_verification_token = EmailVerificationTokenGenerator()
 

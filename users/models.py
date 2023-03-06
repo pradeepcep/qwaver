@@ -8,24 +8,25 @@ from PIL import Image
 class Organization(models.Model):
     name = models.CharField(max_length=64, help_text="Usually the name of your business or website")
     readonly_fields = ('id',)
+    auto_add_user = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
 
 
 class UserOrganization(models.Model):
-    ADMIN = 1
-    EDITOR = 2
-    CREATOR = 3
-    RUNNER = 4
+    ADMIN = 4
+    EDITOR = 3
+    CREATOR = 2
+    RUNNER = 1
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     perm_admin = models.BooleanField(default=True)
     perm_database_edit = models.BooleanField(default=True)
     perm_query_edit = models.BooleanField(default=True)
     perm_query_create = models.BooleanField(default=True)
 
-    user_type = models.IntegerField(
+    user_level = models.IntegerField(
         choices=(
             (ADMIN, 'admin'),      # add / edit databases, send invitations, edit user permissions
                                    # admin queries are executed with the admin db user
@@ -38,13 +39,13 @@ class UserOrganization(models.Model):
         blank=False)
 
     def is_admin(self):
-        return self.user_type == self.ADMIN
+        return self.user_level == self.ADMIN
 
     def is_editor(self):
-        return self.user_type == self.EDITOR
+        return self.user_level == self.EDITOR
 
     def is_creator(self):
-        return self.user_type == self.CREATOR
+        return self.user_level == self.CREATOR
 
     def can_alter_db(self):
         return self.is_editor() or self.is_admin()
