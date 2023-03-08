@@ -9,7 +9,6 @@ def sanitize_name(string):
     return string
 
 
-# TODO: write unit test
 def is_int(s):
     if len(s) == 0:
         return False
@@ -18,7 +17,6 @@ def is_int(s):
     return s.isdigit()
 
 
-# TODO: write unit test
 def is_float(element: any) -> bool:
     # If you expect None to be passed:
     if element is None:
@@ -30,7 +28,6 @@ def is_float(element: any) -> bool:
         return False
 
 
-# TODO: write unit test
 # checks for format YYYY-MM-DD
 def is_date(date_text):
     try:
