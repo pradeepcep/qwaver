@@ -1,35 +1,15 @@
 {% extends "queries/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <style>
-        .login-box {
-            margin: auto;
-            border-radius: 1em;
-            padding: 1em;
-        }
-
-        @media (min-width: 600px) {
-            .login-box {
-                width: 100%
-            }
-        }
-
-        @media (min-width: 900px) {
-            .login-box {
-                width: 50%
-            }
-        }
-
-    </style>
     <div class="login-box content-section">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Log In</legend>
+{#                <legend class="border-bottom mb-4">Log In</legend>#}
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Login</button>
+                <button class="btn btn-primary" type="submit">Login</button>
                 <small class="text-muted ml-2">
                     <a href="{% url 'password_reset' %}">Forgot Password?</a>
                 </small>
