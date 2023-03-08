@@ -52,7 +52,7 @@ def resolve_invitations(user, request):
             user_org = UserOrganization.objects.create(
                 user=user,
                 organization=invitation.organization,
-                user_type=UserOrganization.CREATOR
+                user_level=UserOrganization.CREATOR
             )
 
             user_org.save()
@@ -73,7 +73,7 @@ def auto_add_user(user, request):
             user_org = UserOrganization.objects.create(
                 user=user,
                 organization=organization,
-                user_type=UserOrganization.CREATOR
+                user_level=UserOrganization.CREATOR
             )
             user_org.save()
             set_user_org_success_message(request, organization)
