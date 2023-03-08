@@ -1,7 +1,27 @@
 {% extends "queries/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
+    <style>
+        .login-box {
+            margin: auto;
+            border-radius: 1em;
+            padding: 1em;
+        }
+
+        @media (min-width: 600px) {
+            .login-box {
+                width: 100%
+            }
+        }
+
+        @media (min-width: 900px) {
+            .login-box {
+                width: 50%
+            }
+        }
+
+    </style>
+    <div class="login-box content-section">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -16,11 +36,20 @@
             </div>
         </form>
         <div class="border-top pt-3">
+            <div class="" style="margin-top: 1em; margin-bottom: 1em">
+                <a class="btn" href="#" role="button" style="text-transform:none; width: 100%; background-color: rebeccapurple; color: white">
+                    <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in"
+                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+                    Login with Google
+                </a>
+            </div>
+        </div>
+
+        <div class="border-top pt-3">
             <small class="text-muted">
                 Need An Account?
                 <a class="btn btn-outline-light" href="{% url 'register' %}"
-           style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Sign Up Now</a>
-{#                <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>#}
+                   style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Sign Up Now</a>
             </small>
         </div>
     </div>
