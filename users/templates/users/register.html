@@ -1,15 +1,35 @@
 {% extends "queries/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
-        <h1>Step 1: Create Your User</h1>
+    <style>
+        .signup-box {
+            margin: auto;
+            border-radius: 1em;
+            padding: 1em;
+        }
+
+        @media (min-width: 600px) {
+            .signup-box {
+                width: 100%
+            }
+        }
+
+        @media (min-width: 900px) {
+            .signup-box {
+                width: 50%
+            }
+        }
+
+    </style>
+    <div class="signup-box content-section">
+        <h1>Sign up</h1>
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Next →</button>
+                <button class="btn btn-outline-info" type="submit">Register</button>
             </div>
         </form>
     </div>
