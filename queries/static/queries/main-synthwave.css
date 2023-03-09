@@ -118,3 +118,17 @@ pre {
 .dark-text {
     color: #365b5d;
 }
+
+/* change in bootstrap dropdown menu */
+.navbar-nav > li > .dropdown-menu {
+    background-color: rgba(0,0,0,0.7);
+}
+
+.navbar-nav > li > .dropdown-menu a {
+    color: #999999;
+}
+
+.navbar-nav > li > .dropdown-menu a:hover {
+    background-color: #99ccFF;
+    color: black;
+}
