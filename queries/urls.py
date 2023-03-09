@@ -2,6 +2,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 from .views import *
 from .views.ai import query_ai_create
+from .views.menus import query_ordering, select_organization
 from .views.query_version import QueryVersionListView, QueryVersionRevertView
 from .views.result import ResultDetailView
 
@@ -51,5 +52,9 @@ urlpatterns = [
     # testing the front end
     path('test/', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
     path('test/ref/<str:ref_code>', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
+
+    # menus
+    path('order-by/<int:ordering>/', query_ordering, name='query-ordering'),
+    path('select-org/<int:pk>/', select_organization, name='select-organization'),
 
 ]

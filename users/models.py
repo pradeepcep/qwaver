@@ -116,6 +116,10 @@ class Profile(models.Model):
     )
     api_key = models.CharField(max_length=32, null=True, default=None)
     email_verified = models.BooleanField(default=False)
+    query_ordering = models.IntegerField(
+        default=4,  # 4 = query_ordering_recently_run
+        null=True
+    )
 
     def __str__(self):
         return f'{self.user.username} Profile'

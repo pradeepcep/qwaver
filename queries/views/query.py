@@ -22,6 +22,7 @@ from queries.common.common import get_referral
 from queries.common.components import users_recent_results
 from queries.models import Query, Parameter, Database, UserSearch, QueryComment, Result, Value, QueryVersion
 from queries.views import get_org_databases, user_can_access_query
+from queries.views.menus import query_ordering_most_run, query_ordering_recently_added, query_ordering_recently_viewed
 
 pagination_count = 12
 
@@ -58,12 +59,11 @@ class QueryListView(ListView):
             return render(request, 'queries/start.html')
         return super().dispatch(request, *args, **kwargs)
 
-
     def get_queryset(self):
         # https://stackoverflow.com/questions/9410647/how-to-filter-model-results-for-multiple-values-for-a-many-to-many-field-in-djan
         # queries = Query.objects.filter(database_id__in=get_org_databases(self)).order_by('-run_count', '-date_created')
-        queries = Query.objects.filter(database_id__in=get_org_databases(self))\
-            .order_by('-last_viewed', '-last_run_date', '-date_created')
+        queries = Query.objects.filter(database_id__in=get_org_databases(self))
+        queries = order_queries(queries, self.request.user)
         return queries
 
     def get_context_data(self, **kwargs):
@@ -112,7 +112,8 @@ class QuerySearchView(LoginRequiredMixin, ListView):
             q = Q(database_id__in=databases)
             for word in words:
                 q &= Q(title__contains=word) | Q(description__contains=word) | Q(query__contains=word)
-            queries = Query.objects.filter(q).order_by('-last_run_date', '-date_created')
+            queries = Query.objects.filter(q)
+            queries = order_queries(queries, self.request.user)
             return queries
         else:
             return Query.objects.filter(database_id__in=databases).order_by('-run_count', '-date_created')
@@ -363,3 +364,17 @@ def query_export(request):
                     f.write("\n")
                     f.write(query.query)
         return redirect(reverse('queries-home'))
+
+
+def order_queries(queries, user):
+    ordering = user.profile.query_ordering
+    if ordering == query_ordering_most_run[0]:
+        queries = queries.order_by('-run_count', '-last_run_date')
+    elif ordering == query_ordering_recently_added[0]:
+        queries = queries.order_by('-date_created')
+    elif ordering == query_ordering_recently_viewed[0]:
+        queries = queries.order_by('-last_viewed', )
+    else:
+        # default: query_ordering_recently_run
+        queries = queries.order_by('-last_run_date')
+    return queries

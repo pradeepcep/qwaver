@@ -96,7 +96,9 @@
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <ul class="navbar-nav mr-auto">
                         {% if user_level >= 2 %}
-                            <li class="nav-item dropdown mr-4">
+
+                            <!-- Actions -->
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Actions
@@ -113,6 +115,45 @@
                                     {% endif %}
                                 </div>
                             </li>
+
+                            <!-- Orgs -->
+                            <li class="nav-item dropdown mr-4">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Orgs
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    {% for user_org in user_orgs %}
+                                        <a class="dropdown-item" href="{% url 'select-organization' user_org.organization.pk %}">
+                                        {% if user_org.organization == user.profile.selected_organization %}
+                                                <i class="bi bi-check"></i>
+                                            {% endif %}
+                                            {{ user_org.organization.name }}
+                                        </a>
+                                    {% endfor %}
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'organization-create' %}">New Organization</a>
+                                </div>
+                            </li>
+
+                            <!-- Query Orderings -->
+                            <li class="nav-item dropdown mr-4">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Ordering
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    {% for ordering in query_orderings %}
+                                        <a class="dropdown-item" href="{% url 'query-ordering' ordering.0 %}">
+                                            {% if ordering.0 == user.profile.query_ordering %}
+                                                <i class="bi bi-check"></i>
+                                            {% endif %}
+                                            {{ ordering.1 }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+
                         {% endif %}
                         <li class="nav-item">
                             <div class="mr-5">
