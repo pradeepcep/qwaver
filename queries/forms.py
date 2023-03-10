@@ -11,9 +11,9 @@ class UploadFileForm(forms.Form):
 class QueryAiCreateForm(Form):
     tables = forms.CharField(
         max_length=128,
-        help_text='A comma- or space-delimited list of tables that are needed'
+        help_text='A comma- or space-delimited list of tables that hold the required data'
     )
     description = forms.CharField(
         max_length=128,
-        help_text='Answers the question, what should the query find?'
+        help_text='Answers the question, what should the query find?  E.g. "Revenue by country for the past 30 days"'
     )
