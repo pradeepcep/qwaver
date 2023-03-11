@@ -23,7 +23,7 @@ def query_ai_create(request):
             description = form.cleaned_data['description']
             user = request.user
             database = get_users_most_recent_database(user)
-            prompt = f"{database.platform} tables (and columns):"
+            prompt = f"{database.platform} tables (column names):"
             for table in tables:
                 columns = get_column_list(
                     database=database,
@@ -36,8 +36,8 @@ def query_ai_create(request):
                     table_def = f"{table}({', '.join(columns)})"
                     prompt += f"\n* {table_def}"
             prompt += "\n"
-            prompt += f"A well-written SQL query that finds: {description}:"
-            prompt += f"```"
+            prompt += f"Write a well-written SQL query with logical ordering that finds: {description}"
+            prompt += f"\n```"
             openai.api_key = config.get('config', 'OPENAI_API_KEY')
             response = openai.Completion.create(
                 model="code-davinci-002",

@@ -45,7 +45,10 @@ def create_table(data, table_name, database, user, request, file_name):
     columns_raw = data[0]
     # sanitize column names
     column_names = []
-    for column in columns_raw:
+    for i, column in enumerate(columns_raw):
+        # handling if column name is blank
+        if len(column) == 0 or column.isspace():
+            column = f'column_{i + 1}'
         column_names.append(sanitize_name(column))
     # basing our data types on the values in the first row
     first_row = data[1]
@@ -70,9 +73,6 @@ def create_table(data, table_name, database, user, request, file_name):
     # Generate SQL Table command
     sql_table_command = f'DROP TABLE IF EXISTS {table_name};\nCREATE TABLE IF NOT EXISTS {table_name} (\n'
     for i, column_name in enumerate(column_names):
-        # handling if column name is blank
-        if column_name.isspace():
-            column_name = f'column_{i}'
         sql_table_command += f'  {column_name} {data_types[i]}, \n'
     # removing the trailing ', \n', adding closing chars
     sql_table_command = sql_table_command[:-3] + '\n);'
@@ -83,7 +83,7 @@ def create_table(data, table_name, database, user, request, file_name):
         query=sql_table_command,
         author=user
     )
-    get_result(request, create_table_query)
+    get_result(request, create_table_query, save_result=False)
 
     # Generate SQL Insert command
     sql_insert_command = f"INSERT INTO {table_name} ("
@@ -106,7 +106,7 @@ def create_table(data, table_name, database, user, request, file_name):
         query=sql_insert_command,
         author=user
     )
-    get_result(request, insert_query)
+    get_result(request, insert_query, save_result=False)
 
     # Generate SQL show table
     sql_show_table = f"SELECT * FROM {table_name} LIMIT 20;"

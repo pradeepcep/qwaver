@@ -161,7 +161,7 @@ class ResultData:
 
 
 # with the result data, creating charts and tables
-def get_result(request, query):
+def get_result(request, query, save_result=True):
     data = get_data(request, query)
     df = data.df
     result_title = data.title
@@ -197,21 +197,22 @@ def get_result(request, query):
         version_number=query.get_version_number(),
         query_text=sql
     )
-    result.save()
-    # update query with latest result
-    query.run_count += 1
-    query.last_run_date = timezone.now()
-    query.last_viewed = timezone.now()
-    query.latest_result = result
-    query.save()
-    # save parameter values
-    for param_name, param_value in param_values.items():
-        value = Value(
-            parameter_name=param_name,
-            value=param_value,
-            result=result
-        )
-        value.save()
+    if save_result:
+        result.save()
+        # update query with latest result
+        query.run_count += 1
+        query.last_run_date = timezone.now()
+        query.last_viewed = timezone.now()
+        query.latest_result = result
+        query.save()
+        # save parameter values
+        for param_name, param_value in param_values.items():
+            value = Value(
+                parameter_name=param_name,
+                value=param_value,
+                result=result
+            )
+            value.save()
     return result
 
 
