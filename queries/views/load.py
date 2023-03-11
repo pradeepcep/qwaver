@@ -80,7 +80,6 @@ def create_table(data, table_name, database, user, request, file_name):
         query=sql_table_command,
         author=user
     )
-    create_table_query.save()
     get_result(request, create_table_query)
 
     # Generate SQL Insert command
@@ -104,7 +103,6 @@ def create_table(data, table_name, database, user, request, file_name):
         query=sql_insert_command,
         author=user
     )
-    insert_query.save()
     get_result(request, insert_query)
 
     # Generate SQL show table
