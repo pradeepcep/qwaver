@@ -94,7 +94,7 @@ class QuerySearchView(LoginRequiredMixin, ListView):
         if s == 'dml':
             return render(self.request, 'queries/easter.html', {})
         if s == 'synthblast':
-            return redirect("http://synthblast.com")
+            return redirect("https://synthblast.com")
         return super(QuerySearchView, self).get(*args, **kwargs)
 
     def get_queryset(self):

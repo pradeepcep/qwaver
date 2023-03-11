@@ -70,6 +70,9 @@ def create_table(data, table_name, database, user, request, file_name):
     # Generate SQL Table command
     sql_table_command = f'DROP TABLE IF EXISTS {table_name};\nCREATE TABLE IF NOT EXISTS {table_name} (\n'
     for i, column_name in enumerate(column_names):
+        # handling if column name is blank
+        if column_name.isspace():
+            column_name = f'column_{i}'
         sql_table_command += f'  {column_name} {data_types[i]}, \n'
     # removing the trailing ', \n', adding closing chars
     sql_table_command = sql_table_command[:-3] + '\n);'
