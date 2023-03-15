@@ -4,11 +4,11 @@ Add something below!
 ## Documentation
 - Need to document instant pivot charts feature
 
-## Issues:
+## Issues
 - buttons on clone page
 - have form checks for load csv table name
 
-## TODO:
+## TODO
 - configure email server, re-enable email verification code in register.py and middleware.py
 - do not allow query creation (AI or otherwise) or show those menu items if a database has not been set up
 
@@ -21,7 +21,7 @@ If you see any ways that the app could be improved in these ways, let's work on 
 - unit tests
 - support for more databases
 
-## Efficiency:
+## Efficiency
 
 - In `query_version.py`, make spans cover contiguous changed characters, not individual characters
 
@@ -77,6 +77,8 @@ If you see any ways that the app could be improved in these ways, let's work on 
     - list tables, list columns, list running queries, kill query
 - Read-only mode to disable CRUD functionality
 - Manage DB connection (instead of removing current one or setting up a new one)
+- De-deuplicate DB Connections: Don't allow for two DB connections (for each user) with the same name
+    - Currently, you're able to hit the submit button as many times as you want and create multiple of the same connection, but that shouldn't be possible
 
 ## Small Things
 - returned row count added to result model; show this in results sidebar on query page
