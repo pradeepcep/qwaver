@@ -82,10 +82,8 @@ If you see any ways that the app could be improved in these ways, let's work on 
 
 ## Small Things
 - returned row count added to result model; show this in results sidebar on query page
-- https (helping set that on the DigitalOcean server)
 - after the user signs up, the next screen is they accept a Terms of Service (apache 2.0)
 - For the database configuration, have both users be optional, but if there is not a loser who can alter tables, then certain functionality like load CSV will be off
-- drop-down menu to select organization if there is more than one org for the user
 - pretty API urls: qwaver.io/api/org-slug/query-name-slug (unique field, similar to in Referral)
 - disable queries; don't delete them
 - scatter plot charting
