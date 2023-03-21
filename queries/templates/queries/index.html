@@ -33,34 +33,6 @@
 
     <!-- Header -->
     <header id="header" class="alt">
-        {#        <h1><a href="index.html">QWAVER</a></h1>#}
-        {#        <nav id="nav">#}
-        {#            <ul>#}
-        {#                <li class="special">#}
-        {#                    <a href="#menu" class="menuToggle"><span>Menu</span></a>#}
-        {#                    <div id="menu">#}
-        {#                        <ul>#}
-        {#                            <li><a href="index.html">Home</a></li>#}
-        {#                            <li><a href="generic.html">Generic</a></li>#}
-        {#                            <li><a href="elements.html">Elements</a></li>#}
-        {#                            <li><a href="#">Sign Up</a></li>#}
-        {#                            <li><a href="#">Log In</a></li>#}
-        {#                        </ul>#}
-        {#                    </div>#}
-        {#                </li>#}
-        {#            </ul>#}
-        </nav>
-        {#        <div style="text-align: right">#}
-        {#            <a class="button" href="{% url 'login' %}"#}
-        {#               style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em; font-size: 0.8em">Login</a>#}
-        {#            {% if request.resolver_match.kwargs.ref_code != None %}#}
-        {#                <a class="button primary" href="{% url 'register' request.resolver_match.kwargs.ref_code %}"#}
-        {#                   style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Register</a>#}
-        {#            {% else %}#}
-        {#                <a class="button primary" href="{% url 'register' %}"#}
-        {#                   style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Register</a>#}
-        {#            {% endif %}#}
-        {#        </div>#}
         <div style="text-align: right">
             <a class="button" href="{% url 'login' %}"
                style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Login</a>
@@ -72,11 +44,11 @@
         <div class="inner">
             <img src="{% static 'queries/images/qwaver-logo.png' %}" style="" width="70%">
             <p>Online database tool for Data Scientists.<br/>
-                Instant charts.<br/>
+                AI generated SQL.  Instant charts.<br/>
                 Share results.</p>
             <ul class="actions special">
-                    <a class="button primary" href="{% url 'register' %}"
-                       style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
+                <a class="button primary" href="{% url 'register' %}"
+                   style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
                 </li>
             </ul>
         </div>
@@ -99,6 +71,23 @@
         </section>
         <section class="spotlight">
             <div class="content">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/EssaBtxyzxU"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="content">
+                <h2>AI SQL generation<br/>
+                    Using your table structure</h2>
+                <p>Our tool works by automatically querying your database and relaying table column names to the OpenAI
+                    API,
+                    which then generates SQL based on your natural language query.
+                    This means that you don't have to worry about the syntax or structure of your queries
+                    - our product takes care of all that for you.</p>
+            </div>
+        </section>
+        <section class="spotlight">
+            <div class="content">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/ReTtuoL2d2A"
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -112,22 +101,22 @@
                     identify trends and patterns that may not be immediately apparent from the raw data.</p>
             </div>
         </section>
-        <section class="spotlight">
-            <div class="content">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/OPdQxMWNRUE"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
-            </div>
-            <div class="content">
-                <h2>Query Version History Saved.<br/>
-                    Revert at any time.</h2>
-                <p> Being able to save a history of query edits can be very useful, as it allows you to review and
-                    revert to previous versions of your queries if necessary. This can be especially helpful if you make
-                    a mistake while editing a query, or if you need to compare different versions of a query to
-                    understand how it has evolved over time.</p>
-            </div>
-        </section>
+        {#        <section class="spotlight">#}
+        {#            <div class="content">#}
+        {#                <iframe width="560" height="315" src="https://www.youtube.com/embed/OPdQxMWNRUE"#}
+        {#                        title="YouTube video player" frameborder="0"#}
+        {#                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"#}
+        {#                        allowfullscreen></iframe>#}
+        {#            </div>#}
+        {#            <div class="content">#}
+        {#                <h2>Query Version History Saved.<br/>#}
+        {#                    Revert at any time.</h2>#}
+        {#                <p> Being able to save a history of query edits can be very useful, as it allows you to review and#}
+        {#                    revert to previous versions of your queries if necessary. This can be especially helpful if you make#}
+        {#                    a mistake while editing a query, or if you need to compare different versions of a query to#}
+        {#                    understand how it has evolved over time.</p>#}
+        {#            </div>#}
+        {#        </section>#}
     </section>
 
     <!-- Three -->
@@ -185,8 +174,7 @@
         <div class="inner">
             <header class="major">
                 <h2>Free <br> Open Source</h2>
-                <p>Qwaver is free, open source software with source code available under the Apache 2.0 license.<br>
-                    No subscriptions or licensing fees</p>
+                <p>Qwaver is free, open source software with source code available under the Apache 2.0 license.</p>
             </header>
             <ul class="icons major">
                 <li><span class="icon fa-gem major style1"><span class="label">Query.</span></span></li>
@@ -205,8 +193,8 @@
             </header>
             <ul class="actions stacked">
                 <li>
-                        <a class="button primary fit" href="{% url 'register' %}"
-                           style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
+                    <a class="button primary fit" href="{% url 'register' %}"
+                       style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Activate</a>
                 </li>
                 {#                <li><a href="https://github.com/brianrisk/qwaver" class="button fit">Source Code</a></li>#}
             </ul>
