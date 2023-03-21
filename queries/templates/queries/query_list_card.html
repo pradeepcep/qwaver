@@ -43,10 +43,19 @@
                 -->
             </div>
             <div class="button-box">
-                <a class="btn btn-outline-primary btn-sm" href="{% url 'query-detail' query.id %}" role="button"
-                   title="Use query">
-                    <i class="bi bi-search"></i>
-                </a>
+
+                {% if query.get_params|length > 0 %}
+                    <a class="btn btn-outline-primary btn-sm" href="{% url 'query-detail' query.id %}" role="button"
+                       title="Use query">
+                        <i class="bi bi-search"></i>
+                    </a>
+                {% else %}
+                    <form method="POST" action="{% url 'query-run' query.id %}" id="query-form" style="display: inline-block;">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-primary btn-sm" type="submit">Run</button>
+                    </form>
+                {% endif %}
+
                 <a class="btn btn-outline-secondary btn-sm" href="{% url 'query-update' query.id %}" role="button"
                    title="Edit query">
                     <i class="bi bi-pencil"></i>
