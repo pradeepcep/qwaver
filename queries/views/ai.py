@@ -39,15 +39,18 @@ def query_ai_create(request):
             prompt += f"Write a well-written SQL query with logical ordering that finds: {description}"
             prompt += f"\n```"
             openai.api_key = config.get('config', 'OPENAI_API_KEY')
-            response = openai.Completion.create(
-                model="code-davinci-002",
-                prompt=prompt,
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
                 temperature=0,
                 max_tokens=256,
-                stop="```"
+                stop="```",
+                messages=[
+                    {"role": "system", "content": "you create SQL queries without any explanation"},
+                    {"role": "user", "content": prompt},
+                ]
             )
             # TODO inspect response for errors and handle
-            query_text = response.choices[0].text
+            query_text = response.choices[0].message.content
             if query_text.strip() == '':
                 messages.warning(
                     request, "No query returned for the given description.  Try modifying it and try again.")
