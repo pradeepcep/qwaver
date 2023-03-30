@@ -47,7 +47,7 @@ class QueryListView(ListView):
             request.session['ref_code'] = ref_code
         # not registered
         if not request.user.is_authenticated:
-            return render(request, 'queries/index.html')
+            return render(request, 'queries/static/index.html')
         # no org
         elif request.user.profile.selected_organization is None:
             return redirect('organization-create')

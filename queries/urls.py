@@ -14,6 +14,10 @@ urlpatterns = [
     path('user/<str:username>', UserQueryListView.as_view(), name='user-queries'),
     path('export/', query.query_export, name='query-export'),
 
+    # static pages:
+    path('privacy/', TemplateView.as_view(template_name='queries/static/privacy.html'), name='privacy'),
+    path('tos/', TemplateView.as_view(template_name='queries/static/tos.html'), name='tos'),
+
     # queries
     path('query/new/', QueryCreateView.as_view(), name='query-create'),
     path('query/ai-create/', query_ai_create, name='query-ai-create'),
@@ -23,7 +27,6 @@ urlpatterns = [
     path('query/<int:pk>/delete/', QueryDeleteView.as_view(), name='query-delete'),
     path('query/<int:pk>/clone/', QueryCloneView.as_view(), name='query-clone'),
     path('api/<int:query_id>/', result.execute_api, name='query-api'),
-
 
     # results
     path('result/<int:pk>/', ResultDetailView.as_view(), name='result-detail'),
@@ -50,8 +53,8 @@ urlpatterns = [
     path('load/', LoadFileCreateView.as_view(), name='load'),
 
     # testing the front end
-    path('test/', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
-    path('test/ref/<str:ref_code>', TemplateView.as_view(template_name='queries/index.html'), name='test-home'),
+    path('test/', TemplateView.as_view(template_name='queries/static/index.html'), name='test-home'),
+    path('test/ref/<str:ref_code>', TemplateView.as_view(template_name='queries/static/index.html'), name='test-home'),
 
     # menus
     path('order-by/<int:ordering>/', query_ordering, name='query-ordering'),

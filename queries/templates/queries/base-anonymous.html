@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <!-- Global site tag (gtag.js) - Google Ads: 958028418 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-958028418"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'AW-958028418');
+    </script>
+    <title>Qwaver: Online Database Client</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta property="og:title" content="Qwaver: Online Database Client"/>
+    <meta property="og:description" content="Turn queries into easy-to-use tools even your CEO can use."/>
+    <meta property="og:image" content="http://qwaver.io/static/queries/images/qwaver-open-graph.jpg"/>
+    <link rel="stylesheet" href="{% static 'queries/assets/css/main.css' %}"/>
+    <noscript>
+        <link rel="stylesheet" href="{% static 'queries/assets/css/noscript.css' %}"/>
+    </noscript>
+</head>
+<body class="landing">
+
+<!-- Page Wrapper -->
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <header id="header" class="alt">
+        <div style="text-align: right">
+            <a class="button" href="{% url 'login' %}"
+               style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;">Login</a>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.youtube.com/@qwaver_io" class="icon brands fa-youtube"><span
+                    class="label">YouTube</span></a></li>
+            <li><a href="https://github.com/brianrisk/qwaver" class="icon brands fa-github"><span
+                    class="label">GitHub</span></a></li>
+            <li><a href="mailto:geneffects@gmail.com" class="icon solid fa-envelope"><span
+                    class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; Geneffects</li>
+            <li><a href="{% url 'tos' %}">Terms of Service</a></li>
+            <li><a href="{% url 'privacy' %}">Privacy</a></li>
+            <li>Some design by: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </footer>
+
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'queries/assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'queries/assets/js/jquery.scrollex.min.js' %}"></script>
+<script src="{% static 'queries/assets/js/jquery.scrolly.min.js' %}"></script>
+<script src="{% static 'queries/assets/js/browser.min.js' %}"></script>
+<script src="{% static 'queries/assets/js/breakpoints.min.js' %}"></script>
+<script src="{% static 'queries/assets/js/util.js' %}"></script>
+<script src="{% static 'queries/assets/js/main.js' %}"></script>
+
+</body>
+</html>
