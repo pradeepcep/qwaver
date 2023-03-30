@@ -38,6 +38,13 @@ config['config'] = {
     'EMAIL_HOST_PASSWORD': 'xxxxxxxxxx',
     'MAX_TABLE_ROWS': '500',
     'OPENAI_API_KEY': 'xxxxxxxxxx',
+    'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY': 'xxxxxxxxxx',
+    'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET': 'xxxxxxxxxx',
+    'SOCIAL_AUTH_GITHUB_KEY': 'xxxxxxxxxx',
+    'SOCIAL_AUTH_GITHUB_SECRET': 'xxxxxxxxxx',
+    'SOCIAL_AUTH_STACKOVERFLOW_KEY': 'xxxxxxxxxx',
+    'SOCIAL_AUTH_STACKOVERFLOW_SECRET': 'xxxxxxxxxx',
+    'SOCIAL_AUTH_STACKOVERFLOW_API_KEY': 'xxxxxxxxxx',
 }
 config.read(ini_file)
 
@@ -68,6 +75,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +89,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'qwaver.middleware.EmailVerificationMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'qwaver.urls'
@@ -97,6 +106,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -134,6 +145,16 @@ else:
 # https://adamj.eu/tech/2020/02/04/how-to-use-pymysql-with-django/
 pymysql.version_info = (1, 4, 2, "final", 0)
 pymysql.install_as_MySQLdb()
+
+# Authentication backends
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.stackoverflow.StackoverflowOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -211,3 +232,24 @@ MAX_TABLE_ROWS = int(config.get('config', 'MAX_TABLE_ROWS'))
 #         },
 #     },
 # }
+
+
+# Social Auth
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/login'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config.get('config', 'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config.get('config', 'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'openid',
+]
+
+SOCIAL_AUTH_GITHUB_KEY = config.get('config', 'SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = config.get('config', 'SOCIAL_AUTH_GITHUB_SECRET')
+
+SOCIAL_AUTH_STACKOVERFLOW_KEY = config.get('config', 'SOCIAL_AUTH_STACKOVERFLOW_KEY')
+SOCIAL_AUTH_STACKOVERFLOW_SECRET = config.get('config', 'SOCIAL_AUTH_STACKOVERFLOW_SECRET')
+SOCIAL_AUTH_STACKOVERFLOW_API_KEY = config.get('config', 'SOCIAL_AUTH_STACKOVERFLOW_API_KEY')

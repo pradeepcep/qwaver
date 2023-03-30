@@ -24,6 +24,7 @@ from django.conf.urls import handler400, handler403, handler404, handler500
 handler500 = 'queries.views.handler500'
 
 urlpatterns = [
+    path('', include('social_django.urls', namespace='social')),
     path('', include('queries.urls')),
     path('', include('users.urls')),
     path('', include('parenting.urls')),
