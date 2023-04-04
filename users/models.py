@@ -111,13 +111,14 @@ class Profile(models.Model):
         default=None)
     display_mode = models.IntegerField(choices=((1, 'light'), (2, 'dark'), (3, 'synthwave')), default=3, blank=True)
     referral = models.ForeignKey(Referral, null=True, default=None, on_delete=models.DO_NOTHING)
-    # latest_tos_agreed_to = models.IntegerField(default=None)
+    latest_tos_agreed_to = models.IntegerField(default=None, null=True, blank=True)
     api_key = models.CharField(max_length=32, null=True, default=None)
     email_verified = models.BooleanField(default=False)
     query_ordering = models.IntegerField(
         default=4,  # 4 = query_ordering_recently_run
         null=True
     )
+
 
     class TermsOfService(models.Model):
         title = models.CharField(max_length=256, default="", help_text="Add a title to this version of the Terms of Service")
