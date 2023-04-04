@@ -111,10 +111,7 @@ class Profile(models.Model):
         default=None)
     display_mode = models.IntegerField(choices=((1, 'light'), (2, 'dark'), (3, 'synthwave')), default=3, blank=True)
     referral = models.ForeignKey(Referral, null=True, default=None, on_delete=models.DO_NOTHING)
-    accept_terms_of_service = models.BooleanField(
-        default=False,
-        help_text="This software is released under the <a href='https://www.apache.org/licenses/LICENSE-2.0'>Apache 2.0 license</a>.  By checking this, you agree to those terms."
-    )
+    # latest_tos_agreed_to = models.IntegerField(default=None)
     api_key = models.CharField(max_length=32, null=True, default=None)
     email_verified = models.BooleanField(default=False)
     query_ordering = models.IntegerField(
