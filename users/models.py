@@ -1,7 +1,8 @@
 import secrets
 
-from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from django.db import models
 from PIL import Image
 
 
@@ -120,6 +121,11 @@ class Profile(models.Model):
         default=4,  # 4 = query_ordering_recently_run
         null=True
     )
+
+    class TermsOfService(models.Model):
+        title = models.CharField(max_length=256, default="", help_text="Add a title to this version of the Terms of Service")
+        text = models.TextField(default=None)
+        datetime = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f'{self.user.username} Profile'
