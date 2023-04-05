@@ -26,6 +26,7 @@ handler500 = 'queries.views.handler500'
 urlpatterns = [
     path('', include('queries.urls')),
     path('', include('users.urls')),
+    path('', include('parenting.urls')),
 ]
 # appears to be required on production as well as local
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -60,6 +60,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'queries.apps.QueriesConfig',
     'users.apps.UsersConfig',
+    'parenting.apps.ParentingConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -133,7 +134,6 @@ else:
 # https://adamj.eu/tech/2020/02/04/how-to-use-pymysql-with-django/
 pymysql.version_info = (1, 4, 2, "final", 0)
 pymysql.install_as_MySQLdb()
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

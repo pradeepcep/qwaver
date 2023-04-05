@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+    <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+
+
+    <title>Parenting</title>
+
+</head>
+<body>
+<style>
+
+    table {
+        max-width: 35em;
+        width: 100%;
+        margin: 0 auto; /* Center the table */
+    }
+
+    @media only screen and (max-width: 480px) {
+        /* For screens smaller than 480px (phones) */
+        table {
+            max-width: none;
+        }
+    }
+
+
+    th {
+        height: 1em;
+    }
+
+    td {
+        height: 5em;
+    }
+
+    th, td {
+        max-width: 5em;
+        width: 14.2%;
+        border: 1px solid #ccc; /* Add a border around each cell */
+        {#padding: 10px; /* Add some padding inside each cell */#}
+        text-align: center; /* Center the text horizontally */
+        vertical-align: middle; /* Center the text vertically */
+        font-weight: bold; /* Make the text bold to emphasize the day number */
+        font-size: 16px; /* Set a font size appropriate for the calendar */
+    }
+
+    th {
+        background-color: lightsteelblue !important;
+        border: 1px solid #fff !important; /* Add a border around each cell */
+    }
+
+    .has-kids {
+        background-color: lightpink !important;
+        border: 1px solid #fff !important; /* Add a border around each cell */
+    }
+</style>
+
+<table class="table">
+
+    {% for i in schedule %}
+        {% if forloop.first or i.date.day == 1 %}
+            <tr>
+                <td colspan="7">{{ i.month }} {{ i.date.year }}</td>
+            </tr>
+            <tr>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+            </tr>
+            <tr>
+            {#                blank days for beginning of calendar #}
+            {% for j in i.pad_days %}
+                <td></td>
+            {% endfor %}
+        {% endif %}
+
+
+
+    <td class="{% if i.has_kids %}has-kids{% endif %}">
+        {{ i.date.day }}<br>
+        {{ i.holiday }}
+    </td>
+    {% if i.date.weekday == 6 %}
+        </tr>
+        <tr>
+    {% endif %}
+        {#        {% if forloop.last %}#}
+        {#            {% for j in range(i.weekday() + 1, 7) %}#}
+        {#                <td></td>#}
+        {#            {% endfor %}#}
+        {#            </tr>#}
+        {#        {% endif %}#}
+    {% endfor %}
+</table>
+
+
+</body>
+</html>
