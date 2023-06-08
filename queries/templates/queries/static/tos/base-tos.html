@@ -1,0 +1,29 @@
+{% extends "queries/base-anonymous.html" %}
+{% load static %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+        <div style="padding: 1.3rem; background-color: #000; color: #fff;">
+            <div style="max-width: 80%;">{{ message }}</div>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block toscontent %}{% endblock toscontent %}
+
+    {% if request.user.is_authenticated %}
+    <div style="text-align: center; margin: 2rem 1rem;">
+        {% if latest_tos and current_tos and current_tos < latest_tos %}
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="accept" value="yes" />
+            <input type="submit" value="I accept the Terms of Service"
+                style="margin-top: 1em; margin-bottom: 1em; margin-right: 1em;" />
+        </form>
+        {% else %}
+        <i>You have already accepted the latest Terms of Service.</i>
+        {% endif %}
+    </div>
+    {% endif %}
+
+{% endblock content %}

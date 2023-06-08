@@ -38,6 +38,7 @@ config['config'] = {
     'EMAIL_HOST_PASSWORD': 'xxxxxxxxxx',
     'MAX_TABLE_ROWS': '500',
     'OPENAI_API_KEY': 'xxxxxxxxxx',
+    'LATEST_TOS_VERSION': '0',
 }
 config.read(ini_file)
 
@@ -80,6 +81,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'qwaver.middleware.EmailVerificationMiddleware',
+    'qwaver.middleware.TermsOfServiceCheckMiddleware',
 ]
 
 ROOT_URLCONF = 'qwaver.urls'
@@ -211,3 +213,5 @@ MAX_TABLE_ROWS = int(config.get('config', 'MAX_TABLE_ROWS'))
 #         },
 #     },
 # }
+
+LATEST_TOS_VERSION = int(config.get('config', 'LATEST_TOS_VERSION'))

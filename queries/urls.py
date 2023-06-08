@@ -5,6 +5,7 @@ from .views.ai import query_ai_create
 from .views.menus import query_ordering, select_organization
 from .views.query_version import QueryVersionListView, QueryVersionRevertView
 from .views.result import ResultDetailView
+from .views.public import terms_of_service
 
 urlpatterns = [
 
@@ -16,7 +17,7 @@ urlpatterns = [
 
     # static pages:
     path('privacy/', TemplateView.as_view(template_name='queries/static/privacy.html'), name='privacy'),
-    path('tos/', TemplateView.as_view(template_name='queries/static/tos.html'), name='tos'),
+    path('tos/', terms_of_service, name='tos'),
 
     # queries
     path('query/new/', QueryCreateView.as_view(), name='query-create'),

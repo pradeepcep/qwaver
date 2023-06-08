@@ -1,0 +1,45 @@
+{% extends "queries/static/tos/base-tos.html" %}
+{% load static %}
+{% block toscontent %}
+
+{{ block.super }}
+<!-- Banner -->
+<section style="text-align: center; margin: auto">
+    <div class="inner">
+        <img src="{% static 'queries/images/qwaver-logo.png' %}" style="" width="70%">
+        <p>Terms of Service</p>
+    </div>
+</section>
+
+<div style="margin-left: 3em; margin-right: 3em">
+    <p> Welcome to Qwaver, an online database client developed by Brian Risk and owned by Geneffects. By using
+        Qwaver, you agree to be bound by these terms of service. If you do not agree with these terms, please do not
+        use our platform.</p>
+
+    <p>Qwaver is provided on an "as-is" and "as-available" basis, and we make no guarantee of quality or function.
+        We do not guarantee that Qwaver will be uninterrupted, error-free, or meet your expectations.</p>
+
+    <p>You acknowledge and agree that Geneffects and Brian Risk shall not be liable for any direct, indirect,
+        incidental, special, or consequential damages arising from your use or inability to use Qwaver, including
+        but not limited to data loss, revenue loss, loss of business, or other financial loss.</p>
+
+    <p>You agree to indemnify and hold Geneffects and Brian Risk harmless from any claims, damages, losses, or
+        expenses arising from your use of Qwaver, including but not limited to any violation of these terms of
+        service or any infringement of intellectual property rights.</p>
+
+    <p>You agree to use Qwaver only for lawful purposes and not to use Qwaver in any way that could harm, disable,
+        overburden, or impair the platform, its servers, or networks.</p>
+
+    <p>We reserve the right to suspend, terminate, or modify Qwaver at any time, without notice or liability to you.
+        We also reserve the right to modify these terms of service at any time, and it is your responsibility to
+        check for updates regularly.</p>
+
+    <p>If you have any questions or concerns about these terms of service, please contact us at
+        support@qwaver.com.</p>
+
+    <p>Note: It's important to consult with a legal professional to ensure that your terms of service comply with
+        all applicable laws and regulations in your jurisdiction.</p>
+
+</div>
+
+{% endblock toscontent %}
